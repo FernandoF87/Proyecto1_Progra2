@@ -4,7 +4,9 @@ import java.util.GregorianCalendar;
 
 /**
  * @version 16/6/22
- * @author Jostin Castro, Fernando Flores, Joshua Mora
+ * @author C11836 Jostin Castro Gutierrez, C12916 Fernando Flores Moya, C15079
+ * Joshua Mora Garita
+ *
  */
 public class User {
 

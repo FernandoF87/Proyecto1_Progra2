@@ -10,7 +10,10 @@ package codExtra;
  * o como ingresarlos. Asi como esta tiene atributos por defecto y las lineas
  * comentadas es para libre edicion
  *
- * @author
+ * @version 16/6/22
+ * @author C11836 Jostin Castro Gutierrez, C12916 Fernando Flores Moya, C15079
+ * Joshua Mora Garita
+ *
  */
 import java.awt.*;
 import java.awt.event.*;
