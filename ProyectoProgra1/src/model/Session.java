@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 
 /**
@@ -8,7 +9,7 @@ import java.util.GregorianCalendar;
  * Joshua Mora Garita
  *
  */
-public class Sesion {
+public class Session implements Serializable {
 
     private String sesionId, topic, expositor;
     private String detail, link, platform;
@@ -16,10 +17,11 @@ public class Sesion {
     private int duration, capacity;
     private boolean open;
 
-    public Sesion() {
+    public Session() {
     }
 
-    public Sesion(String sesionId, String topic, String expositor, String detail, String link, String platform, GregorianCalendar date, GregorianCalendar time, int duration, int capacity, boolean open) {
+    public Session(String sesionId, String topic, String expositor, String detail, String link, String platform, 
+            GregorianCalendar date, GregorianCalendar time, int duration, int capacity, boolean open) {
         this.sesionId = sesionId;
         this.topic = topic;
         this.expositor = expositor;

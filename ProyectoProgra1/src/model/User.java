@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 
 /**
@@ -8,7 +9,7 @@ import java.util.GregorianCalendar;
  * Joshua Mora Garita
  *
  */
-public class User {
+public class User implements Serializable {
 
     private String userID, name, email, password;
     private int phoneNumber;
