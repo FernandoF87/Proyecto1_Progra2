@@ -113,7 +113,7 @@ public class FilesLoader {
         updateHashMap(SESSION);
     }
     
-    public static void updateHashMap(byte type) {
+    private static void updateHashMap(byte type) {
         String path = "";
         HashMap hashMap = null;
         
