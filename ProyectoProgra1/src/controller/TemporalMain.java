@@ -13,25 +13,44 @@ package controller;
 
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.ArrayList;
+
 import model.User;
 import model.Session;
+import model.Notification;
+import model.NotificationException;
 
 public class TemporalMain {
     
     public static void main(String[] args) {
         //SOLO PARA PRUEBAS
         
+        System.out.println("Admin user: " + FilesLoader.getAdminUser());
+        System.out.println("Admin password: " + FilesLoader.getAdminPassword());
         
+//        try {
+//            Notification testNotification = new Notification("207850253", Notification.FIVE_MINUTES);
+//            ArrayList<Notification> arrayNotifications = new ArrayList();
+//            arrayNotifications.add(testNotification);
+//            FilesLoader.updateNotifications();
+//        } catch (NotificationException ex) {
+//            ex.printStackTrace();
+//        }
         
+        ArrayList<Notification> testArray = FilesLoader.loadNotifications();
+        
+        for (Notification temp: testArray) {
+            System.out.println(temp.getUserId() + " " + temp.getMessage());
+        }
         
         HashMap<String, User> users = FilesLoader.loadUsers();
         for (String string : users.keySet()) {
             System.out.println(string);
         }
         
-        HashMap<String, Session> sessionHash = FilesLoader.loadSessions();
+        HashMap<String, Session> session = FilesLoader.loadSessions();
         
-        for (String string : sessionHash.keySet()) {
+        for (String string : session.keySet()) {
             System.out.println(string);
         }
        
