@@ -1,5 +1,6 @@
 package userModel;
 
+import exceptions.NotificationException;
 import java.util.GregorianCalendar;
 
 /**
@@ -12,19 +13,19 @@ import java.util.GregorianCalendar;
  */
 public interface UserAbstractbuilder {
 
-    public void buiilUser();
+    public void buiilUser() throws NotificationException;
 
-    public void buildId(String id);
+    public void buildId(String id) throws NotificationException;
 
-    public void buildName(String name);
+    public void buildName(String name) throws NotificationException;
 
-    public void buildEmail(String email);
+    public void buildEmail(String email) throws NotificationException;
 
-    public void buildPassword(String password);
+    public void buildPassword(String password) throws NotificationException;
 
-    public void buildPhone(int phone);
+    public void buildPhone(int phone) throws NotificationException;
 
-    public void buildBorndDate(GregorianCalendar bornDate);
+    public void buildBorndDate(GregorianCalendar bornDate) throws NotificationException;
 
-    public User getUser();
+    public User getUser() throws NotificationException;
 }

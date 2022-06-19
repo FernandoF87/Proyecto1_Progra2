@@ -12,7 +12,7 @@ import java.util.GregorianCalendar;
 public class Session implements Serializable {
 
     private String sesionId, topic, expositor;
-    private String detail, link, platform;
+    private String detail, link, platform, category;
     private GregorianCalendar date, time;
     private int duration, capacity;
     private boolean open;
@@ -20,19 +20,27 @@ public class Session implements Serializable {
     public Session() {
     }
 
-    public Session(String sesionId, String topic, String expositor, String detail, String link, String platform, 
-            GregorianCalendar date, GregorianCalendar time, int duration, int capacity, boolean open) {
+    public Session(String sesionId, String topic, String expositor, String detail, String link, String platform, String category, GregorianCalendar date, GregorianCalendar time, int duration, int capacity, boolean open) {
         this.sesionId = sesionId;
         this.topic = topic;
         this.expositor = expositor;
         this.detail = detail;
         this.link = link;
         this.platform = platform;
+        this.category = category;
         this.date = date;
         this.time = time;
         this.duration = duration;
         this.capacity = capacity;
         this.open = open;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getSesionId() {

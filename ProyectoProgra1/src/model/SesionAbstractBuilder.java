@@ -1,5 +1,6 @@
 package model;
 
+import exceptions.NotificationException;
 import java.util.GregorianCalendar;
 
 /**
@@ -12,28 +13,30 @@ public interface SesionAbstractBuilder {
 
     public void buildSesion();
 
-    public void buildId(String id);
+    public void buildId(String id) throws NotificationException;
 
-    public void buildTopic(String topic);
+    public void buildCategory(String category) throws NotificationException;
 
-    public void buildExpositor(String expositor);
+    public void buildTopic(String topic) throws NotificationException;
 
-    public void buildDetail(String detail);
+    public void buildExpositor(String expositor) throws NotificationException;
 
-    public void buildLink(String link);
+    public void buildDetail(String detail) throws NotificationException;
 
-    public void buildPlatform(String platform);
+    public void buildLink(String link) throws NotificationException;
 
-    public void buildDate(GregorianCalendar date);
+    public void buildPlatform(String platform) throws NotificationException;
 
-    public void builTime(GregorianCalendar time);
+    public void buildDate(GregorianCalendar date) throws NotificationException;
 
-    public void builDuration(int duration);
+    public void builTime(GregorianCalendar time) throws NotificationException;
 
-    public void buildCapacity(int capacity);
+    public void builDuration(int duration) throws NotificationException;
 
-    public void buildOpen(boolean open);
-    
-    public Session getSession();
+    public void buildCapacity(int capacity) throws NotificationException;
+
+    public void buildOpen(boolean open) throws NotificationException;
+
+    public Session getSession() throws NotificationException;
 
 }

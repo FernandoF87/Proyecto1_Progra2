@@ -1,5 +1,6 @@
 package model;
 
+import exceptions.NotificationException;
 import java.util.GregorianCalendar;
 
 /**
@@ -12,7 +13,7 @@ public class SessionDirector {
     public Session buildSession(SesionAbstractBuilder builder, String sesionId,
             String topic, String expositor, String detail, String link,
             String platform, GregorianCalendar date, GregorianCalendar time,
-            int duration, int capacity, boolean open) {
+            int duration, int capacity, boolean open) throws NotificationException {
         builder.buildSesion();
         builder.buildId(link);
         builder.buildTopic(topic);
