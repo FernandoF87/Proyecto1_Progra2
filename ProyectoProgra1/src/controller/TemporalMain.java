@@ -15,10 +15,10 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.ArrayList;
 
-import model.User;
+import userModel.User;
 import model.Session;
 import model.Notification;
-import model.NotificationException;
+import exceptions.NotificationException;
 
 public class TemporalMain {
     

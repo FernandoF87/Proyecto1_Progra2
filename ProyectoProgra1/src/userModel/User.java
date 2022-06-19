@@ -1,4 +1,4 @@
-package model;
+package userModel;
 
 import java.io.Serializable;
 import java.util.GregorianCalendar;
@@ -16,15 +16,6 @@ public class User implements Serializable {
     private GregorianCalendar bornDate;
 
     public User() {
-    }
-
-    public User(String userID, String name, String email, String password, int phoneNumber, GregorianCalendar bornDate) {
-        this.userID = userID;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.phoneNumber = phoneNumber;
-        this.bornDate = bornDate;
     }
 
     public GregorianCalendar getBornDate() {

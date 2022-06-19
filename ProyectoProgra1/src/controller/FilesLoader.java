@@ -27,7 +27,7 @@ import java.util.Properties;
 import java.util.Set;
 
 
-import model.User;
+import userModel.User;
 import model.Session;
 import model.Notification;
 

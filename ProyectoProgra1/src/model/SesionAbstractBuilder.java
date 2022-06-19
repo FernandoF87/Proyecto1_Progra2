@@ -33,5 +33,7 @@ public interface SesionAbstractBuilder {
     public void buildCapacity(int capacity);
 
     public void buildOpen(boolean open);
+    
+    public Session getSession();
 
 }

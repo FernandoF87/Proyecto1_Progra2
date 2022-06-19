@@ -5,6 +5,7 @@
 
 package model;
 
+import exceptions.NotificationException;
 import java.io.Serializable;
 
 /**

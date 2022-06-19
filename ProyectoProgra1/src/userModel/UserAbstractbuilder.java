@@ -1,4 +1,4 @@
-package model;
+package userModel;
 
 import java.util.GregorianCalendar;
 
@@ -26,5 +26,5 @@ public interface UserAbstractbuilder {
 
     public void buildBorndDate(GregorianCalendar bornDate);
 
-    public void getUser();
+    public User getUser();
 }
