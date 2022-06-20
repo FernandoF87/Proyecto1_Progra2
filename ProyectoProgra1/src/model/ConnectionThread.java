@@ -14,9 +14,12 @@ public class ConnectionThread extends Thread {
     private Socket connection;
     private ObjectInputStream input;
     private ObjectOutputStream output;
+    private String connectionId;
+    private Data data;
     
-    public ConnectionThread(Socket connection) {
+    public ConnectionThread(Socket connection, Data data) {
         this.connection = connection;
+        this.data = data;
     }
     
     @Override
@@ -45,5 +48,21 @@ public class ConnectionThread extends Thread {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
         }
+    }
+    
+    public void notifyUser(Notification notification) {
+        try {
+            output.writeObject(notification);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    public void setConnectionId(String connectionId) {
+        this.connectionId = connectionId;
+    }
+    
+    public String getConnectionId() {
+        return connectionId;
     }
 }
