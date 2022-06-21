@@ -56,7 +56,7 @@ public class Server {
                 for (int i = 0; i < connections.size(); i++) {
                     ConnectionThread temp = connections.get(i);
                     try {
-                        if (temp.getConnectionId().equals(session.getSesionId())) {
+                        if (temp.getConnectionId() != null && temp.getConnectionId().equals(session.getSesionId())) {
                             temp.notifyUser(new Notification(session.getSesionId(), (byte) 0));
                         } else {
                             data.addNotification(new Notification(session.getSesionId(), (byte) 0));
