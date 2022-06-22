@@ -16,6 +16,10 @@ public class LoginFrame extends javax.swing.JDialog {
     private String username;
     private String password;
     private boolean fulled;
+    private byte option;
+    
+    public final byte LOGIN = 1;
+    public final byte REGISTER = 2;
     
     /**
      * Creates new form LoginFrame
@@ -45,20 +49,22 @@ public class LoginFrame extends javax.swing.JDialog {
         lbError = new javax.swing.JLabel();
         btLogin = new javax.swing.JButton();
         pfPassword = new javax.swing.JPasswordField();
+        btRegister = new javax.swing.JButton();
+        lbO = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Inicio de sesión");
         setAlwaysOnTop(true);
+        setPreferredSize(new java.awt.Dimension(350, 300));
         setResizable(false);
+        setSize(new java.awt.Dimension(350, 300));
 
         lbMain.setText("Bienvenido, digite sus datos.");
 
-        lbUsername.setText("Nombre de usuario");
+        lbUsername.setText("E-mail:");
 
         lbPassword.setText("Contraseña");
         lbPassword.setToolTipText("");
-
-        lbError.setText("dsfjsdkf");
 
         btLogin.setText("Inicar sesión");
         btLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -66,6 +72,15 @@ public class LoginFrame extends javax.swing.JDialog {
                 btLoginActionPerformed(evt);
             }
         });
+
+        btRegister.setText("Registrarse");
+        btRegister.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btRegisterActionPerformed(evt);
+            }
+        });
+
+        lbO.setText("o");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -87,8 +102,14 @@ public class LoginFrame extends javax.swing.JDialog {
                             .addComponent(pfPassword)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(123, 123, 123)
-                        .addComponent(btLogin)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btRegister, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(21, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(lbO, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(169, 169, 169))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -103,11 +124,15 @@ public class LoginFrame extends javax.swing.JDialog {
                 .addComponent(lbPassword)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pfPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lbError, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbError, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
                 .addComponent(btLogin)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbO)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btRegister)
+                .addGap(18, 18, 18))
         );
 
         lbError.getAccessibleContext().setAccessibleName("");
@@ -127,9 +152,13 @@ public class LoginFrame extends javax.swing.JDialog {
         }
         if (!text.isEmpty()) {
             text += "</html>";
+            this.setSize(350, 340);
             lbError.setText(LABEL_TEXT + text);
             lbError.setVisible(true);
         } else {
+            option = LOGIN;
+            this.setSize(350, 300);
+            lbError.setVisible(false);
             tfUsername.setEnabled(false);
             pfPassword.setEnabled(false);
             btLogin.setEnabled(false);
@@ -143,6 +172,11 @@ public class LoginFrame extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btLoginActionPerformed
 
+    private void btRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRegisterActionPerformed
+        // TODO add your handling code here:
+        option = REGISTER;
+    }//GEN-LAST:event_btRegisterActionPerformed
+
     public String getUsername() {
         return username;
     }
@@ -155,12 +189,22 @@ public class LoginFrame extends javax.swing.JDialog {
         return fulled;
     }
 
+    public byte getOption() {
+        return option;
+    }
+
+    public void setOption(byte option) {
+        this.option = option;
+    }
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btLogin;
+    private javax.swing.JButton btRegister;
     private javax.swing.JLabel lbError;
     private javax.swing.JLabel lbMain;
+    private javax.swing.JLabel lbO;
     private javax.swing.JLabel lbPassword;
     private javax.swing.JLabel lbUsername;
     private javax.swing.JPasswordField pfPassword;

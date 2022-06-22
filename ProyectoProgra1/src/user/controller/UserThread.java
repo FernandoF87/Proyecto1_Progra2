@@ -19,6 +19,8 @@ import java.net.ConnectException;
 import java.net.Socket;
 import javax.swing.text.JTextComponent;
 import user.view.LoginFrame;
+import user.view.MessageDialog;
+import user.view.RegisterForm;
 import user.view.TextPrompt;
 
 
@@ -38,24 +40,37 @@ public class UserThread {
     }
     
     public void startUserClient() {
-        LoginFrame login = new LoginFrame(null, true);
-        login.setVisible(true);
-        while (!login.isFulled()) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
-        }
-        login();
-    }
-    
-    public void login() {
         try {
             connection = new Socket(HOST, PORT);
-        } catch (IOException ex) {
-            TextPrompt temp = new TextPrompt("No se ha podido establecer la conexión con el servidor", null);
+        } catch(IOException ex) {
+            MessageDialog message = new MessageDialog(null, true, "No se pudo establecer comunicación con el servidor", "Error");
         }
+        if (connection.isConnected()) {
+            LoginFrame login = new LoginFrame(null, true);
+            login.setVisible(true);
+            while (login.getOption() == 0) {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            if (login.getOption() == login.REGISTER) {
+                RegisterForm register = new RegisterForm(null, true);
+                register.setVisible(true);
+                register.setAlwaysOnTop(true);
+            } else {
+                
+            }
+        }
+//        LoginFrame login = new LoginFrame(null, true);
+//        login.setVisible(true);
+//        while (!login.isFulled()) {
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException ex) {
+//                ex.printStackTrace();
+//            }
+//        }
     }
-
 }
