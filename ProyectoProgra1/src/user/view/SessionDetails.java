@@ -58,11 +58,11 @@ public class SessionDetails extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Información de la sesión");
+        setAlwaysOnTop(true);
 
         lbId.setText("ID de sesión:");
 
         tfId.setEditable(false);
-        tfId.setText("Prueba");
 
         tfCategory.setEditable(false);
 
@@ -78,15 +78,12 @@ public class SessionDetails extends javax.swing.JDialog {
 
         cbPlataform.setSelected(true);
         cbPlataform.setText("jCheckBox1");
-        cbPlataform.setEnabled(false);
 
         bgSessionType.add(rbOpenType);
         rbOpenType.setText("Abierta");
-        rbOpenType.setEnabled(false);
 
         bgSessionType.add(rbClosedType);
         rbClosedType.setText("Cerrada");
-        rbClosedType.setEnabled(false);
 
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);

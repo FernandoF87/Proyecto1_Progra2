@@ -21,8 +21,6 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import user.model.User;
-
 /**
  *
  * @author Jostin Castro
@@ -42,7 +40,6 @@ public class RegisterForm extends javax.swing.JDialog {
     private String password;
     private GregorianCalendar bornDate;
     private int phoneNumber;
-    private User user;
     
     private final String ID_PLACEHOLDER = "0000000000";
     private final String PASS_PLACEHOLDER = "Al menos 8 caracteres: letras y números";
@@ -55,6 +52,7 @@ public class RegisterForm extends javax.swing.JDialog {
     public RegisterForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        complete = false;
         this.setLocationRelativeTo(null);
         tfId.setText(ID_PLACEHOLDER);
         pfPassword.setText(PASS_PLACEHOLDER);
@@ -317,15 +315,7 @@ public class RegisterForm extends javax.swing.JDialog {
             MessageDialog errorRegistration = new MessageDialog(START_MESSAGE + message + END_MESSAGE, "Error");
         } else {
             this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-            user = new User();
-            user.setBornDate(bornDate);
-            user.setEmail(email);
-            user.setName(name);
-            user.setPassword(password);
-            user.setPhoneNumber(phoneNumber);
-            user.setUserID(id);
             complete = true;
-            
         }
         
     }//GEN-LAST:event_btRegisterActionPerformed
@@ -480,17 +470,33 @@ public class RegisterForm extends javax.swing.JDialog {
         return complete;
     }
 
-    public void setComplete(boolean complete) {
-        this.complete = complete;
+    public String getEmail() {
+        return email;
     }
 
-    public User getUser() {
-        return user;
+    public String getName() {
+        return name;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public String getId() {
+        return id;
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public GregorianCalendar getBornDate() {
+        return bornDate;
+    }
+
+    public int getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    
+
+    
     
     private void configureDate() {
         spYear.addChangeListener(new ChangeListener() {

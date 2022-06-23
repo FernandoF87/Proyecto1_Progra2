@@ -25,6 +25,10 @@ public class MessageDialog extends javax.swing.JDialog {
     public MessageDialog(String message, String title) {
         this(null, true, message, title);
     }
+    
+    public static void showMessageDialog(String message, String title) {
+        new MessageDialog(message, title);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

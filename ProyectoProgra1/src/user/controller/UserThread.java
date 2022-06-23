@@ -15,10 +15,12 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Vector;
 import javax.swing.text.JTextComponent;
 
 import user.view.LoginFrame;
@@ -44,19 +46,20 @@ public class UserThread {
     private HashMap<String, Session> historySessions;
     
     public static void main(String[] args) {
-        new UserThread().startUserClient();
+        new UserThread().mainProcess();
     }
     
-    private void startUserClient() {
+    private void mainProcess() {
         try {
             connection = new Socket(HOST, PORT);
+            System.out.println("Conexión aceptada");
             output = new ObjectOutputStream(connection.getOutputStream());
             input = new ObjectInputStream(connection.getInputStream());
         } catch(IOException ex) {
-            MessageDialog message = new MessageDialog("No se pudo establecer comunicación con el servidor", "Error");
+            MessageDialog.showMessageDialog("No se pudo establecer comunicación con el servidor", "Error");
         }
         if (connection != null && connection.isConnected()) {
-            LoginFrame login = new LoginFrame(null, true);
+            LoginFrame login = new LoginFrame();
             login.setVisible(true);
             while (login.getOption() == 0) {
                 try {
@@ -68,7 +71,7 @@ public class UserThread {
             if (login.getOption() == login.REGISTER) {
                 registerOption();
             } else {
-                loginOption();
+                loginOption(login.getEmail(), login.getPassword());
             }
         }
     }
@@ -84,23 +87,51 @@ public class UserThread {
                 ex.printStackTrace();
             }
         }
-        Transmission temp = new Transmission(Transmission.REGISTER_REQUEST, register.getUser());
+        Vector<Serializable> userData = new Vector();
+        userData.add(register.getId());
+        userData.add(register.getEmail());
+        userData.add(register.getPassword());
+        userData.add(register.getBornDate());
+        userData.add(register.getName());
+        userData.add(register.getPhoneNumber());
+        Transmission temp = new Transmission(Transmission.REGISTER_REQUEST, userData);
         try {
             output.writeObject(temp);
             output.flush();
+            Vector receivedData = ((Transmission) input.readObject()).getObject();
+            if ((Boolean) receivedData.get(0)) {
+                MessageDialog.showMessageDialog((String) receivedData.get(1), "Hecho");
+            } else {
+                String text = "";
+                for (int i = 1; i < receivedData.size(); i++) {
+                    text += (String) receivedData.get(i) + "\n";
+                }
+                MessageDialog.showMessageDialog(text, "Error");
+            }
+        } catch (ClassNotFoundException ex) {
+            MessageDialog.showMessageDialog("Error inesperado", "Error");
         } catch (IOException ex) {
-            MessageDialog message = new MessageDialog("Error inesperado", "Error");
+            MessageDialog.showMessageDialog("Error inesperado", "Error");
         }
             
     }
     
-    private void loginOption() {
+    private void loginOption(String email, String password) {
         try {
-            Transmission temp = new Transmission(Transmission.LOGIN_REQUEST, new user.model.User());
-            output.writeObject(PORT);
+            Vector<Serializable> userData = new Vector();
+            userData.add(email);
+            userData.add(password);
+            Transmission temp = new Transmission(Transmission.LOGIN_REQUEST, userData);
+            output.writeObject(userData);
             output.flush();
+            Vector vector = ((Transmission) input.readObject()).getObject();
+            if ((boolean) vector.get(0)) {
+                
+            }
+        } catch (ClassNotFoundException ex) {
+            MessageDialog.showMessageDialog("Error inesperado", "Error");
         } catch (IOException ex) {
-            MessageDialog message = new MessageDialog("Error inesperado", "Error");
+            MessageDialog.showMessageDialog("Error inesperado", "Error");
         }
     }
     
