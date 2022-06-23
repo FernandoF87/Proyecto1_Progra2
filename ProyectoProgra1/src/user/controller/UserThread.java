@@ -18,19 +18,18 @@ import java.io.ObjectOutputStream;
 import java.net.ConnectException;
 import java.net.Socket;
 import javax.swing.text.JTextComponent;
+
 import user.view.LoginFrame;
 import user.view.MessageDialog;
 import user.view.RegisterForm;
-import user.view.TextPrompt;
+import server.model.Transmission;
 
 
 public class UserThread {
     
-    private DataInputStream primitiveInput;
-    private DataOutputStream primitiveOutput;
     private Socket connection;
-    private ObjectInputStream objectInput;
-    private ObjectOutputStream objectOutput;
+    private ObjectInputStream input;
+    private ObjectOutputStream output;
     
     private final int PORT = 8000;
     private final String HOST = "127.0.0.1";
@@ -39,13 +38,15 @@ public class UserThread {
         new UserThread().startUserClient();
     }
     
-    public void startUserClient() {
+    private void startUserClient() {
         try {
             connection = new Socket(HOST, PORT);
+            output = new ObjectOutputStream(connection.getOutputStream());
+            input = new ObjectInputStream(connection.getInputStream());
         } catch(IOException ex) {
-            MessageDialog message = new MessageDialog(null, true, "No se pudo establecer comunicación con el servidor", "Error");
+            MessageDialog message = new MessageDialog("No se pudo establecer comunicación con el servidor", "Error");
         }
-        if (connection.isConnected()) {
+        if (connection != null && connection.isConnected()) {
             LoginFrame login = new LoginFrame(null, true);
             login.setVisible(true);
             while (login.getOption() == 0) {
@@ -56,13 +57,12 @@ public class UserThread {
                 }
             }
             if (login.getOption() == login.REGISTER) {
-                RegisterForm register = new RegisterForm(null, true);
-                register.setVisible(true);
-                register.setAlwaysOnTop(true);
+                registerOption();
             } else {
-                
+                loginOption();
             }
         }
+        
 //        LoginFrame login = new LoginFrame(null, true);
 //        login.setVisible(true);
 //        while (!login.isFulled()) {
@@ -73,4 +73,37 @@ public class UserThread {
 //            }
 //        }
     }
+    
+    private void registerOption() {
+        RegisterForm register = new RegisterForm(null, true);
+        register.setVisible(true);
+        register.setAlwaysOnTop(true);
+        while (!register.isComplete()) {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+        }
+        Transmission temp = new Transmission(Transmission.REGISTER_REQUEST, register.getUser());
+        try {
+            output.writeObject(temp);
+            output.flush();
+        } catch (IOException ex) {
+            MessageDialog message = new MessageDialog("Error inesperado", "Error");
+        }
+            
+    }
+    
+    private void loginOption() {
+        try {
+            Transmission temp = new Transmission(Transmission.LOGIN_REQUEST, new user.model.User());
+            output.writeObject(PORT);
+            output.flush();
+        } catch (IOException ex) {
+            MessageDialog message = new MessageDialog("Error inesperado", "Error");
+        }
+    }
+    
+    
 }

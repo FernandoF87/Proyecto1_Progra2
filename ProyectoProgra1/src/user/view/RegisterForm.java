@@ -4,7 +4,9 @@
  */
 package user.view;
 
+import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Font;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.SimpleDateFormat;
@@ -14,9 +16,12 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import user.model.User;
 
 /**
  *
@@ -30,20 +35,50 @@ public class RegisterForm extends javax.swing.JDialog {
     
     private boolean leapYear;
     
-    private boolean isComplete;
+    private boolean complete;
     private String email;
     private String name;
     private String id;
     private String password;
     private GregorianCalendar bornDate;
     private int phoneNumber;
+    private User user;
+    
+    private final String ID_PLACEHOLDER = "0000000000";
+    private final String PASS_PLACEHOLDER = "Al menos 8 caracteres: letras y números";
+    private final char PASS_ECHO_CHAR = '\u2022';
+    private final char NORMAL_ECHO_CHAR = '\u0000';
+    
+    private final String PHONE_NUMBER_PLACEHOLDER = "00000000";
     
     
     public RegisterForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
+        tfId.setText(ID_PLACEHOLDER);
+        pfPassword.setText(PASS_PLACEHOLDER);
+        pfConfirmPassword.setText(PASS_PLACEHOLDER);
+        tfPhoneNumber.setText(PHONE_NUMBER_PLACEHOLDER);
+        addPlaceholder(tfId);
+        addPlaceholder(pfConfirmPassword);
+        addPlaceholder(pfPassword);
+        addPlaceholder(tfPhoneNumber);
         configureDate();
+    }
+    
+    private void addPlaceholder(JTextField textField) {
+        Font font = textField.getFont();
+        font = font.deriveFont(Font.ITALIC);
+        textField.setFont(font);
+        textField.setForeground(Color.gray);
+    }
+    
+    private void removePlaceHolder(JTextField textField) {
+        Font font = textField.getFont();
+        font = font.deriveFont(Font.PLAIN);
+        textField.setFont(font);
+        textField.setForeground(Color.black);
     }
 
     /**
@@ -100,6 +135,7 @@ public class RegisterForm extends javax.swing.JDialog {
         lbTelephoneNumber.setText("Número de telefono:");
 
         btRegister.setText("Registrarse");
+        btRegister.setToolTipText("");
         btRegister.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btRegisterActionPerformed(evt);
@@ -113,7 +149,45 @@ public class RegisterForm extends javax.swing.JDialog {
             }
         });
 
+        tfId.setToolTipText("");
+        tfId.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tfIdFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tfIdFocusLost(evt);
+            }
+        });
+
+        pfConfirmPassword.setEchoChar('\u0000');
         pfConfirmPassword.setPreferredSize(new java.awt.Dimension(95, 22));
+        pfConfirmPassword.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                pfConfirmPasswordFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                pfConfirmPasswordFocusLost(evt);
+            }
+        });
+
+        pfPassword.setEchoChar('\u0000');
+        pfPassword.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                pfPasswordFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                pfPasswordFocusLost(evt);
+            }
+        });
+
+        tfPhoneNumber.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tfPhoneNumberFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tfPhoneNumberFocusLost(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -218,7 +292,6 @@ public class RegisterForm extends javax.swing.JDialog {
         } else {
             message += "Error en el correo electronico</p><p>";
         }
-        
         if (!checkBornDate()) {
             message += "No cumple con los requisitos de edad</p><p>";
         }
@@ -228,16 +301,109 @@ public class RegisterForm extends javax.swing.JDialog {
         } else {
             message += "La contraseña no es igual o no cumple con los requisitos</p><p>";
         }
+        if (checkName()) {
+            name = tfName.getText();
+        } else {
+            message += "El nombre no cumple con las condiciones";
+        }
+        if (checkPhoneNumber()) {
+            phoneNumber = Integer.parseInt(tfPhoneNumber.getText());
+        } else {
+            message += "El número de teléfono no cumple con los requisitos";
+        }
+        
         
         if (!message.isEmpty()) {
-            MessageDialog errorRegistration = new MessageDialog(null, true, START_MESSAGE + message + END_MESSAGE, null);
+            MessageDialog errorRegistration = new MessageDialog(START_MESSAGE + message + END_MESSAGE, "Error");
         } else {
             this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+            user = new User();
+            user.setBornDate(bornDate);
+            user.setEmail(email);
+            user.setName(name);
+            user.setPassword(password);
+            user.setPhoneNumber(phoneNumber);
+            user.setUserID(id);
+            complete = true;
+            
         }
         
     }//GEN-LAST:event_btRegisterActionPerformed
 
+    private void tfIdFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfIdFocusGained
+        if (tfId.getText().equals(ID_PLACEHOLDER)) {
+            tfId.setText("");
+            removePlaceHolder(tfId);
+        }
+    }//GEN-LAST:event_tfIdFocusGained
+
+    private void tfIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfIdFocusLost
+        if (tfId.getText().isEmpty()) {
+            tfId.setText(ID_PLACEHOLDER);
+            addPlaceholder(tfId);
+        }
+    }//GEN-LAST:event_tfIdFocusLost
+
+    private void pfPasswordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_pfPasswordFocusGained
+        if (pfPassword.getText().equals(PASS_PLACEHOLDER)) {
+            pfPassword.setText("");
+            pfPassword.setEchoChar(PASS_ECHO_CHAR);
+            removePlaceHolder(pfPassword);
+        }
+    }//GEN-LAST:event_pfPasswordFocusGained
+
+    private void pfConfirmPasswordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_pfConfirmPasswordFocusGained
+        if (pfConfirmPassword.getText().equals(PASS_PLACEHOLDER)) {
+            pfConfirmPassword.setText("");
+            pfConfirmPassword.setEchoChar(PASS_ECHO_CHAR);
+            removePlaceHolder(pfConfirmPassword);
+        }
+    }//GEN-LAST:event_pfConfirmPasswordFocusGained
+
+    private void pfPasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_pfPasswordFocusLost
+        // TODO add your handling code here:
+        if (pfPassword.getText().isEmpty()) {
+            pfPassword.setText(PASS_PLACEHOLDER);
+            pfPassword.setEchoChar(NORMAL_ECHO_CHAR);
+            addPlaceholder(pfPassword);
+        }
+    }//GEN-LAST:event_pfPasswordFocusLost
+
+    private void pfConfirmPasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_pfConfirmPasswordFocusLost
+        // TODO add your handling code here:
+        if (pfConfirmPassword.getText().isEmpty()) {
+            pfConfirmPassword.setText(PASS_PLACEHOLDER);
+            pfConfirmPassword.setEchoChar(NORMAL_ECHO_CHAR);
+            addPlaceholder(pfConfirmPassword);
+        }
+    }//GEN-LAST:event_pfConfirmPasswordFocusLost
+
+    private void tfPhoneNumberFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfPhoneNumberFocusGained
+        // TODO add your handling code here:
+        if (tfPhoneNumber.getText().equals(PHONE_NUMBER_PLACEHOLDER)) {
+            tfPhoneNumber.setText("");
+            removePlaceHolder(tfPhoneNumber);
+        }
+    }//GEN-LAST:event_tfPhoneNumberFocusGained
+
+    private void tfPhoneNumberFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfPhoneNumberFocusLost
+        if (tfPhoneNumber.getText().isEmpty()) {
+            tfPhoneNumber.setText(PHONE_NUMBER_PLACEHOLDER);
+            addPlaceholder(tfPhoneNumber);
+        }
+    }//GEN-LAST:event_tfPhoneNumberFocusLost
+
     private boolean checkId() {
+        if (tfId.getText().equals(ID_PLACEHOLDER)) {
+            return false;
+        }
+        
+        final String ID_PATTERN = "[0]{1}[0-9]{9}";
+        Pattern pat = Pattern.compile(ID_PATTERN);
+        Matcher mat = pat.matcher(tfId.getText());
+        if (mat.matches()) {
+            return true;
+        }
         return false;
     }
     
@@ -245,11 +411,12 @@ public class RegisterForm extends javax.swing.JDialog {
         final String EMAIL_PATTERN = "[a-zA-Z0-9_.]{1,}[@]{1}[a-z1-9-.]+[.]{1}[a-z]{2,4}";
         Pattern pat = Pattern.compile(EMAIL_PATTERN);
         Matcher mat = pat.matcher(tfEmail.getText());
-        if (!mat.matches()) {
-            return false;
+        if (mat.matches()) {
+            return true;
         }
-        return true;
+        return false;
     }
+    
     
     private boolean checkBornDate() {
         final byte MIN_AGE = 18;
@@ -265,6 +432,12 @@ public class RegisterForm extends javax.swing.JDialog {
     }
     
     private boolean checkName() {
+        final String NAME_PATTERN = "[[a-zA-Z]+|\\s{1}]{1,100}";
+        Pattern pat = Pattern.compile(NAME_PATTERN);
+        Matcher mat = pat.matcher(tfName.getText());
+        if (mat.matches()) {
+            return true;
+        }
         return false;
     }
     
@@ -290,50 +463,36 @@ public class RegisterForm extends javax.swing.JDialog {
         return null;
     }
     
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(RegisterForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(RegisterForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(RegisterForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(RegisterForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private boolean checkPhoneNumber() {
+        if (tfPhoneNumber.getText().equals(PHONE_NUMBER_PLACEHOLDER)) {
+            return false;
         }
-        //</editor-fold>
+        final String PHONE_NUMBER_PATTERN = "[0-9]{8}";
+        Pattern pat = Pattern.compile(PHONE_NUMBER_PATTERN);
+        Matcher mat = pat.matcher(tfPhoneNumber.getText());
+        if (mat.matches()) {
+            return true;
+        }
+        return false;
+    }
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                RegisterForm dialog = new RegisterForm(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+    public boolean isComplete() {
+        return complete;
+    }
+
+    public void setComplete(boolean complete) {
+        this.complete = complete;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
     
-    public void configureDate() {
+    private void configureDate() {
         spYear.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
