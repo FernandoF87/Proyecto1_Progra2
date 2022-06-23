@@ -135,8 +135,6 @@ public class LoginFrame extends javax.swing.JDialog {
                 .addGap(18, 18, 18))
         );
 
-        lbError.getAccessibleContext().setAccessibleName("");
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 

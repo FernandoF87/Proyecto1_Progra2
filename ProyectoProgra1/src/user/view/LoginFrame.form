@@ -113,9 +113,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lbError">
-      <AccessibilityProperties>
-        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value=""/>
-      </AccessibilityProperties>
     </Component>
     <Component class="javax.swing.JButton" name="btLogin">
       <Properties>

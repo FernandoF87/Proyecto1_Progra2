@@ -43,6 +43,11 @@ public class AdminView extends javax.swing.JFrame {
         btnCreateSession.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCreateSession.setText("Crear Nueva Sesion");
         btnCreateSession.setBorder(null);
+        btnCreateSession.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateSessionActionPerformed(evt);
+            }
+        });
 
         btnManageSessions.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnManageSessions.setText("Administrar Sesiones");
@@ -112,6 +117,11 @@ public class AdminView extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCreateSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateSessionActionPerformed
+        ManageSessions sessions = new ManageSessions(this, true);
+        sessions.setVisible(true);
+    }//GEN-LAST:event_btnCreateSessionActionPerformed
 
     /**
      * @param args the command line arguments
