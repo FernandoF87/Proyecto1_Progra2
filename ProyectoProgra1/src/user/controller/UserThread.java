@@ -17,12 +17,16 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ConnectException;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.LinkedList;
 import javax.swing.text.JTextComponent;
 
 import user.view.LoginFrame;
 import user.view.MessageDialog;
 import user.view.RegisterForm;
 import server.model.Transmission;
+import server.model.Notification;
+import server.model.Session;
 
 
 public class UserThread {
@@ -33,6 +37,11 @@ public class UserThread {
     
     private final int PORT = 8000;
     private final String HOST = "127.0.0.1";
+    
+    private LinkedList<Notification> listNotifications;
+    private HashMap<String, Session> availableSessions;
+    private HashMap<String, Session> registeredSessions;
+    private HashMap<String, Session> historySessions;
     
     public static void main(String[] args) {
         new UserThread().startUserClient();
@@ -62,16 +71,6 @@ public class UserThread {
                 loginOption();
             }
         }
-        
-//        LoginFrame login = new LoginFrame(null, true);
-//        login.setVisible(true);
-//        while (!login.isFulled()) {
-//            try {
-//                Thread.sleep(1000);
-//            } catch (InterruptedException ex) {
-//                ex.printStackTrace();
-//            }
-//        }
     }
     
     private void registerOption() {
@@ -105,5 +104,20 @@ public class UserThread {
         }
     }
     
+    private void loadNotifications() {
+        
+    }
     
+    private void loadAvailableSessions() {
+        
+    }
+    
+    private void loadRegisteredSessions() {
+        
+    }
+    
+    private void loadHistorySessions() {
+        
+    }
+   
 }
