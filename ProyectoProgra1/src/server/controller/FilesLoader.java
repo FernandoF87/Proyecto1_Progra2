@@ -166,11 +166,11 @@ public class FilesLoader {
     }
     
     public static void updateUsers() {
-        //updateHashMap(USERS);
+        updateHashMap(USERS);
     }
     
     public static void updateSessions() {
-        //updateHashMap(SESSION);
+        updateHashMap(SESSION);
     }
     
     public static void updateHashMap(byte type) {

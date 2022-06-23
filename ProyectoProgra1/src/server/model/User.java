@@ -2,6 +2,7 @@ package server.model;
 
 import java.io.Serializable;
 import java.util.GregorianCalendar;
+import java.util.LinkedList;
 
 /**
  * @version 16/6/22
@@ -11,11 +12,24 @@ import java.util.GregorianCalendar;
  */
 public class User implements Serializable {
 
+    private final byte MAX_NOTIFICATIONS = 5;
+    
     private String userID, name, email, password;
     private int phoneNumber;
     private GregorianCalendar bornDate;
+    private LinkedList<Notification> lastNotifications;
 
     public User() {
+        lastNotifications = new LinkedList();
+    }
+    
+    public void addNotification(Notification notification) {
+        if (lastNotifications.size() >= MAX_NOTIFICATIONS) {
+            lastNotifications.removeFirst();
+            lastNotifications.add(notification);
+            return;
+        }
+        lastNotifications.add(notification);
     }
 
     public GregorianCalendar getBornDate() {
@@ -41,17 +55,21 @@ public class User implements Serializable {
     public String getUserID() {
         return userID;
     }
-
-    public void setBornDate(GregorianCalendar bornDate) {
-        this.bornDate = bornDate;
+    
+    public LinkedList getNotifications() {
+        return lastNotifications;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setPassword(String password) {
@@ -62,8 +80,9 @@ public class User implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public void setUserID(String userID) {
-        this.userID = userID;
+    public void setBornDate(GregorianCalendar bornDate) {
+        this.bornDate = bornDate;
     }
+    
 
 }

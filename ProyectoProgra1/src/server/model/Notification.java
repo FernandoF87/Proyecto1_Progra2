@@ -25,13 +25,15 @@ public class Notification implements Serializable {
     
     private String message;
     private String userId;
+    private boolean sended;
     
-    public Notification(String userId, String message) {
+    public Notification(String userId, String message, boolean sended) {
         this.userId = userId;
         this.message = message;
+        this.sended = sended;
     }
     
-    public Notification(String userId, byte type) throws NotificationException {
+    public Notification(String userId, byte type, boolean sended) throws NotificationException {
         this.userId = userId;
         switch (type) {
             case FIVE_MINUTES:
@@ -46,6 +48,7 @@ public class Notification implements Serializable {
             default:
                 throw new NotificationException("Se envió un valor no válido");
         }
+        this.sended = sended;
     }
 
     public String getMessage() {
@@ -56,6 +59,12 @@ public class Notification implements Serializable {
         return userId;
     }
     
+    public boolean isSended() {
+        return sended;
+    }
     
+    public void setSended(boolean sended) {
+        this.sended = sended;
+    }
 
 }

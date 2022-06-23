@@ -27,19 +27,10 @@ public class TemporalMain {
         
         System.out.println("Admin user: " + FilesLoader.getAdminUser());
         System.out.println("Admin password: " + FilesLoader.getAdminPassword());
-        
-//        try {
-//            Notification testNotification = new Notification("207850253", Notification.FIVE_MINUTES);
-//            ArrayList<Notification> arrayNotifications = new ArrayList();
-//            arrayNotifications.add(testNotification);
-//            FilesLoader.updateNotifications();
-//        } catch (NotificationException ex) {
-//            ex.printStackTrace();
-//        }
-        
+            
 //        ArrayList<Notification> testArray = new ArrayList();
 //        try {
-//            testArray.add(new Notification("1", Notification.ACCEPTED_REQUEST));
+//            testArray.add(new Notification("207850253", Notification.ACCEPTED_REQUEST, false));
 //        } catch (NotificationException ex) {
 //            ex.printStackTrace();
 //        }

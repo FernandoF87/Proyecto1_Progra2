@@ -164,13 +164,14 @@ public class LoginFrame extends javax.swing.JFrame {
         this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
     }//GEN-LAST:event_btRegisterActionPerformed
 
+    public void resetComponents() {
+        btLogin.setEnabled(true);
+        btRegister.setEnabled(true);
+        tfEmail.setEnabled(true);
+        pfPassword.setEnabled(true);
+        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }
     
-    
-    
-    /**
-     * @param args the command line arguments
-     */
-
     public String getEmail() {
         return email;
     }

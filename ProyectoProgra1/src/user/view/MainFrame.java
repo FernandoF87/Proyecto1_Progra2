@@ -10,12 +10,22 @@ package user.view;
  */
 public class MainFrame extends javax.swing.JFrame {
 
+    private byte selectedOption;
+    
+    final static byte AVAILABLE_TAB = 0;
+    final static byte REGISTER_TAB = 1;
+    final static byte HISTORY_TAB = 2;
+    final static byte NOTIFICATION_OPTION = 3;
+    final static byte LOGIN_OUT = 4;
+    
     /**
      * Creates new form MainFrame
      */
-    public MainFrame() {
+    public MainFrame(String username) {
         initComponents();
         this.setLocationRelativeTo(null);
+        lbWelcome.setText(lbWelcome.getText() + " " + username);
+        selectedOption = NOTIFICATION_OPTION;
     }
 
     /**
@@ -39,7 +49,7 @@ public class MainFrame extends javax.swing.JFrame {
         pnHistorySession = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tbSessionHistory = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
+        lbWelcome = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menu");
@@ -50,6 +60,12 @@ public class MainFrame extends javax.swing.JFrame {
         btNotifications.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btNotificationsActionPerformed(evt);
+            }
+        });
+
+        tbControls.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                tbControlsStateChanged(evt);
             }
         });
 
@@ -191,7 +207,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         tbControls.addTab("Historial de sesiones", pnHistorySession);
 
-        jLabel1.setText("Bienvenido,");
+        lbWelcome.setText("Bienvenido,");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -203,7 +219,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lbWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btNotifications)
                 .addGap(18, 18, 18)
@@ -217,7 +233,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btLogout)
                     .addComponent(btNotifications)
-                    .addComponent(jLabel1))
+                    .addComponent(lbWelcome))
                 .addGap(18, 18, 18)
                 .addComponent(tbControls, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28))
@@ -235,6 +251,11 @@ public class MainFrame extends javax.swing.JFrame {
     private void tbAvailableSessionsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbAvailableSessionsMouseClicked
         System.out.println("funciona");
     }//GEN-LAST:event_tbAvailableSessionsMouseClicked
+
+    private void tbControlsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tbControlsStateChanged
+        // TODO add your handling code here:
+        selectedOption = (byte) tbControls.getSelectedIndex();
+    }//GEN-LAST:event_tbControlsStateChanged
 
     /**
      * @param args the command line arguments
@@ -266,18 +287,28 @@ public class MainFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainFrame().setVisible(true);
+                new MainFrame("Prueba").setVisible(true);
             }
         });
     }
 
+    public byte getSelectedOption() {
+        return selectedOption;
+    }
+
+    public void setSelectedOption(byte selectedOption) {
+        this.selectedOption = selectedOption;
+    }
+    
+    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btLogout;
     private javax.swing.JButton btNotifications;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel lbWelcome;
     private javax.swing.JPanel pnAvailableSessions;
     private javax.swing.JPanel pnHistorySession;
     private javax.swing.JPanel pnRegisteredSessions;

@@ -1,6 +1,7 @@
 package server.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 /**
@@ -16,8 +17,10 @@ public class Session implements Serializable {
     private GregorianCalendar date, time;
     private int duration, capacity;
     private boolean open;
+    private ArrayList<String> participantList;
 
     public Session() {
+        participantList = new ArrayList();
     }
 
     public Session(String sesionId, String topic, String expositor, String detail, String link, String platform, String category, 
@@ -34,6 +37,20 @@ public class Session implements Serializable {
         this.duration = duration;
         this.capacity = capacity;
         this.open = open;
+        participantList = new ArrayList();
+        
+    }
+    
+    public boolean addUser(String userId) {
+        if (participantList.size() < capacity) {
+            participantList.add(userId);
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean removeUser(String userId) {
+        return participantList.remove(userId);
     }
 
     public String getCategory() {
