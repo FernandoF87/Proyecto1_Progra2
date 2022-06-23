@@ -22,6 +22,11 @@ public class Transmission implements Serializable {
         this.type = type;
         this.object = object;
     }
+    
+    public Transmission(byte type) {
+        this.type = type;
+        object = new Vector<>();
+    }
 
     public byte getType() {
         return type;
@@ -29,5 +34,9 @@ public class Transmission implements Serializable {
 
     public Vector getObject() {
         return object;
+    }
+    
+    public void addComponent(Serializable component) {
+        object.add(component);
     }
 }

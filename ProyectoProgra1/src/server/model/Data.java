@@ -3,7 +3,7 @@ package server.model;
 import server.controller.FilesLoader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import user.model.User;
+import server.model.User;
 
 /**
  *
@@ -30,9 +30,17 @@ public class Data {
     public HashMap<String, User> getUsers() {
         return users;
     }
+    
+    public User searchUserEmail(String email) {
+        return users.get(email);
+    }
 
     public ArrayList<Notification> getNotifications() {
         return notifications;
+    }
+    
+    public void addNotification(Notification notification) {
+        notifications.add(notification);
     }
     
     public synchronized void addSession(Session session) {
@@ -65,10 +73,6 @@ public class Data {
     public synchronized void resetSessionAvailable() {
         sessionAvailable = true;
         notifyAll();
-    }
-    
-    public void addNotification(Notification notification) {
-        notifications.add(notification);
     }
     
     public void setAll() {

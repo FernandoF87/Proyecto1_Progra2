@@ -6,6 +6,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.util.GregorianCalendar;
+import server.exceptions.NotificationException;
 
 import server.model.User;
 
@@ -18,7 +20,7 @@ public class ConnectionThread extends Thread {
     private Socket connection;
     private ObjectInputStream input;
     private ObjectOutputStream output;
-    private User connectionId;
+    private User connectionUser;
     private Data data;
 
     public ConnectionThread(Socket connection, Data data) {
@@ -29,6 +31,7 @@ public class ConnectionThread extends Thread {
         } catch (SocketException ex) {
             ex.printStackTrace();
         }
+
     }
 
     @Override
@@ -42,10 +45,10 @@ public class ConnectionThread extends Thread {
         boolean execute = true;
         while (execute) {
             try {
-                Transmission request = (Transmission)(input.readObject());
+                Transmission request = (Transmission) (input.readObject());
                 processRequest(request);
             } catch (SocketTimeoutException ex) {
-                
+                System.out.println("Nada");
             } catch (ClassNotFoundException ex) {
                 ex.printStackTrace();
             } catch (IOException ex) {
@@ -84,18 +87,69 @@ public class ConnectionThread extends Thread {
         }
     }
 
-    public User getConnectionId() {
-        return connectionId;
+    public User getConnectionUser() {
+        return connectionUser;
     }
-    
+
     private void processRequest(Transmission request) {
         Transmission answer;
         switch (request.getType()) {
             case Transmission.LOGIN_REQUEST:
-                
+                answer = new Transmission((byte) 0);
+                String email = (String) (request.getObject().get(0));
+                String password = (String) (request.getObject().get(1));
+                User user = data.searchUserEmail(email);
+                if (user != null) {
+                    if (user.getPassword().equals(password)) {
+                        answer.addComponent(true);
+                        answer.addComponent(user.getName());
+                        connectionUser = user;
+                    } else {
+                        answer.addComponent(false);
+                        answer.addComponent("La contraseña es incorrecta");
+                    }
+                } else {
+                    answer.addComponent(false);
+                    answer.addComponent("No existe un usuario con el correo correspondiente");
+                }
+                try {
+                    output.writeObject(answer);
+                    output.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 break;
+
             case Transmission.REGISTER_REQUEST:
+                answer = new Transmission((byte) 1);
+                UserDirector director = new UserDirector();
+                UserAbstractbuilder builder = new UserConcretBuilder();
+                
+                String id = (String)(request.getObject().get(0));
+                email = (String)(request.getObject().get(1));
+                password = (String)(request.getObject().get(2));
+                int phone = (int)(request.getObject().get(3));
+                GregorianCalendar birthDate = (GregorianCalendar)(request.getObject().get(4));
+                
+                User newUser;
+                try {
+                    newUser = director.buildUser(builder, id, email, email, password, phone, birthDate);
+                    data.addUser(newUser);
+                    data.resetUserAvailable();
+                    answer.addComponent(true);
+                    answer.addComponent("El registro fue exitoso");
+                } catch (NotificationException ex) {
+                    answer.addComponent(false);
+                    answer.addComponent(ex.getMessage());
+                }
+                
+                try {
+                    output.writeObject(answer);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 break;
+                
             case Transmission.AVAILABLE_SESSIONS_REQUEST:
                 break;
             case Transmission.ENROLLED_SESSIONS_REQUEST:
@@ -105,5 +159,9 @@ public class ConnectionThread extends Thread {
             case Transmission.NOTIFICATION_REQUEST:
                 break;
         }
+    }
+
+    public void test(String msg) {
+        System.out.println(msg);
     }
 }
