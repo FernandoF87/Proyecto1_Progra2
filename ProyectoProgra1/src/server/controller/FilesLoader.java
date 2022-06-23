@@ -234,5 +234,70 @@ public class FilesLoader {
             }
         }
     }
-
+    
+    //METODOS TEMPORALES. BORRAR ANTES DE ENTREGAR
+    
+    public static void updateNotifications(ArrayList<Notification> a) {
+        File file = new File(NOTIFICATIONS_FILE);
+        ObjectOutputStream output = null;
+        
+        try {
+            FileOutputStream fileOutput = new FileOutputStream(file);
+            output = new ObjectOutputStream(fileOutput);
+            
+            for (Notification temp: a) {
+                output.writeObject(temp);
+            }
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex){
+            ex.printStackTrace();
+        } finally {
+            try {
+                output.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+    
+    public static void updateHashMap(byte type, HashMap h) {
+        String path = "";
+        HashMap hashMap = h;
+        
+        switch (type) {
+            case USERS:
+                path = USERS_FILE;
+                //hashMap = usersList;
+                break;
+            case SESSION:
+                path = SESSIONS_FILE;
+                //hashMap = sessionList;
+                break;
+        }
+        
+        File file = new File(path);
+        ObjectOutputStream output = null;
+        
+        try {
+            FileOutputStream fileOutput = new FileOutputStream(file);
+            output = new ObjectOutputStream(fileOutput);
+            
+            for (String temp: (Set<String>) hashMap.keySet()) {
+                output.writeObject(hashMap.get(temp));
+            }
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex){
+            ex.printStackTrace();
+        } finally {
+            try {
+                output.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+    
+    
 }

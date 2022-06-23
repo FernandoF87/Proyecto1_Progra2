@@ -52,6 +52,10 @@ public class Session implements Serializable {
     public boolean removeUser(String userId) {
         return participantList.remove(userId);
     }
+    
+    public byte availableSpaces() {
+        return (byte) (participantList.size() - capacity);
+    }
 
     public String getCategory() {
         return category;

@@ -30,6 +30,7 @@ import server.model.Transmission;
 import server.model.Notification;
 import server.model.Session;
 import server.model.User;
+import user.view.MainFrame;
 
 
 public class UserThread {
@@ -156,6 +157,9 @@ public class UserThread {
         try {
             output.writeObject(new Transmission(Transmission.NOTIFICATION_REQUEST, null));
             Transmission temp = (Transmission) input.readObject();
+            MainFrame main = new MainFrame(loggedUsername);
+            main.setVisible(true);
+            Notification
             if (temp.getType() == Transmission.NOTIFICATION_REQUEST) {
                 
             }

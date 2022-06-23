@@ -27,6 +27,8 @@ public class TemporalMain {
         
         System.out.println("Admin user: " + FilesLoader.getAdminUser());
         System.out.println("Admin password: " + FilesLoader.getAdminPassword());
+        
+        //ESTO POR SI SE HACE ALGÚN CAMBIO A LAS CLASES, RECOMPILAR PARA EVITAR ERROR NO CLASS FOUND:
             
 //        ArrayList<Notification> testArray = new ArrayList();
 //        try {
@@ -53,22 +55,27 @@ public class TemporalMain {
 //        FilesLoader.updateNotifications(testArray);
 //        FilesLoader.updateHashMap((byte) 0, testUserH);
 //        FilesLoader.updateHashMap((byte) 1, testSessionH);
+
+        //ACÁ TERMINA PARTE PARA REPARAR LOS ARCHIVOS
         
-        ArrayList<Notification> testArray = FilesLoader.loadNotifications();
-        for (Notification temp: testArray) {
-            System.out.println(temp.getUserId() + " " + temp.getMessage());
-        }
+
+        //ESTO MUESTRA TODO LO QUE TENGAN LOS ARCHIVOS PARA VERIFICAR SI ESTÁ ALMACENANDO BIEN
         
-        HashMap<String, User> users = FilesLoader.loadUsers();
-        for (String string : users.keySet()) {
-            System.out.println(string);
-        }
-        
-        HashMap<String, Session> session = FilesLoader.loadSessions();
-        
-        for (String string : session.keySet()) {
-            System.out.println(string);
-        }
+//        ArrayList<Notification> testArray = FilesLoader.loadNotifications();
+//        for (Notification temp: testArray) {
+//            System.out.println(temp.getUserId() + " " + temp.getMessage());
+//        }
+//        
+//        HashMap<String, User> users = FilesLoader.loadUsers();
+//        for (String string : users.keySet()) {
+//            System.out.println(string);
+//        }
+//        
+//        HashMap<String, Session> session = FilesLoader.loadSessions();
+//        
+//        for (String string : session.keySet()) {
+//            System.out.println(string);
+//        }
        
     }
 
