@@ -7,6 +7,8 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 
+import server.model.User;
+
 /**
  *
  * @author Fernando Flores Moya
@@ -16,7 +18,7 @@ public class ConnectionThread extends Thread {
     private Socket connection;
     private ObjectInputStream input;
     private ObjectOutputStream output;
-    private String connectionId;
+    private User connectionId;
     private Data data;
 
     public ConnectionThread(Socket connection, Data data) {
@@ -82,11 +84,7 @@ public class ConnectionThread extends Thread {
         }
     }
 
-    public void setConnectionId(String connectionId) {
-        this.connectionId = connectionId;
-    }
-
-    public String getConnectionId() {
+    public User getConnectionId() {
         return connectionId;
     }
     
@@ -94,6 +92,7 @@ public class ConnectionThread extends Thread {
         Transmission answer;
         switch (request.getType()) {
             case Transmission.LOGIN_REQUEST:
+                
                 break;
             case Transmission.REGISTER_REQUEST:
                 break;

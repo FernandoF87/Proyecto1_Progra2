@@ -1,6 +1,7 @@
 package server.model;
 
 import java.io.Serializable;
+import java.util.Vector;
 
 /**
  *
@@ -8,7 +9,7 @@ import java.io.Serializable;
  */
 public class Transmission implements Serializable {
     private byte type;
-    private Serializable object;
+    private Vector<Serializable> object;
     
     public static final byte LOGIN_REQUEST = 0;
     public static final byte REGISTER_REQUEST = 1;
@@ -17,7 +18,7 @@ public class Transmission implements Serializable {
     public static final byte HISTORY_REQUEST = 4;
     public static final byte NOTIFICATION_REQUEST = 5;
     
-    public Transmission(byte type, Serializable object) {
+    public Transmission(byte type, Vector object) {
         this.type = type;
         this.object = object;
     }
@@ -26,7 +27,7 @@ public class Transmission implements Serializable {
         return type;
     }
 
-    public Serializable getObject() {
+    public Vector getObject() {
         return object;
     }
 }

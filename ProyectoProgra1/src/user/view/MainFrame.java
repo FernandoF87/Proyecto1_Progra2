@@ -80,6 +80,11 @@ public class MainFrame extends javax.swing.JFrame {
         });
         tbAvailableSessions.setColumnSelectionAllowed(true);
         tbAvailableSessions.getTableHeader().setReorderingAllowed(false);
+        tbAvailableSessions.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbAvailableSessionsMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbAvailableSessions);
         tbAvailableSessions.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
@@ -226,6 +231,10 @@ public class MainFrame extends javax.swing.JFrame {
         notificationDialog.setVisible(true);
         notificationDialog.setAlwaysOnTop(true);
     }//GEN-LAST:event_btNotificationsActionPerformed
+
+    private void tbAvailableSessionsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbAvailableSessionsMouseClicked
+        System.out.println("funciona");
+    }//GEN-LAST:event_tbAvailableSessionsMouseClicked
 
     /**
      * @param args the command line arguments
