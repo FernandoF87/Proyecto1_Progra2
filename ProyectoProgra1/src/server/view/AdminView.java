@@ -4,6 +4,8 @@
  */
 package server.view;
 
+import javax.swing.DefaultListModel;
+
 /**
  *
  * @author Joshua Mora Garita
@@ -13,9 +15,19 @@ public class AdminView extends javax.swing.JFrame {
     /**
      * Creates new form AdminView
      */
+    DefaultListModel prueba = new DefaultListModel();
+    
     public AdminView() {
         initComponents();
         setLocationRelativeTo(null);
+        jListArea.setVisible(false);
+        btnDeleteSession.setVisible(false);
+        btnModify.setVisible(false);
+        prueba = new DefaultListModel();
+        jListArea.setModel(prueba);
+        prueba.addElement("Hola");
+        prueba.addElement("Hola2");
+        
     }
 
     /**
@@ -32,8 +44,9 @@ public class AdminView extends javax.swing.JFrame {
         btnManageSessions = new javax.swing.JButton();
         btnShowSessions = new javax.swing.JButton();
         btnShowUsersList = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
         jListArea = new javax.swing.JList<>();
+        btnDeleteSession = new javax.swing.JButton();
+        btnModify = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Administrador");
@@ -52,27 +65,59 @@ public class AdminView extends javax.swing.JFrame {
         btnManageSessions.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnManageSessions.setText("Administrar Sesiones");
         btnManageSessions.setBorder(null);
+        btnManageSessions.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnManageSessionsActionPerformed(evt);
+            }
+        });
 
         btnShowSessions.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnShowSessions.setText("Lista de sesiones");
         btnShowSessions.setToolTipText("");
         btnShowSessions.setBorder(null);
+        btnShowSessions.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnShowSessionsActionPerformed(evt);
+            }
+        });
 
         btnShowUsersList.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnShowUsersList.setText("Lista de usuarios");
         btnShowUsersList.setBorder(null);
+        btnShowUsersList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnShowUsersListActionPerformed(evt);
+            }
+        });
 
-        jScrollPane1.setViewportBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
+        jListArea.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jListArea.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jListArea.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            String[] strings = { "Item", " " };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
         jListArea.setFocusable(false);
         jListArea.setLayoutOrientation(javax.swing.JList.HORIZONTAL_WRAP);
-        jScrollPane1.setViewportView(jListArea);
+        jListArea.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jListAreaMousePressed(evt);
+            }
+        });
+
+        btnDeleteSession.setText("Eliminar");
+        btnDeleteSession.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteSessionActionPerformed(evt);
+            }
+        });
+
+        btnModify.setText("Modificar");
+        btnModify.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModifyActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -89,39 +134,83 @@ public class AdminView extends javax.swing.JFrame {
                     .addComponent(btnShowSessions, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCreateSession, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnManageSessions, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE)
-                .addContainerGap(109, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnDeleteSession, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnModify, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(124, 124, 124))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(73, 73, 73)
+                        .addComponent(jListArea, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(90, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(39, 39, 39)
                         .addComponent(btnManageSessions, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                         .addComponent(btnCreateSession, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
-                        .addComponent(btnShowSessions, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
-                        .addComponent(btnShowUsersList, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(45, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(56, 56, 56)
-                        .addComponent(jScrollPane1)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                        .addComponent(btnShowSessions, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jListArea, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnDeleteSession, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
+                            .addComponent(btnModify, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addComponent(btnShowUsersList, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+//
     private void btnCreateSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateSessionActionPerformed
-        ManageSessions sessions = new ManageSessions(this, true);
+        CreateSessions sessions = new CreateSessions(this, true);
         sessions.setVisible(true);
     }//GEN-LAST:event_btnCreateSessionActionPerformed
+
+    private void btnManageSessionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageSessionsActionPerformed
+        jListArea.setVisible(true);
+
+    }//GEN-LAST:event_btnManageSessionsActionPerformed
+
+    private void btnShowSessionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowSessionsActionPerformed
+        jListArea.setVisible(true);
+
+    }//GEN-LAST:event_btnShowSessionsActionPerformed
+
+    private void btnShowUsersListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowUsersListActionPerformed
+        jListArea.setVisible(true);
+    }//GEN-LAST:event_btnShowUsersListActionPerformed
+
+    private void jListAreaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListAreaMousePressed
+        btnDeleteSession.setVisible(true);
+        btnModify.setVisible(true);
+    }//GEN-LAST:event_jListAreaMousePressed
+
+    private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
+        String sessionString = jListArea.getSelectedValue();
+        System.out.println(sessionString);
+        ManageSessions manageSessions = new ManageSessions(this, rootPaneCheckingEnabled, sessionString);
+        manageSessions.setVisible(true);
+
+    }//GEN-LAST:event_btnModifyActionPerformed
+
+    private void btnDeleteSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteSessionActionPerformed
+        int index = jListArea.getSelectedIndex();
+        prueba.remove(index);
+
+    }//GEN-LAST:event_btnDeleteSessionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -160,11 +249,12 @@ public class AdminView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCreateSession;
+    private javax.swing.JButton btnDeleteSession;
     private javax.swing.JButton btnManageSessions;
+    private javax.swing.JButton btnModify;
     private javax.swing.JButton btnShowSessions;
     private javax.swing.JButton btnShowUsersList;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JList<String> jListArea;
-    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

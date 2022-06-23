@@ -11,31 +11,20 @@ import java.util.Date;
  *
  * @author Joshua Mora Garita
  */
-public class ManageSessions extends javax.swing.JDialog {
+public class CreateSessions extends javax.swing.JDialog {
 
     /**
      * Creates new form ManageSessions
      */
-    private String sessionData;
-
-    public ManageSessions(java.awt.Frame parent, boolean modal, String sessionData) {
+    public CreateSessions(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(parent);
         setDate();
-        this.sessionData = sessionData;
-    }
+        
+        
+       
 
-    public ManageSessions(java.awt.Frame parent, boolean modal) {
-
-    }
-
-    private void setDate() {
-        Date actualDate = Date.from(Instant.now());
-        chooser.setMinSelectableDate(new java.util.Date(actualDate.getTime()));
-        chooser.setDate(actualDate);
-        spnHour.setModel(new javax.swing.SpinnerNumberModel(actualDate.getHours(), 0, 23, 1));
-        spnMinutes.setModel(new javax.swing.SpinnerNumberModel(actualDate.getMinutes(), 0, 59, 1));
     }
 
     /**
@@ -82,6 +71,7 @@ public class ManageSessions extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Crear Nueva Sesion");
         setModal(true);
+        setPreferredSize(new java.awt.Dimension(720, 713));
         setSize(new java.awt.Dimension(0, 0));
 
         jLabel2.setText("Categoria");
@@ -109,7 +99,7 @@ public class ManageSessions extends javax.swing.JDialog {
         jLabel14.setFont(new java.awt.Font("Lucida Handwriting", 0, 48)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(255, 0, 0));
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel14.setText("Nueva Sesion");
+        jLabel14.setText("Modificar Sesion");
         jLabel14.setToolTipText("");
         jLabel14.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -208,15 +198,13 @@ public class ManageSessions extends javax.swing.JDialog {
                                                 .addComponent(txtExpositor, javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addComponent(txtTopic, javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addComponent(txtCategory, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(cbxPlatform, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                        .addComponent(spnHour, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addGap(17, 17, 17)
-                                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(spnMinutes, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
-                                                    .addComponent(cbxPlatform, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(spnHour, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(spnMinutes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(jLabel5)))
                                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -309,6 +297,7 @@ public class ManageSessions extends javax.swing.JDialog {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
 
+        setDate();
         txtCategory.setText(null);
         txtDetail.setText(null);
         txtLink.setText(null);
@@ -318,13 +307,22 @@ public class ManageSessions extends javax.swing.JDialog {
         cbxPlatform.setSelectedIndex(0);
         spnDuratin.setValue(30);
         spnAmount.setValue(5);
-
+        
 
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnSaveSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveSessionActionPerformed
         btnDeleteActionPerformed(evt);
     }//GEN-LAST:event_btnSaveSessionActionPerformed
+
+    private void setDate() {
+        Date actualDate = Date.from(Instant.now());
+        chooser.setMinSelectableDate(new java.util.Date(actualDate.getTime()));
+        chooser.setDate(actualDate);
+        spnHour.setModel(new javax.swing.SpinnerNumberModel(actualDate.getHours(), actualDate.getHours(), 23, 1));
+        spnMinutes.setModel(new javax.swing.SpinnerNumberModel(actualDate.getMinutes(), actualDate.getMinutes(), 59, 1));
+        
+    }
 
     /**
      * @param args the command line arguments
@@ -344,30 +342,28 @@ public class ManageSessions extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ManageSessions.class
+            java.util.logging.Logger.getLogger(CreateSessions.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ManageSessions.class
+            java.util.logging.Logger.getLogger(CreateSessions.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ManageSessions.class
+            java.util.logging.Logger.getLogger(CreateSessions.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ManageSessions.class
+            java.util.logging.Logger.getLogger(CreateSessions.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ManageSessions dialog = new ManageSessions(new javax.swing.JFrame(), true);
+                CreateSessions dialog = new CreateSessions(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
