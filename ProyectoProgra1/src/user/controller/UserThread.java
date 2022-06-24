@@ -114,11 +114,11 @@ public class UserThread {
                 MessageDialog.showMessageDialog((String) receivedData.get(1), "Hecho");
                 register.dispose();
             } else {
-                String text = "<html><p>";
+                String text = "<html>";
                 for (int i = 1; i < receivedData.size(); i++) {
-                    text += (String) receivedData.get(i) + "</p>";
+                    text += "<p>" + (String) receivedData.get(i) + "</p>";
                 }
-                MessageDialog.showMessageDialog(text + "</p></html>", "Error");
+                MessageDialog.showMessageDialog(text + "</html>", "Error");
             }
         } catch (ClassNotFoundException ex) {
             MessageDialog.showMessageDialog("Error inesperado", "Error");
