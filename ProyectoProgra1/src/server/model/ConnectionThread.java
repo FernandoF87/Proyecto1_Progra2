@@ -46,6 +46,7 @@ public class ConnectionThread extends Thread {
         while (execute) {
             try {
                 Transmission request = (Transmission) (input.readObject());
+                System.out.println(request);
                 processRequest(request);
             } catch (SocketTimeoutException ex) {
                 System.out.println("Nada");
@@ -113,6 +114,7 @@ public class ConnectionThread extends Thread {
                     answer.addComponent("No existe un usuario con el correo correspondiente");
                 }
                 try {
+                    System.out.println("Respuesta: " + answer.toString());
                     output.writeObject(answer);
                     output.flush();
                 } catch (IOException ex) {

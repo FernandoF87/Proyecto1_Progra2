@@ -29,6 +29,8 @@ public class Server {
 
     public void runServer() {
         // Aqui se leen los archivos primeros y se cargan los datos
+        for (String key : data.getUsers().keySet()) {
+        }
         try {
             socket = new ServerSocket(PORT);
             socket.setSoTimeout(TIME_OUT);
@@ -43,7 +45,6 @@ public class Server {
                     System.out.println("Conexión aceptada");
                     conThread.start();
                 } catch (SocketTimeoutException ex) {
-                    System.out.println("Revisando las sesiones");
                     checkSessions();
                 }
             }
@@ -71,8 +72,8 @@ public class Server {
 //                }
 //            }
 //        }
-        for (ConnectionThread connection : connections) {
-            connection.test("Enviada notificacion");
-        }
+//        for (ConnectionThread connection : connections) {
+//            connection.test("Enviada notificacion");
+//        }
     }
 }

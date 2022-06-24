@@ -108,6 +108,7 @@ public class UserThread {
         userData.add(register.getPhoneNumber());
         Transmission temp = new Transmission(Transmission.REGISTER_REQUEST, userData);
         try {
+            System.out.println("Enviando " + temp);
             output.writeObject(temp);
             output.flush();
             Vector receivedData = ((Transmission) input.readObject()).getObject();

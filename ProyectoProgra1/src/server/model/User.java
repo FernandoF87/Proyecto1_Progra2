@@ -84,5 +84,5 @@ public class User implements Serializable {
         this.bornDate = bornDate;
     }
     
-
+    
 }

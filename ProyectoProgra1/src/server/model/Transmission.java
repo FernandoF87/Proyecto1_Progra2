@@ -39,4 +39,8 @@ public class Transmission implements Serializable {
     public void addComponent(Serializable component) {
         object.add(component);
     }
+    
+    public String toString() {
+        return "Tipo: " + type + " Objeto: " + object.toString();
+    }
 }
