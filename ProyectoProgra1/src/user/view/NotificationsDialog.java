@@ -4,7 +4,7 @@
  */
 package user.view;
 
-import java.util.Vector;
+import java.util.LinkedList;
 
 /**
  *
@@ -104,7 +104,7 @@ public class NotificationsDialog extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_btCloseActionPerformed
 
-    public void showNotifications(Vector notifications) {
+    public void loadNotifications(LinkedList notifications) {
         if (notifications != null) {
             for (int i = 0; i < notifications.size(); i++) {
                 tbNotifications.getModel().setValueAt(notifications.get(i), i, 0);
@@ -112,6 +112,10 @@ public class NotificationsDialog extends javax.swing.JDialog {
         } else {
             tbNotifications.getModel().setValueAt("No tiene notificaciones.", 0, 0);
         }
+    }
+    
+    public void manageNewNotification(String notification) {
+        
     }
     
     /**

@@ -4,6 +4,10 @@
  */
 package user.view;
 
+import java.util.Vector;
+import javax.swing.table.TableModel;
+import server.model.Transmission;
+
 /**
  *
  * @author Jostin Castro
@@ -12,11 +16,11 @@ public class MainFrame extends javax.swing.JFrame {
 
     private byte selectedOption;
     
-    final static byte AVAILABLE_TAB = 0;
-    final static byte REGISTER_TAB = 1;
-    final static byte HISTORY_TAB = 2;
-    final static byte NOTIFICATION_OPTION = 3;
-    final static byte LOGIN_OUT = 4;
+    public final static byte AVAILABLE_TAB = 0;
+    public final static byte ENROLLED_TAB = 1;
+    public final static byte HISTORY_TAB = 2;
+    public final static byte NOTIFICATION_OPTION = 3;
+    public final static byte LOGIN_OUT = 4;
     
     /**
      * Creates new form MainFrame
@@ -45,7 +49,7 @@ public class MainFrame extends javax.swing.JFrame {
         tbAvailableSessions = new javax.swing.JTable();
         pnRegisteredSessions = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tbRegisteredSessions = new javax.swing.JTable();
+        tbEnrolleddSessions = new javax.swing.JTable();
         pnHistorySession = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tbSessionHistory = new javax.swing.JTable();
@@ -122,7 +126,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         tbControls.addTab("Sesiones disponibles", pnAvailableSessions);
 
-        tbRegisteredSessions.setModel(new javax.swing.table.DefaultTableModel(
+        tbEnrolleddSessions.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -138,10 +142,10 @@ public class MainFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tbRegisteredSessions.setColumnSelectionAllowed(true);
-        tbRegisteredSessions.getTableHeader().setReorderingAllowed(false);
-        jScrollPane2.setViewportView(tbRegisteredSessions);
-        tbRegisteredSessions.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tbEnrolleddSessions.setColumnSelectionAllowed(true);
+        tbEnrolleddSessions.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(tbEnrolleddSessions);
+        tbEnrolleddSessions.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         javax.swing.GroupLayout pnRegisteredSessionsLayout = new javax.swing.GroupLayout(pnRegisteredSessions);
         pnRegisteredSessions.setLayout(pnRegisteredSessionsLayout);
@@ -257,6 +261,28 @@ public class MainFrame extends javax.swing.JFrame {
         selectedOption = (byte) tbControls.getSelectedIndex();
     }//GEN-LAST:event_tbControlsStateChanged
 
+    public void writeData(byte table, Vector data) {
+        TableModel model = null;
+        switch (table) {
+            case AVAILABLE_TAB:
+                model = tbAvailableSessions.getModel();
+                break;
+            case ENROLLED_TAB:
+                model = tbEnrolleddSessions.getModel();
+                break;
+            case HISTORY_TAB:
+                model = tbEnrolleddSessions.getModel();
+                break;
+        }
+        for (int i = 0; i < data.size(); i++) {
+            byte count = 0;
+            while (count < 9) {
+                //Acá el llenado de la tabla
+            }
+        }
+        
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -314,7 +340,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel pnRegisteredSessions;
     private javax.swing.JTable tbAvailableSessions;
     private javax.swing.JTabbedPane tbControls;
-    private javax.swing.JTable tbRegisteredSessions;
+    private javax.swing.JTable tbEnrolleddSessions;
     private javax.swing.JTable tbSessionHistory;
     // End of variables declaration//GEN-END:variables
 }

@@ -18,9 +18,12 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.ConnectException;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.text.JTextComponent;
 
 import user.view.LoginFrame;
@@ -45,9 +48,17 @@ public class UserThread {
     
     private String loggedUsername;
     private LinkedList<Notification> listNotifications;
-    private LinkedList <Session> availableSessions;
-    private LinkedList <Session> registeredSessions;
-    private LinkedList <Session> historySessions;
+    private Vector <Session> availableSessions;
+    private Vector <Session> registeredSessions;
+    private Vector <Session> historySessions;
+    private NotificationsDialog notifications;
+    
+    public UserThread() {
+        listNotifications = new LinkedList();
+        availableSessions = new Vector();
+        registeredSessions = new Vector();
+        historySessions = new Vector();
+    }
     
     public static void main(String[] args) {
         new UserThread().mainProcess();
@@ -78,6 +89,8 @@ public class UserThread {
                 } else if (login.getOption() == login.LOGIN) {
                     if (loginOption(login.getEmail(), login.getPassword())) {
                         //Acá lo que pasa cuando todo está correcto
+                        login.dispose();
+                        loggedUserInterface();
                     } else {
                         //Login incorrecto, reinicio de interfaz LoginFrame
                         login.setOption((byte) 0);
@@ -139,10 +152,7 @@ public class UserThread {
             Transmission temp = new Transmission(Transmission.LOGIN_REQUEST, userData);
             output.writeObject(temp);
             output.flush();
-            System.out.println("enviado");
             Vector vector = ((Transmission) input.readObject()).getObject();
-            System.out.println(vector.get(0));
-            System.out.println(vector.get(1));
             if ((boolean) vector.get(0)) {
                 loggedUsername = (String) vector.get(1);
                 return true;
@@ -165,24 +175,83 @@ public class UserThread {
             MainFrame main = new MainFrame(loggedUsername);
             main.setVisible(true);
             if (temp.getType() == Transmission.NOTIFICATION_REQUEST) {
-                NotificationsDialog notifications = new NotificationsDialog(main, false);
+                notifications = new NotificationsDialog(main, false);
                 notifications.setVisible(true);
+                if (temp.getObject() != null) {
+                    Vector data = temp.getObject();
+                    for (int i = 0; i < data.size(); i++) {
+                        listNotifications.add((Notification) data.get(i));
+                    }
+                    notifications.loadNotifications(listNotifications);
+                } else {
+                    notifications.loadNotifications(null);
+                }
             }
+            do {
+                try {
+                    connection.setSoTimeout(5000);
+                    temp = (Transmission) input.readObject();
+                    if (temp.getType() == Transmission.NOTIFICATION_REQUEST) {
+                        Notification notification = (Notification) ((Vector) temp.getObject()).get(0);
+                        newNotification(notification);
+                    }
+                } catch (SocketTimeoutException ex) {
+                    switch (main.getSelectedOption()) {
+                    case MainFrame.AVAILABLE_TAB:
+                        output.writeObject(new Transmission(Transmission.AVAILABLE_SESSIONS_REQUEST, null));
+                        break;
+                    case MainFrame.ENROLLED_TAB:
+                        output.writeObject(new Transmission(Transmission.ENROLLED_SESSIONS_REQUEST, null));
+                        break;
+                    case MainFrame.HISTORY_TAB:
+                        output.writeObject(new Transmission(Transmission.HISTORY_REQUEST, null));
+                        break;
+                    case MainFrame.NOTIFICATION_OPTION:
+                        notifications.setVisible(true);
+                    case MainFrame.LOGIN_OUT:
+                        output.writeObject(new Transmission(Transmission.LOGIN_REQUEST, null));
+                        break;
+                    }
+                    output.flush();
+                    temp = (Transmission) input.readObject();
+                    
+                }
+                
+            } while ((main.getSelectedOption() != MainFrame.LOGIN_OUT));
         } catch (IOException ex) {
             MessageDialog.showMessageDialog("Error inesperado", "Error");
 
         } catch (ClassNotFoundException ex) {
             MessageDialog.showMessageDialog("Error inesperado", "Error");
-
         }
+        
     }
     
-    private void loadNotifications() {
+    private void newNotification(Notification notification) {
+        if (listNotifications.size() == 5) {
+            listNotifications.pop();
+        } else {
+            listNotifications.add(notification);
+        }
+        notifications.loadNotifications(listNotifications);
         
     }
     
     private void loadAvailableSessions() {
-        
+        try {
+            output.writeObject(new Transmission(Transmission.AVAILABLE_SESSIONS_REQUEST, null));
+            output.flush();
+            Transmission temp = (Transmission) input.readObject();
+            if (temp.getType() == Transmission.NOTIFICATION_REQUEST) {
+                
+            } else {
+                System.out.println("loadAvailableSessions: llegó otro tipo de paquete, tipo:" + temp.getType());
+            }
+        } catch (IOException ex) {
+            MessageDialog.showMessageDialog("Error inesperado", "Error");
+        } catch (ClassNotFoundException ex) {
+            MessageDialog.showMessageDialog("Error inesperado", "Error");
+        }
     }
     
     private void loadRegisteredSessions() {

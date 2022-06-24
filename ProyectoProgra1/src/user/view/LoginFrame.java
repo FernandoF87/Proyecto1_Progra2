@@ -5,6 +5,7 @@
 package user.view;
 
 import java.awt.Cursor;
+import java.awt.Dialog;
 
 /**
  *
@@ -28,6 +29,7 @@ public class LoginFrame extends javax.swing.JFrame {
         initComponents();
         fulled = false;
         this.setLocationRelativeTo(null);
+        this.setModalExclusionType(Dialog.ModalExclusionType.NO_EXCLUDE);
     }
 
     /**
@@ -49,6 +51,7 @@ public class LoginFrame extends javax.swing.JFrame {
         btRegister = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setText("Bienvenido, digite sus datos:");
 
