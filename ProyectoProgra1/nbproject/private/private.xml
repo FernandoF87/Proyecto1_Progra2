@@ -3,15 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Jostin%20Castro/Documents/GitHub/Proyecto1_Progra2/ProyectoProgra1/src/user/view/MessageDialog.java</file>
-            <file>file:/C:/Users/Jostin%20Castro/Documents/GitHub/Proyecto1_Progra2/ProyectoProgra1/src/user/view/SessionDetails.java</file>
-            <file>file:/C:/Users/Jostin%20Castro/Documents/GitHub/Proyecto1_Progra2/ProyectoProgra1/src/server/controller/FilesLoader.java</file>
-            <file>file:/C:/Users/Jostin%20Castro/Documents/GitHub/Proyecto1_Progra2/ProyectoProgra1/src/user/view/RegisterForm.java</file>
-            <file>file:/C:/Users/Jostin%20Castro/Documents/GitHub/Proyecto1_Progra2/ProyectoProgra1/src/user/view/MainFrame.java</file>
-            <file>file:/C:/Users/Jostin%20Castro/Documents/GitHub/Proyecto1_Progra2/ProyectoProgra1/src/server/model/Session.java</file>
-            <file>file:/C:/Users/Jostin%20Castro/Documents/GitHub/Proyecto1_Progra2/ProyectoProgra1/src/user/view/LoginFrame.java</file>
-            <file>file:/C:/Users/Jostin%20Castro/Documents/GitHub/Proyecto1_Progra2/ProyectoProgra1/src/server/model/ConnectionThread.java</file>
-            <file>file:/C:/Users/Jostin%20Castro/Documents/GitHub/Proyecto1_Progra2/ProyectoProgra1/src/user/controller/UserThread.java</file>
+            <file>file:/E:/joshm/Documents/Nueva%20carpeta/ProyectoProgra1/src/server/view/ManageSessions.java</file>
+            <file>file:/E:/joshm/Documents/Nueva%20carpeta/ProyectoProgra1/src/server/controller/FilesLoader.java</file>
+            <file>file:/E:/joshm/Documents/Nueva%20carpeta/ProyectoProgra1/src/server/view/AdminView.java</file>
+            <file>file:/E:/joshm/Documents/Nueva%20carpeta/ProyectoProgra1/src/server/model/UserConcretBuilder.java</file>
+            <file>file:/E:/joshm/Documents/Nueva%20carpeta/ProyectoProgra1/src/server/files/adminData.properties</file>
+            <file>file:/E:/joshm/Documents/Nueva%20carpeta/ProyectoProgra1/src/server/view/CreateSessions.java</file>
+            <file>file:/E:/joshm/Documents/Nueva%20carpeta/ProyectoProgra1/src/server/model/SessionConcreteBuilder.java</file>
         </group>
     </open-files>
 </project-private>

@@ -77,8 +77,12 @@ public class UserConcretBuilder implements UserAbstractbuilder {
                 throw new NotificationException("El correo debe tener el simbolo @");
             } else {
                 if (email.charAt(i) != '@') {
-                    if (email.charAt(email.length()) == '.') {
+//                    if (email.charAt(email.length()) == '.') {
+//                        throw new NotificationException("El correo no debe terminar en '.'");
+//                    }
+                    if (email.charAt(email.length() - 2) != '.' || email.charAt(email.length() - 4) != '.') {
                         throw new NotificationException("El correo no debe terminar en '.'");
+
                     }
                 }
             }

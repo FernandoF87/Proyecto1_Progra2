@@ -201,7 +201,7 @@ public class AdminView extends javax.swing.JFrame {
     private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
         String sessionString = jListArea.getSelectedValue();
         System.out.println(sessionString);
-        ManageSessions manageSessions = new ManageSessions(this, rootPaneCheckingEnabled, sessionString);
+        ManageSessions manageSessions = new ManageSessions(this, rootPaneCheckingEnabled);
         manageSessions.setVisible(true);
 
     }//GEN-LAST:event_btnModifyActionPerformed

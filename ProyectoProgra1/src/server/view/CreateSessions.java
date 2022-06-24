@@ -21,9 +21,6 @@ public class CreateSessions extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(parent);
         setDate();
-        
-        
-       
 
     }
 
@@ -60,18 +57,17 @@ public class CreateSessions extends javax.swing.JDialog {
         btnSaveSession = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         btnExit = new javax.swing.JButton();
-        chooser = new com.toedter.calendar.JDateChooser();
         spnHour = new javax.swing.JSpinner();
         spnMinutes = new javax.swing.JSpinner();
         jLabel1 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         spnDuratin = new javax.swing.JSpinner();
         spnAmount = new javax.swing.JSpinner();
+        chooser = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Crear Nueva Sesion");
         setModal(true);
-        setPreferredSize(new java.awt.Dimension(720, 713));
         setSize(new java.awt.Dimension(0, 0));
 
         jLabel2.setText("Categoria");
@@ -99,7 +95,7 @@ public class CreateSessions extends javax.swing.JDialog {
         jLabel14.setFont(new java.awt.Font("Lucida Handwriting", 0, 48)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(255, 0, 0));
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel14.setText("Modificar Sesion");
+        jLabel14.setText("Nueva Sesion");
         jLabel14.setToolTipText("");
         jLabel14.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -141,9 +137,6 @@ public class CreateSessions extends javax.swing.JDialog {
             }
         });
 
-        chooser.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        chooser.setDateFormatString("d MMMM yyyy");
-
         spnHour.setValue(00);
 
         jLabel1.setText("HH:");
@@ -153,6 +146,12 @@ public class CreateSessions extends javax.swing.JDialog {
         spnDuratin.setModel(new javax.swing.SpinnerNumberModel(30, 30, null, 1));
 
         spnAmount.setModel(new javax.swing.SpinnerNumberModel(5, 5, 30, 1));
+
+        chooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                chooserPropertyChange(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -230,24 +229,25 @@ public class CreateSessions extends javax.swing.JDialog {
                     .addComponent(txtCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTopic, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtExpositor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addComponent(txtDetail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtTopic, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                        .addComponent(txtExpositor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                        .addComponent(txtDetail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-                        .addComponent(chooser, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
-                        .addComponent(jLabel7)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                        .addComponent(chooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -307,7 +307,7 @@ public class CreateSessions extends javax.swing.JDialog {
         cbxPlatform.setSelectedIndex(0);
         spnDuratin.setValue(30);
         spnAmount.setValue(5);
-        
+
 
     }//GEN-LAST:event_btnDeleteActionPerformed
 
@@ -315,13 +315,30 @@ public class CreateSessions extends javax.swing.JDialog {
         btnDeleteActionPerformed(evt);
     }//GEN-LAST:event_btnSaveSessionActionPerformed
 
+    private void chooserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_chooserPropertyChange
+
+        if (chooser.getDate() != null) {
+            if (chooser.getDate().getTime() > Date.from(Instant.now()).getTime()) {
+                spnHour.setModel(new javax.swing.SpinnerNumberModel(0, 0, 23, 1));
+                spnMinutes.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
+
+            } else {
+
+                spnHour.setModel(new javax.swing.SpinnerNumberModel(Date.from(Instant.now()).getHours(), Date.from(Instant.now()).getHours(), 23, 1));
+                spnMinutes.setModel(new javax.swing.SpinnerNumberModel(Date.from(Instant.now()).getMinutes(), Date.from(Instant.now()).getMinutes(), 59, 1));
+            }
+        }
+
+
+    }//GEN-LAST:event_chooserPropertyChange
+
     private void setDate() {
         Date actualDate = Date.from(Instant.now());
         chooser.setMinSelectableDate(new java.util.Date(actualDate.getTime()));
         chooser.setDate(actualDate);
         spnHour.setModel(new javax.swing.SpinnerNumberModel(actualDate.getHours(), actualDate.getHours(), 23, 1));
         spnMinutes.setModel(new javax.swing.SpinnerNumberModel(actualDate.getMinutes(), actualDate.getMinutes(), 59, 1));
-        
+
     }
 
     /**
