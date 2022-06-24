@@ -89,9 +89,8 @@ public class UserThread {
     }
     
     private void registerOption() {
-        RegisterForm register = new RegisterForm(null, true);
+        RegisterForm register = new RegisterForm(null, false);
         register.setVisible(true);
-        register.setAlwaysOnTop(true);
         while (!register.isComplete()) {
             try {
                 Thread.sleep(500);
@@ -159,7 +158,6 @@ public class UserThread {
             Transmission temp = (Transmission) input.readObject();
             MainFrame main = new MainFrame(loggedUsername);
             main.setVisible(true);
-            Notification
             if (temp.getType() == Transmission.NOTIFICATION_REQUEST) {
                 
             }

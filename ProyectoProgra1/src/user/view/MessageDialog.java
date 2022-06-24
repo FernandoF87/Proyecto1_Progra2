@@ -23,7 +23,7 @@ public class MessageDialog extends javax.swing.JDialog {
     }
     
     public MessageDialog(String message, String title) {
-        this(null, true, message, title);
+        this(null, false, message, title);
     }
     
     public static void showMessageDialog(String message, String title) {

@@ -5,11 +5,13 @@
         <group>
             <file>file:/C:/Users/Jostin%20Castro/Documents/GitHub/Proyecto1_Progra2/ProyectoProgra1/src/user/view/MessageDialog.java</file>
             <file>file:/C:/Users/Jostin%20Castro/Documents/GitHub/Proyecto1_Progra2/ProyectoProgra1/src/user/view/SessionDetails.java</file>
+            <file>file:/C:/Users/Jostin%20Castro/Documents/GitHub/Proyecto1_Progra2/ProyectoProgra1/src/server/controller/FilesLoader.java</file>
             <file>file:/C:/Users/Jostin%20Castro/Documents/GitHub/Proyecto1_Progra2/ProyectoProgra1/src/user/view/RegisterForm.java</file>
-            <file>file:/C:/Users/Jostin%20Castro/Documents/GitHub/Proyecto1_Progra2/ProyectoProgra1/src/server/model/Transmission.java</file>
             <file>file:/C:/Users/Jostin%20Castro/Documents/GitHub/Proyecto1_Progra2/ProyectoProgra1/src/user/view/MainFrame.java</file>
+            <file>file:/C:/Users/Jostin%20Castro/Documents/GitHub/Proyecto1_Progra2/ProyectoProgra1/src/server/model/Session.java</file>
+            <file>file:/C:/Users/Jostin%20Castro/Documents/GitHub/Proyecto1_Progra2/ProyectoProgra1/src/user/view/LoginFrame.java</file>
+            <file>file:/C:/Users/Jostin%20Castro/Documents/GitHub/Proyecto1_Progra2/ProyectoProgra1/src/server/model/ConnectionThread.java</file>
             <file>file:/C:/Users/Jostin%20Castro/Documents/GitHub/Proyecto1_Progra2/ProyectoProgra1/src/user/controller/UserThread.java</file>
-            <file>file:/C:/Users/Jostin%20Castro/Documents/GitHub/Proyecto1_Progra2/ProyectoProgra1/src/user/view/NotificationsDialog.java</file>
         </group>
     </open-files>
 </project-private>
