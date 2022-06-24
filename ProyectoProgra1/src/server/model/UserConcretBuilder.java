@@ -1,10 +1,10 @@
 package server.model;
 
-import server.exceptions.NotificationException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.GregorianCalendar;
+import server.exceptions.NotificationException;
 
 /**
  * @version 18/06/2022
@@ -91,7 +91,7 @@ public class UserConcretBuilder implements UserAbstractbuilder {
         int valAscii = 0;
         int contNum = 0;
         int contLetters = 0;
-        if (password.length() < 8) {
+        if (password.length() <= 8) {
             throw new NotificationException("La contraseña debe tener minimo 8 caracteres");
         }
 
