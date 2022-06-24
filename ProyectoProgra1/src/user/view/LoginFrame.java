@@ -150,6 +150,7 @@ public class LoginFrame extends javax.swing.JFrame {
             this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
             email = tfEmail.getText();
             char[] temp = pfPassword.getPassword();
+            password = "";
             for (int i = 0; i < temp.length; i++) {
                 password += temp[i];
             }

@@ -91,7 +91,6 @@ public class FilesLoader {
             } else {
                 ex.printStackTrace();
             }
-            ex.printStackTrace();
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         } finally {
@@ -126,7 +125,6 @@ public class FilesLoader {
             } else {
                 ex.printStackTrace();
             }
-            ex.printStackTrace();
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         } finally {

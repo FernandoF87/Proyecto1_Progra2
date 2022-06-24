@@ -4,6 +4,8 @@
  */
 package user.view;
 
+import java.util.Vector;
+
 /**
  *
  * @author Jostin Castro
@@ -29,13 +31,13 @@ public class NotificationsDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbNotifications = new javax.swing.JTable();
         btClose = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Notificaciones");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbNotifications.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null},
                 {null},
@@ -62,7 +64,7 @@ public class NotificationsDialog extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tbNotifications);
 
         btClose.setText("Cerrar");
         btClose.addActionListener(new java.awt.event.ActionListener() {
@@ -102,6 +104,16 @@ public class NotificationsDialog extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_btCloseActionPerformed
 
+    public void showNotifications(Vector notifications) {
+        if (notifications != null) {
+            for (int i = 0; i < notifications.size(); i++) {
+                tbNotifications.getModel().setValueAt(notifications.get(i), i, 0);
+            }
+        } else {
+            tbNotifications.getModel().setValueAt("No tiene notificaciones.", 0, 0);
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -147,6 +159,6 @@ public class NotificationsDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btClose;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tbNotifications;
     // End of variables declaration//GEN-END:variables
 }

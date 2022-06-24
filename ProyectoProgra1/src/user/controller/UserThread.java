@@ -31,6 +31,7 @@ import server.model.Notification;
 import server.model.Session;
 import server.model.User;
 import user.view.MainFrame;
+import user.view.NotificationsDialog;
 
 
 public class UserThread {
@@ -133,10 +134,14 @@ public class UserThread {
             Vector<Serializable> userData = new Vector();
             userData.add(email);
             userData.add(password);
+            System.out.println(email + "\n" + password);
             Transmission temp = new Transmission(Transmission.LOGIN_REQUEST, userData);
             output.writeObject(userData);
             output.flush();
+            System.out.println("enviado");
             Vector vector = ((Transmission) input.readObject()).getObject();
+            System.out.println(vector.get(0));
+            System.out.println(vector.get(1));
             if ((boolean) vector.get(0)) {
                 loggedUsername = (String) vector.get(1);
                 return true;
@@ -159,7 +164,8 @@ public class UserThread {
             MainFrame main = new MainFrame(loggedUsername);
             main.setVisible(true);
             if (temp.getType() == Transmission.NOTIFICATION_REQUEST) {
-                
+                NotificationsDialog notifications = new NotificationsDialog(main, false);
+                notifications.setVisible(true);
             }
         } catch (IOException ex) {
             MessageDialog.showMessageDialog("Error inesperado", "Error");
