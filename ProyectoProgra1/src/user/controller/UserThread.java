@@ -136,7 +136,7 @@ public class UserThread {
             userData.add(password);
             System.out.println(email + "\n" + password);
             Transmission temp = new Transmission(Transmission.LOGIN_REQUEST, userData);
-            output.writeObject(userData);
+            output.writeObject(temp);
             output.flush();
             System.out.println("enviado");
             Vector vector = ((Transmission) input.readObject()).getObject();
