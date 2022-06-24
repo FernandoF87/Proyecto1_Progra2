@@ -78,7 +78,7 @@ public class FilesLoader {
             Object object = input.readObject();
             while (object != null) {
                 if (object != null) {
-                    hashMap.put(((type == USERS)?((server.model.User) object).getUserID(): ((server.model.Session) object).getSesionId()), 
+                    hashMap.put(((type == USERS)?((server.model.User) object).getEmail(): ((server.model.Session) object).getSesionId()), 
                         ((type == USERS)? (server.model.User) object: (server.model.Session) object));
                     object = input.readObject();
                 } 
