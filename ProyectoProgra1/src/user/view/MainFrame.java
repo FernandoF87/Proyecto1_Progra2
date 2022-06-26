@@ -4,9 +4,17 @@
  */
 package user.view;
 
+import java.awt.Color;
+import java.io.File;
+import java.io.IOException;
 import java.util.Vector;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.table.TableModel;
-import server.model.Transmission;
+
 
 /**
  *
@@ -21,6 +29,9 @@ public class MainFrame extends javax.swing.JFrame {
     public final static byte HISTORY_TAB = 2;
     public final static byte NOTIFICATION_OPTION = 3;
     public final static byte LOGIN_OUT = 4;
+    
+    private boolean readedNotification;
+    private final String NOTIFICATION_AUDIO = "src/img/new_notification_sound.wav";
     
     /**
      * Creates new form MainFrame
@@ -247,6 +258,7 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btNotificationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNotificationsActionPerformed
+        readedNotification = true;
         NotificationsDialog notificationDialog = new NotificationsDialog(this, true);
         notificationDialog.setVisible(true);
         notificationDialog.setAlwaysOnTop(true);
@@ -282,41 +294,6 @@ public class MainFrame extends javax.swing.JFrame {
         }
         
     }
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainFrame("Prueba").setVisible(true);
-            }
-        });
-    }
 
     public byte getSelectedOption() {
         return selectedOption;
@@ -326,7 +303,37 @@ public class MainFrame extends javax.swing.JFrame {
         this.selectedOption = selectedOption;
     }
     
-    
+    public void manageNewNotification() {
+        readedNotification = false;
+        File file = new File(NOTIFICATION_AUDIO);
+        try {
+            AudioInputStream audioInput = AudioSystem.getAudioInputStream(file);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInput);
+            clip.start();
+        } catch (IOException | UnsupportedAudioFileException | LineUnavailableException ex) {
+            ex.printStackTrace();
+        }
+        
+        Color buttonColor = btNotifications.getBackground();
+        Runnable task = () -> {
+            while (!readedNotification) {
+                btNotifications.setBackground(Color.red);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+                btNotifications.setBackground(buttonColor);                
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        };
+        new Thread(task).start();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btLogout;

@@ -10,21 +10,15 @@ package user.controller;
  * @version
  * @author Jostin Castro
  */
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.net.ConnectException;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.text.JTextComponent;
 
 import user.view.LoginFrame;
 import user.view.MessageDialog;
@@ -62,6 +56,13 @@ public class UserThread {
     
     public static void main(String[] args) {
         new UserThread().mainProcess();
+//        MainFrame test = new MainFrame("Prueba");
+//        test.setVisible(true);
+//        try {
+//            Thread.sleep(4000);
+//        } catch (InterruptedException ex) {
+//        }
+//        test.manageNewNotification();
     }
     
     private void mainProcess() {
@@ -69,15 +70,11 @@ public class UserThread {
             connection = new Socket(HOST, PORT);
             output = new ObjectOutputStream(connection.getOutputStream());
             input = new ObjectInputStream(connection.getInputStream());
-        } catch(IOException ex) {
-            MessageDialog.showMessageDialog("No se pudo establecer comunicación con el servidor", "Error");
-        }
-        if (connection != null && connection.isConnected()) {
             LoginFrame login = new LoginFrame();
             login.setVisible(true);
             do {
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(1000);
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 }
@@ -86,6 +83,7 @@ public class UserThread {
                     registerOption();
                     login.resetComponents();
                     login.setOption((byte) 0);
+                    login.setVisible(true);
                 } else if (login.getOption() == login.LOGIN) {
                     if (loginOption(login.getEmail(), login.getPassword())) {
                         //Acá lo que pasa cuando todo está correcto
@@ -97,50 +95,56 @@ public class UserThread {
                         login.resetComponents();
                     }
                 }
-            } while (login.getOption() == 0);
-            
+            } while (login.getOption() == 0 && !login.isClosed());
+            output.writeObject(new Transmission(Transmission.LOGOUT_REQUEST));
+            output.flush();
+        } catch(IOException ex) {
+            MessageDialog.showMessageDialog("No se pudo establecer comunicación con el servidor", "Error");
+        } finally {
+            if (connection != null && connection.isConnected())
+                closeConnection();
         }
     }
     
     private void registerOption() {
         RegisterForm register = new RegisterForm(null, false);
         register.setVisible(true);
-        while (!register.isComplete()) {
+        while (!register.isComplete() && !register.isClosed()) {
             try {
                 Thread.sleep(500);
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
         }
-        Vector<Serializable> userData = new Vector();
-        userData.add(register.getId());
-        userData.add(register.getEmail());
-        userData.add(register.getPassword());
-        userData.add(register.getBornDate());
-        userData.add(register.getName());
-        userData.add(register.getPhoneNumber());
-        Transmission temp = new Transmission(Transmission.REGISTER_REQUEST, userData);
-        try {
-            System.out.println("Enviando " + temp);
-            output.writeObject(temp);
-            output.flush();
-            Vector receivedData = ((Transmission) input.readObject()).getObject();
-            if ((Boolean) receivedData.get(0)) {
-                MessageDialog.showMessageDialog((String) receivedData.get(1), "Hecho");
-                register.dispose();
-            } else {
-                String text = "<html>";
-                for (int i = 1; i < receivedData.size(); i++) {
-                    text += "<p>" + (String) receivedData.get(i) + "</p>";
+        if (!register.isClosed()) {
+            Vector<Serializable> userData = new Vector();
+            userData.add(register.getId());
+            userData.add(register.getEmail());
+            userData.add(register.getPassword());
+            userData.add(register.getBornDate());
+            userData.add(register.getName());
+            userData.add(register.getPhoneNumber());
+            Transmission temp = new Transmission(Transmission.REGISTER_REQUEST, userData);
+            try {
+                output.writeObject(temp);
+                output.flush();
+                Vector receivedData = ((Transmission) input.readObject()).getObject();
+                if ((Boolean) receivedData.get(0)) {
+                    MessageDialog.showMessageDialog((String) receivedData.get(1), "Hecho");
+                    register.dispose();
+                } else {
+                    String text = "<html>";
+                    for (int i = 1; i < receivedData.size(); i++) {
+                        text += "<p>" + (String) receivedData.get(i) + "</p>";
+                    }
+                    MessageDialog.showMessageDialog(text + "</html>", "Error");
                 }
-                MessageDialog.showMessageDialog(text + "</html>", "Error");
+            } catch (ClassNotFoundException ex) {
+                MessageDialog.showMessageDialog("Error inesperado", "Error");
+            } catch (IOException ex) {
+                MessageDialog.showMessageDialog("Error inesperado", "Error");
             }
-        } catch (ClassNotFoundException ex) {
-            MessageDialog.showMessageDialog("Error inesperado", "Error");
-        } catch (IOException ex) {
-            MessageDialog.showMessageDialog("Error inesperado", "Error");
-        }
-            
+        }     
     }
     
     private boolean loginOption(String email, String password) {
@@ -187,6 +191,7 @@ public class UserThread {
                     notifications.loadNotifications(null);
                 }
             }
+            byte lastSelected = 0;
             do {
                 try {
                     connection.setSoTimeout(5000);
@@ -196,27 +201,30 @@ public class UserThread {
                         newNotification(notification);
                     }
                 } catch (SocketTimeoutException ex) {
-                    switch (main.getSelectedOption()) {
-                    case MainFrame.AVAILABLE_TAB:
-                        output.writeObject(new Transmission(Transmission.AVAILABLE_SESSIONS_REQUEST, null));
-                        break;
-                    case MainFrame.ENROLLED_TAB:
-                        output.writeObject(new Transmission(Transmission.ENROLLED_SESSIONS_REQUEST, null));
-                        break;
-                    case MainFrame.HISTORY_TAB:
-                        output.writeObject(new Transmission(Transmission.HISTORY_REQUEST, null));
-                        break;
-                    case MainFrame.NOTIFICATION_OPTION:
-                        notifications.setVisible(true);
-                    case MainFrame.LOGIN_OUT:
-                        output.writeObject(new Transmission(Transmission.LOGIN_REQUEST, null));
-                        break;
+                    if (lastSelected != main.getSelectedOption()) {
+                        switch (main.getSelectedOption()) {
+                            case MainFrame.AVAILABLE_TAB:
+                                output.writeObject(new Transmission(Transmission.AVAILABLE_SESSIONS_REQUEST, null));
+                                break;
+                            case MainFrame.ENROLLED_TAB:
+                                output.writeObject(new Transmission(Transmission.ENROLLED_SESSIONS_REQUEST, null));
+                                break;
+                            case MainFrame.HISTORY_TAB:
+                                output.writeObject(new Transmission(Transmission.HISTORY_REQUEST, null));
+                                break;
+                            case MainFrame.NOTIFICATION_OPTION:
+                                notifications.setVisible(true);
+                            case MainFrame.LOGIN_OUT:
+                                output.writeObject(new Transmission(Transmission.LOGOUT_REQUEST, null));
+                                break;
+                        }
+                        output.flush();
+                        temp = (Transmission) input.readObject();
+                        //Crear método ordenar acá, mandar la información ordenada al mainframe y luego mostrar los datos
+                        main.writeData((byte) (temp.getType() - 2), temp.getObject());
                     }
-                    output.flush();
-                    temp = (Transmission) input.readObject();
-                    
+                    lastSelected = main.getSelectedOption();
                 }
-                
             } while ((main.getSelectedOption() != MainFrame.LOGIN_OUT));
         } catch (IOException ex) {
             MessageDialog.showMessageDialog("Error inesperado", "Error");
@@ -260,6 +268,16 @@ public class UserThread {
     
     private void loadHistorySessions() {
         
+    }
+    
+    private void closeConnection() {
+        try {
+            output.close();
+            input.close();
+            connection.close();
+        } catch (IOException ex) {
+            MessageDialog.showMessageDialog("Error inesperado", "Error");
+        }
     }
    
 }

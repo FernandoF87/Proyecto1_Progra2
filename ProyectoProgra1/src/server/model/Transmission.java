@@ -17,6 +17,7 @@ public class Transmission implements Serializable {
     public static final byte ENROLLED_SESSIONS_REQUEST = 3;
     public static final byte HISTORY_REQUEST = 4;
     public static final byte NOTIFICATION_REQUEST = 5;
+    public static final byte LOGOUT_REQUEST = 6;
     
     public Transmission(byte type, Vector object) {
         this.type = type;
