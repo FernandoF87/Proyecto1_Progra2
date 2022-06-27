@@ -140,10 +140,11 @@ public class UserConcretBuilder implements UserAbstractbuilder {
         }
         for (int i = 0; i < num.length(); i++) {
             if (num.charAt(i) == '-' || num.charAt(i) == ' ') {
-                throw new NotificationException("La cedula no puede contener"
+                throw new NotificationException("El numero de telefono no puede contener"
                         + " guiones o espacios");
             }
         }
+        user.setPhoneNumber(phone);
 
     }
 

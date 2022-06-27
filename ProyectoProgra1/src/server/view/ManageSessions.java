@@ -6,6 +6,8 @@ package server.view;
 
 import java.time.Instant;
 import java.util.Date;
+import server.model.Data;
+import server.model.Session;
 
 /**
  *
@@ -16,21 +18,26 @@ public class ManageSessions extends javax.swing.JDialog {
     /**
      * Creates new form ManageSessions
      */
-//    private String sessionData;
-    public ManageSessions(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    private Session session;
+    private Data data;
+
+    public ManageSessions(javax.swing.JFrame parent, boolean modal, Data data, Session session) {
         initComponents();
         setLocationRelativeTo(parent);
+
+        this.data = data;
+        this.session = session;
+        setValues();
         setDate();
-//        this.sessionData = sessionData;
     }
 
     private void setDate() {
         Date actualDate = Date.from(Instant.now());
+        chooser.setDate(session.getDate().getTime());
         chooser.setMinSelectableDate(new java.util.Date(actualDate.getTime()));
-        chooser.setDate(actualDate);
-        spnHour.setModel(new javax.swing.SpinnerNumberModel(actualDate.getHours(), actualDate.getHours(), 23, 1));
-        spnMinutes.setModel(new javax.swing.SpinnerNumberModel(actualDate.getMinutes(), actualDate.getMinutes(), 59, 1));
+        
+        spnHour.setModel(new javax.swing.SpinnerNumberModel(actualDate.getHours(), session.getTime().getTime().getHours(), 23, 1));
+        spnMinutes.setModel(new javax.swing.SpinnerNumberModel( session.getTime().getTime().getMinutes(), session.getTime().getTime().getMinutes(), 59, 1));
 
     }
 
@@ -327,6 +334,35 @@ public class ManageSessions extends javax.swing.JDialog {
 
     }//GEN-LAST:event_btnDeleteActionPerformed
 
+    public void setValues() {
+        txtCategory.setText(session.getCategory());
+        txtDetail.setText(session.getDetail());
+        txtLink.setText(session.getLink());
+        txtTopic.setText(session.getTopic());
+        txtExpositor.setText(session.getExpositor());
+        rbtnOpen.setSelected(!session.isOpen());
+
+        String platform = session.getPlatform().toLowerCase();
+        int indexPlatfor = 3;
+        switch (platform) {
+            case "teams":
+                indexPlatfor = 0;
+                break;
+            case "zoom":
+                indexPlatfor = 1;
+                break;
+            case "google meet":
+                indexPlatfor = 2;
+                break;
+            case "skype":
+                indexPlatfor = 3;
+                break;
+        }
+        cbxPlatform.setSelectedIndex(indexPlatfor);
+        spnDuratin.setValue(session.getDuration());
+        spnAmount.setValue(session.getCapacity());
+    }
+
     private void btnSaveSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveSessionActionPerformed
         btnDeleteActionPerformed(evt);
     }//GEN-LAST:event_btnSaveSessionActionPerformed
@@ -352,58 +388,58 @@ public class ManageSessions extends javax.swing.JDialog {
 
     }//GEN-LAST:event_chooserPropertyChange
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ManageSessions.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ManageSessions.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ManageSessions.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ManageSessions.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                ManageSessions dialog = new ManageSessions(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+//    /**
+//     * @param args the command line arguments
+//     */
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(ManageSessions.class
+//                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(ManageSessions.class
+//                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(ManageSessions.class
+//                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(ManageSessions.class
+//                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//
+//        /* Create and display the dialog */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                ManageSessions dialog = new ManageSessions(new javax.swing.JFrame(), true);
+//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+//                    @Override
+//                    public void windowClosing(java.awt.event.WindowEvent e) {
+//                        System.exit(0);
+//                    }
+//                });
+//                dialog.setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDelete;

@@ -4,7 +4,10 @@
  */
 package server.view;
 
-import javax.swing.DefaultListModel;
+import java.util.HashMap;
+import server.model.CustomListModel;
+import server.model.Data;
+import server.model.Session;
 
 /**
  *
@@ -15,19 +18,20 @@ public class AdminView extends javax.swing.JFrame {
     /**
      * Creates new form AdminView
      */
-    DefaultListModel prueba = new DefaultListModel();
-    
-    public AdminView() {
+    private CustomListModel model = new CustomListModel();
+    private Data data;
+
+    public AdminView(javax.swing.JFrame parent, boolean modal, Data data) {
+        views();
         initComponents();
         setLocationRelativeTo(null);
         jListArea.setVisible(false);
         btnDeleteSession.setVisible(false);
         btnModify.setVisible(false);
-        prueba = new DefaultListModel();
-        jListArea.setModel(prueba);
-        prueba.addElement("Hola");
-        prueba.addElement("Hola2");
-        
+
+        jListArea.setModel(model);
+        this.data = data;
+
     }
 
     /**
@@ -44,7 +48,7 @@ public class AdminView extends javax.swing.JFrame {
         btnManageSessions = new javax.swing.JButton();
         btnShowSessions = new javax.swing.JButton();
         btnShowUsersList = new javax.swing.JButton();
-        jListArea = new javax.swing.JList<>();
+        jListArea = new javax.swing.JList();
         btnDeleteSession = new javax.swing.JButton();
         btnModify = new javax.swing.JButton();
 
@@ -92,10 +96,10 @@ public class AdminView extends javax.swing.JFrame {
 
         jListArea.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jListArea.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jListArea.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item", " " };
+        jListArea.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { " " };
             public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+            public Object getElementAt(int i) { return strings[i]; }
         });
         jListArea.setFocusable(false);
         jListArea.setLayoutOrientation(javax.swing.JList.HORIZONTAL_WRAP);
@@ -134,17 +138,16 @@ public class AdminView extends javax.swing.JFrame {
                     .addComponent(btnShowSessions, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCreateSession, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnManageSessions, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnDeleteSession, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnModify, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(124, 124, 124))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(73, 73, 73)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jListArea, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(90, Short.MAX_VALUE))))
+                        .addGap(80, 80, 80))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,9 +163,9 @@ public class AdminView extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                         .addComponent(btnShowSessions, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jListArea, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnDeleteSession, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
                             .addComponent(btnModify, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -176,11 +179,19 @@ public class AdminView extends javax.swing.JFrame {
 //
     private void btnCreateSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateSessionActionPerformed
         CreateSessions sessions = new CreateSessions(this, true);
+
         sessions.setVisible(true);
     }//GEN-LAST:event_btnCreateSessionActionPerformed
 
     private void btnManageSessionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageSessionsActionPerformed
         jListArea.setVisible(true);
+        int cont = 0;
+        for (HashMap.Entry<String, Session> session : data.getSessions().entrySet()) {
+
+            model.addSessio(session.getValue());
+
+            cont++;
+        }
 
     }//GEN-LAST:event_btnManageSessionsActionPerformed
 
@@ -199,54 +210,81 @@ public class AdminView extends javax.swing.JFrame {
     }//GEN-LAST:event_jListAreaMousePressed
 
     private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
-        String sessionString = jListArea.getSelectedValue();
-        System.out.println(sessionString);
-        ManageSessions manageSessions = new ManageSessions(this, rootPaneCheckingEnabled);
+
+        Session session = model.getSession(jListArea.getSelectedIndex());
+        System.out.println("err " + session.getCategory());
+        ManageSessions manageSessions = new ManageSessions(this, true, data, session);
+
         manageSessions.setVisible(true);
 
     }//GEN-LAST:event_btnModifyActionPerformed
 
     private void btnDeleteSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteSessionActionPerformed
         int index = jListArea.getSelectedIndex();
-        prueba.remove(index);
+        model.deleteSession(index);
 
     }//GEN-LAST:event_btnDeleteSessionActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(AdminView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(AdminView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(AdminView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(AdminView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new AdminView().setVisible(true);
+//            }
+//        });
+//    }
+    private void views() {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AdminView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreateSessions.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AdminView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreateSessions.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AdminView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreateSessions.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AdminView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreateSessions.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AdminView().setVisible(true);
-            }
-        });
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCreateSession;
     private javax.swing.JButton btnDeleteSession;
@@ -255,6 +293,6 @@ public class AdminView extends javax.swing.JFrame {
     private javax.swing.JButton btnShowSessions;
     private javax.swing.JButton btnShowUsersList;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JList<String> jListArea;
+    private javax.swing.JList jListArea;
     // End of variables declaration//GEN-END:variables
 }

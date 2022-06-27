@@ -11,15 +11,6 @@ package server.controller;
  * @author Jostin Castro
  */
 
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.ArrayList;
-
-import server.model.User;
-import server.model.Session;
-import server.model.Notification;
-import server.exceptions.NotificationException;
-
 public class TemporalMain {
     
     public static void main(String[] args) {
@@ -27,6 +18,7 @@ public class TemporalMain {
         
         System.out.println("Admin user: " + FilesLoader.getAdminUser());
         System.out.println("Admin password: " + FilesLoader.getAdminPassword());
+        System.out.println("prueba"+FilesLoader.loadSessions());
         
         //ESTO POR SI SE HACE ALGÚN CAMBIO A LAS CLASES, RECOMPILAR PARA EVITAR ERROR NO CLASS FOUND:
             
