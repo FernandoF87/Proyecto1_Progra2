@@ -5,6 +5,7 @@
 package server.view;
 
 import java.util.HashMap;
+import javax.swing.JOptionPane;
 import server.model.CustomListModel;
 import server.model.Data;
 import server.model.Session;
@@ -210,9 +211,13 @@ public class AdminView extends javax.swing.JFrame {
     }//GEN-LAST:event_jListAreaMousePressed
 
     private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
+        int index = jListArea.getSelectedIndex();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(this, "No hay sesiones en la lista","Error",NORMAL);
+            return;
+        }
+        Session session = model.getSession(index);
 
-        Session session = model.getSession(jListArea.getSelectedIndex());
-        System.out.println("err " + session.getCategory());
         ManageSessions manageSessions = new ManageSessions(this, true, data, session);
 
         manageSessions.setVisible(true);
