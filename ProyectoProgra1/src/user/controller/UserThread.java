@@ -6,7 +6,8 @@
 package user.controller;
 
 /**
- *
+ * Class that manages all de user input, and output from the differents forms
+ * and manages the communication with server. 
  * @version
  * @author Jostin Castro
  */
@@ -65,6 +66,9 @@ public class UserThread {
 //        test.manageNewNotification();
     }
     
+    /**
+     * Method that manage the main process of the thread 
+     */
     private void mainProcess() {
         try {
             connection = new Socket(HOST, PORT);
@@ -105,6 +109,11 @@ public class UserThread {
                 closeConnection();
         }
     }
+    
+    /**
+     * Method to show the register form, capture data from user and
+     * send it to the server. 
+     */
     
     private void registerOption() {
         RegisterForm register = new RegisterForm(null, false);
@@ -147,6 +156,14 @@ public class UserThread {
         }     
     }
     
+    /**
+     * Method throwed when the user click on the Login button, it send the email
+     * and the password to the server and manage his answer 
+     * @param email the user email typed in the TextField
+     * @param password the password typed in the PasswordField
+     * @return true if the login is correct, false otherwise
+     */
+    
     private boolean loginOption(String email, String password) {
         try {
             Vector<Serializable> userData = new Vector();
@@ -172,9 +189,15 @@ public class UserThread {
         return false;
     }
     
+    /**
+     * Method enchargated of show to the user differents tabs with the data
+     * sended by the server.
+     */
+    
     private void loggedUserInterface() {
         try {
             output.writeObject(new Transmission(Transmission.NOTIFICATION_REQUEST, null));
+            System.out.println("Esperando notificaciones");
             Transmission temp = (Transmission) input.readObject();
             MainFrame main = new MainFrame(loggedUsername);
             main.setVisible(true);
@@ -220,7 +243,6 @@ public class UserThread {
                         }
                         output.flush();
                         temp = (Transmission) input.readObject();
-                        //Crear método ordenar acá, mandar la información ordenada al mainframe y luego mostrar los datos
                         main.writeData((byte) (temp.getType() - 2), temp.getObject());
                     }
                     lastSelected = main.getSelectedOption();
@@ -235,6 +257,10 @@ public class UserThread {
         
     }
     
+    /**
+     * Method that charge the notification data to his respective form
+     * @param notification a new notification to manage
+     */
     private void newNotification(Notification notification) {
         if (listNotifications.size() == 5) {
             listNotifications.pop();
@@ -244,32 +270,10 @@ public class UserThread {
         notifications.loadNotifications(listNotifications);
         
     }
-    
-    private void loadAvailableSessions() {
-        try {
-            output.writeObject(new Transmission(Transmission.AVAILABLE_SESSIONS_REQUEST, null));
-            output.flush();
-            Transmission temp = (Transmission) input.readObject();
-            if (temp.getType() == Transmission.NOTIFICATION_REQUEST) {
-                
-            } else {
-                System.out.println("loadAvailableSessions: llegó otro tipo de paquete, tipo:" + temp.getType());
-            }
-        } catch (IOException ex) {
-            MessageDialog.showMessageDialog("Error inesperado", "Error");
-        } catch (ClassNotFoundException ex) {
-            MessageDialog.showMessageDialog("Error inesperado", "Error");
-        }
-    }
-    
-    private void loadRegisteredSessions() {
-        
-    }
-    
-    private void loadHistorySessions() {
-        
-    }
-    
+     
+    /**
+     * Method used to close connection when user close the program
+     */
     private void closeConnection() {
         try {
             output.close();

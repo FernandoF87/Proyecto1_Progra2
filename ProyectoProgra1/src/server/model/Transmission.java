@@ -42,6 +42,6 @@ public class Transmission implements Serializable {
     }
     
     public String toString() {
-        return "Tipo: " + type + " Objeto: " + object.toString();
+        return "Tipo: " + type + " Objeto: " + ((object != null)? object.toString(): "null");
     }
 }
