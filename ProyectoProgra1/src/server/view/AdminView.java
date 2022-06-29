@@ -17,6 +17,7 @@ import server.model.Session;
 public class AdminView extends javax.swing.JFrame {
 
     /**
+     * Probando pull
      * Creates new form AdminView
      */
     private CustomListModel model = new CustomListModel();
