@@ -5,6 +5,14 @@
 
 package server.controller;
 
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import server.exceptions.NotificationException;
+import server.model.Notification;
+import server.model.Session;
+import server.model.User;
+
 /**
  *
  * @version
@@ -41,7 +49,7 @@ public class TemporalMain {
 //        
 //        HashMap<String, Session> testSessionH = new HashMap();
 //        Session session = new Session("test", "test", "Jostin Castro", "Esto es una prueba", "dksdjfkd.com", "Zoom", 
-//            "Prueba", new GregorianCalendar(), new GregorianCalendar(), 5, 25, false);
+//            "Prueba", new GregorianCalendar(), 5, 25, false, false, false);
 //        testSessionH.put(session.getSesionId(), session);
 //        
 //        FilesLoader.updateNotifications(testArray);

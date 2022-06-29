@@ -14,6 +14,8 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.table.TableModel;
+import server.model.Session;
+import user.model.SessionComparator;
 
 
 /**
@@ -273,8 +275,9 @@ public class MainFrame extends javax.swing.JFrame {
         selectedOption = (byte) tbControls.getSelectedIndex();
     }//GEN-LAST:event_tbControlsStateChanged
 
-    public void writeData(byte table, Vector data) {
+    public void writeData(byte table, Vector<Session> data) {
         TableModel model = null;
+        data.sort(new SessionComparator());
         switch (table) {
             case AVAILABLE_TAB:
                 model = tbAvailableSessions.getModel();
@@ -286,12 +289,28 @@ public class MainFrame extends javax.swing.JFrame {
                 model = tbEnrolleddSessions.getModel();
                 break;
         }
+  
         for (int i = 0; i < data.size(); i++) {
-            byte count = 0;
-            while (count < 9) {
-                //Acá el llenado de la tabla
+            Session temp = data.get(i);
+            model.setValueAt(temp.getSesionId(), i, 0);
+            model.setValueAt(temp.getCategory(), i, 1);
+            model.setValueAt(temp.getTopic(), i, 2);
+            model.setValueAt(temp.getExpositor(), i, 3);
+            //Revisar 4 y 5
+            model.setValueAt(temp.getSesionId(), i, 4);
+            model.setValueAt(temp.getSesionId(), i, 5);
+            
+            model.setValueAt(temp.getDuration(), i, 6);
+            model.setValueAt(temp.getPlatform(), i, 7);
+            model.setValueAt((temp.isOpen()) ? "Abierta" : "Cerrada", i, 8);
+            for (int j = 0; j < model.getColumnCount(); j++) {
+                
             }
+            
+            
         }
+        
+        
         
     }
 
