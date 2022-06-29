@@ -126,11 +126,6 @@ public class SessionConcreteBuilder implements SessionAbstractBuilder {
     }
 
     @Override
-    public void builTime(GregorianCalendar time) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public void builDuration(int duration) throws NotificationException {
         if (duration < 30) {
             throw new NotificationException("La duracion debe ser mayor a 30 minutos");
@@ -151,7 +146,17 @@ public class SessionConcreteBuilder implements SessionAbstractBuilder {
     public void buildOpen(boolean open) {
         session.setOpen(open);
     }
+    
+    @Override
+    public void buildNotifSent(boolean notifSent) throws NotificationException {
+        session.setNotifSent(notifSent);
+    }
 
+    @Override
+    public void buildFinalized(boolean finalized) throws NotificationException {
+        session.setFinalized(finalized);
+    }
+    
     @Override
     public Session getSession() throws NotificationException {
         if (session == null) {

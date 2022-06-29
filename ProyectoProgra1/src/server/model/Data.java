@@ -15,7 +15,6 @@ public class Data {
     private HashMap<String,User> users;
     private ArrayList<Notification> notifications;
     private boolean userAvailable = true;
-    private boolean sessionAvailable = true;
     
     public Data() {
         sessions = FilesLoader.loadSessions();
@@ -43,14 +42,7 @@ public class Data {
         notifications.add(notification);
     }
     
-    public synchronized void addSession(Session session) {
-        while (!sessionAvailable)
-            try {
-                wait();
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
-        sessionAvailable = false;
+    public void addSession(Session session) {
         sessions.put(session.getSesionId(), session);
     }
     
@@ -67,11 +59,6 @@ public class Data {
     
     public synchronized void resetUserAvailable() {
         userAvailable = true;
-        notifyAll();
-    }
-    
-    public synchronized void resetSessionAvailable() {
-        sessionAvailable = true;
         notifyAll();
     }
     

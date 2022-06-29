@@ -10,13 +10,13 @@ import java.util.GregorianCalendar;
  * Joshua Mora Garita
  *
  */
-public class Session implements Serializable {
+public class Session implements Serializable, Cloneable {
 
     private String sesionId, topic, expositor;
     private String detail, link, platform, category;
-    private GregorianCalendar date, time;
+    private GregorianCalendar date;
     private int duration, capacity;
-    private boolean open;
+    private boolean open, notifSent, finalized;
     private ArrayList<String> participantList;
 
     public Session() {
@@ -24,7 +24,7 @@ public class Session implements Serializable {
     }
 
     public Session(String sesionId, String topic, String expositor, String detail, String link, String platform, String category, 
-            GregorianCalendar date, GregorianCalendar time, int duration, int capacity, boolean open) {
+            GregorianCalendar date, int duration, int capacity, boolean open, boolean notifSent, boolean finalized) {
         this.sesionId = sesionId;
         this.topic = topic;
         this.expositor = expositor;
@@ -33,10 +33,11 @@ public class Session implements Serializable {
         this.platform = platform;
         this.category = category;
         this.date = date;
-        this.time = time;
         this.duration = duration;
         this.capacity = capacity;
         this.open = open;
+        this.notifSent = notifSent;
+        this.finalized = finalized;
         participantList = new ArrayList();
         
     }
@@ -121,14 +122,6 @@ public class Session implements Serializable {
         this.date = date;
     }
 
-    public GregorianCalendar getTime() {
-        return time;
-    }
-
-    public void setTime(GregorianCalendar time) {
-        this.time = time;
-    }
-
     public int getDuration() {
         return duration;
     }
@@ -153,4 +146,39 @@ public class Session implements Serializable {
         this.open = open;
     }
 
+    // Metodos nuevos
+    
+    public boolean isNotifSent() {
+        return notifSent;
+    }
+
+    public void setNotifSent(boolean notifSent) {
+        this.notifSent = notifSent;
+    }
+
+    public boolean isFinalized() {
+        return finalized;
+    }
+
+    public void setFinalized(boolean finalized) {
+        this.finalized = finalized;
+    }
+    
+    public boolean isParticipant(String userId) {
+        for (String id : participantList) {
+            if (id.equals(userId))
+                return true;
+        }
+        return false;
+    }
+
+    public ArrayList<String> getParticipantList() {
+        return participantList;
+    }
+    
+    public Session clone() {
+        GregorianCalendar dateClone = (GregorianCalendar)(date.clone());
+        return new Session(sesionId, topic, expositor, detail, link, platform, category, 
+            dateClone, duration, capacity, open, notifSent, finalized);
+    }
 }

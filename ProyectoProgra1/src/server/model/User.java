@@ -56,7 +56,8 @@ public class User implements Serializable {
         return userID;
     }
     
-    public LinkedList getNotifications() {
+    // Cambiado tipo de retorno
+    public LinkedList<Notification> getNotifications() {
         return lastNotifications;
     }
 

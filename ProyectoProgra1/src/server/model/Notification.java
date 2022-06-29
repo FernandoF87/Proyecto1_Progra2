@@ -27,6 +27,23 @@ public class Notification implements Serializable {
     private String userId;
     private boolean sended;
     
+    public Notification(byte type, boolean sended) throws NotificationException {
+        switch (type) {
+            case FIVE_MINUTES:
+                message = FIVE_MINUTES_LEFT;
+                break;
+            case DENIED_REQUEST:
+                message = DENIED_SESSION_REQUEST;
+                break;
+            case ACCEPTED_REQUEST:
+                message = ACCEPTED_SESSION_REQUEST;
+                break;
+            default:
+                throw new NotificationException("Se envió un valor no válido");
+        }
+        this.sended = sended;
+    }
+    
     public Notification(String userId, String message, boolean sended) {
         this.userId = userId;
         this.message = message;
@@ -67,4 +84,14 @@ public class Notification implements Serializable {
         this.sended = sended;
     }
 
+    //Metodos nuevos
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+    
 }

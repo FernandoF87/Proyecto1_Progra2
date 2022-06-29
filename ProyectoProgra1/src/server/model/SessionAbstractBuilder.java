@@ -29,13 +29,15 @@ public interface SessionAbstractBuilder {
 
     public void buildDate(GregorianCalendar date) throws NotificationException;
 
-    public void builTime(GregorianCalendar time) throws NotificationException;
-
     public void builDuration(int duration) throws NotificationException;
 
     public void buildCapacity(int capacity) throws NotificationException;
 
     public void buildOpen(boolean open) throws NotificationException;
+    
+    public void buildNotifSent(boolean notifSent) throws NotificationException;
+    
+    public void buildFinalized(boolean finalized) throws NotificationException;
 
     public Session getSession() throws NotificationException;
 

@@ -7,6 +7,8 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.LinkedList;
 import server.exceptions.NotificationException;
 
 import server.model.User;
@@ -83,6 +85,7 @@ public class ConnectionThread extends Thread {
     public void notifyUser(Notification notification) {
         try {
             output.writeObject(notification);
+            output.flush();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -126,13 +129,13 @@ public class ConnectionThread extends Thread {
                 answer = new Transmission((byte) 1);
                 UserDirector director = new UserDirector();
                 UserAbstractbuilder builder = new UserConcretBuilder();
-                
-                String id = (String)(request.getObject().get(0));
-                email = (String)(request.getObject().get(1));
-                password = (String)(request.getObject().get(2));
-                int phone = (int)(request.getObject().get(3));
-                GregorianCalendar birthDate = (GregorianCalendar)(request.getObject().get(4));
-                
+
+                String id = (String) (request.getObject().get(0));
+                email = (String) (request.getObject().get(1));
+                password = (String) (request.getObject().get(2));
+                int phone = (int) (request.getObject().get(3));
+                GregorianCalendar birthDate = (GregorianCalendar) (request.getObject().get(4));
+
                 User newUser;
                 try {
                     newUser = director.buildUser(builder, id, email, email, password, phone, birthDate);
@@ -144,21 +147,73 @@ public class ConnectionThread extends Thread {
                     answer.addComponent(false);
                     answer.addComponent(ex.getMessage());
                 }
-                
+
                 try {
                     output.writeObject(answer);
+                    output.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
                 break;
-                
+
             case Transmission.AVAILABLE_SESSIONS_REQUEST:
+                answer = new Transmission(Transmission.AVAILABLE_SESSIONS_REQUEST);
+                HashMap<String, Session> sessions = data.getSessions();
+                for (String sessionId : sessions.keySet()) {
+                    if (!sessions.get(sessionId).isParticipant(connectionUser.getEmail()) && !sessions.get(sessionId).isFinalized()) {
+                        answer.addComponent(sessions.get(sessionId).clone());
+                    }
+                }
+                try {
+                    output.writeObject(answer);
+                    output.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 break;
+
             case Transmission.ENROLLED_SESSIONS_REQUEST:
+                answer = new Transmission(Transmission.ENROLLED_SESSIONS_REQUEST);
+                sessions = data.getSessions();
+                for (String sessionId : sessions.keySet()) {
+                    if (sessions.get(sessionId).isParticipant(connectionUser.getEmail())) {
+                        answer.addComponent(sessions.get(sessionId).clone());
+                    }
+                }
+                try {
+                    output.writeObject(answer);
+                    output.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 break;
             case Transmission.HISTORY_REQUEST:
+                answer = new Transmission(Transmission.HISTORY_REQUEST);
+                sessions = data.getSessions();
+                for (String sessionId : sessions.keySet()) {
+                    if (sessions.get(sessionId).isFinalized()) {
+                        answer.addComponent(sessions.get(sessionId).clone());
+                    }
+                }
+                try {
+                    output.writeObject(answer);
+                    output.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 break;
             case Transmission.NOTIFICATION_REQUEST:
+                answer = new Transmission(Transmission.NOTIFICATION_REQUEST);
+                LinkedList<Notification> notifications = connectionUser.getNotifications();
+                for (int i = 0; i < notifications.size(); i++) {
+                    answer.addComponent(notifications.get(i));
+                }
+                try {
+                    output.writeObject(answer);
+                    output.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 break;
         }
     }
