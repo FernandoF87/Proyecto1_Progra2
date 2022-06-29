@@ -43,16 +43,10 @@ public class UserThread {
     
     private String loggedUsername;
     private LinkedList<Notification> listNotifications;
-    private Vector <Session> availableSessions;
-    private Vector <Session> registeredSessions;
-    private Vector <Session> historySessions;
     private NotificationsDialog notifications;
     
     public UserThread() {
         listNotifications = new LinkedList();
-        availableSessions = new Vector();
-        registeredSessions = new Vector();
-        historySessions = new Vector();
     }
     
     public static void main(String[] args) {
@@ -197,27 +191,26 @@ public class UserThread {
     private void loggedUserInterface() {
         try {
             output.writeObject(new Transmission(Transmission.NOTIFICATION_REQUEST, null));
-            System.out.println("Esperando notificaciones");
+            output.flush();
             Transmission temp = (Transmission) input.readObject();
+            System.out.println("Llegada objeto " + temp.getType() + "  " + temp.getObject().toString());
             MainFrame main = new MainFrame(loggedUsername);
             main.setVisible(true);
             if (temp.getType() == Transmission.NOTIFICATION_REQUEST) {
                 notifications = new NotificationsDialog(main, false);
                 notifications.setVisible(true);
-                if (temp.getObject() != null) {
+                if (temp.getObject().size() > 0) {
                     Vector data = temp.getObject();
                     for (int i = 0; i < data.size(); i++) {
                         listNotifications.add((Notification) data.get(i));
                     }
-                    notifications.loadNotifications(listNotifications);
-                } else {
-                    notifications.loadNotifications(null);
                 }
+                notifications.loadNotifications(listNotifications);
             }
-            byte lastSelected = 0;
+            byte lastSelected = -1;
             do {
                 try {
-                    connection.setSoTimeout(5000);
+                    connection.setSoTimeout(2000);
                     temp = (Transmission) input.readObject();
                     if (temp.getType() == Transmission.NOTIFICATION_REQUEST) {
                         Notification notification = (Notification) ((Vector) temp.getObject()).get(0);
@@ -236,20 +229,27 @@ public class UserThread {
                                 output.writeObject(new Transmission(Transmission.HISTORY_REQUEST, null));
                                 break;
                             case MainFrame.NOTIFICATION_OPTION:
+                                notifications.loadNotifications(listNotifications);
                                 notifications.setVisible(true);
+                                break;
                             case MainFrame.LOGIN_OUT:
                                 output.writeObject(new Transmission(Transmission.LOGOUT_REQUEST, null));
                                 break;
                         }
                         output.flush();
+                        System.out.println("Envio peticion" + main.getSelectedOption());
                         temp = (Transmission) input.readObject();
+                        System.out.println("Llegada transmisión" + temp.getType() + "\n" + temp.getObject().toString());
                         main.writeData((byte) (temp.getType() - 2), temp.getObject());
                     }
                     lastSelected = main.getSelectedOption();
                 }
             } while ((main.getSelectedOption() != MainFrame.LOGIN_OUT));
+        } catch (SocketTimeoutException ex) {
+            System.out.println("vencio tiempo");
         } catch (IOException ex) {
             MessageDialog.showMessageDialog("Error inesperado", "Error");
+            ex.printStackTrace();
 
         } catch (ClassNotFoundException ex) {
             MessageDialog.showMessageDialog("Error inesperado", "Error");

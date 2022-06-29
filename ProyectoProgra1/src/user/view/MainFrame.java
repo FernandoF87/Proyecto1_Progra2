@@ -7,12 +7,16 @@ package user.view;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Vector;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import server.model.Session;
 import user.model.SessionComparator;
@@ -42,7 +46,7 @@ public class MainFrame extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         lbWelcome.setText(lbWelcome.getText() + " " + username);
-        selectedOption = NOTIFICATION_OPTION;
+        selectedOption = AVAILABLE_TAB;
     }
 
     /**
@@ -70,10 +74,14 @@ public class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menu");
+        setResizable(false);
+        setType(java.awt.Window.Type.UTILITY);
 
         btLogout.setText("Cerrar sesión");
+        btLogout.setFocusable(false);
 
         btNotifications.setText("Notificaciones");
+        btNotifications.setFocusable(false);
         btNotifications.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btNotificationsActionPerformed(evt);
@@ -88,9 +96,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         tbAvailableSessions.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "ID", "Categoria", "Tema", "Expositor", "Fecha", "Hora", "Duración", "Plataforma", "Tipo"
@@ -111,7 +117,6 @@ public class MainFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tbAvailableSessions.setColumnSelectionAllowed(true);
         tbAvailableSessions.getTableHeader().setReorderingAllowed(false);
         tbAvailableSessions.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -155,7 +160,6 @@ public class MainFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tbEnrolleddSessions.setColumnSelectionAllowed(true);
         tbEnrolleddSessions.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tbEnrolleddSessions);
         tbEnrolleddSessions.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -201,7 +205,6 @@ public class MainFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tbSessionHistory.setColumnSelectionAllowed(true);
         tbSessionHistory.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(tbSessionHistory);
         tbSessionHistory.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -236,7 +239,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(lbWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lbWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btNotifications)
                 .addGap(18, 18, 18)
@@ -260,10 +263,7 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btNotificationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNotificationsActionPerformed
-        readedNotification = true;
-        NotificationsDialog notificationDialog = new NotificationsDialog(this, true);
-        notificationDialog.setVisible(true);
-        notificationDialog.setAlwaysOnTop(true);
+        selectedOption = NOTIFICATION_OPTION;
     }//GEN-LAST:event_btNotificationsActionPerformed
 
     private void tbAvailableSessionsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbAvailableSessionsMouseClicked
@@ -276,44 +276,43 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_tbControlsStateChanged
 
     public void writeData(byte table, Vector<Session> data) {
-        TableModel model = null;
+        DefaultTableModel model = null;
         data.sort(new SessionComparator());
         switch (table) {
             case AVAILABLE_TAB:
-                model = tbAvailableSessions.getModel();
+                model = (DefaultTableModel) tbAvailableSessions.getModel();
                 break;
             case ENROLLED_TAB:
-                model = tbEnrolleddSessions.getModel();
+                model = (DefaultTableModel) tbEnrolleddSessions.getModel();
                 break;
             case HISTORY_TAB:
-                model = tbEnrolleddSessions.getModel();
+                model = (DefaultTableModel) tbEnrolleddSessions.getModel();
                 break;
         }
-  
+        if (model.getRowCount() < data.size()) {
+            model.setRowCount(data.size());
+        }
         for (int i = 0; i < data.size(); i++) {
             Session temp = data.get(i);
             model.setValueAt(temp.getSesionId(), i, 0);
             model.setValueAt(temp.getCategory(), i, 1);
             model.setValueAt(temp.getTopic(), i, 2);
             model.setValueAt(temp.getExpositor(), i, 3);
-            //Revisar 4 y 5
-            model.setValueAt(temp.getSesionId(), i, 4);
-            model.setValueAt(temp.getSesionId(), i, 5);
-            
+            GregorianCalendar dateInfo = temp.getDate();
+            String date = dateInfo.get(Calendar.DAY_OF_MONTH) + " - " + (dateInfo.get(Calendar.MONTH) + 1)  +
+                    " - " + dateInfo.get(Calendar.YEAR);
+            String time = dateInfo.get(Calendar.HOUR) + ":" + dateInfo.get(Calendar.MINUTE) + ((dateInfo.get(Calendar.AM_PM) == 0) ? "AM": "PM");
+            model.setValueAt(date, i, 4);
+            model.setValueAt(time, i, 5);
             model.setValueAt(temp.getDuration(), i, 6);
             model.setValueAt(temp.getPlatform(), i, 7);
             model.setValueAt((temp.isOpen()) ? "Abierta" : "Cerrada", i, 8);
             for (int j = 0; j < model.getColumnCount(); j++) {
                 
             }
-            
-            
         }
-        
-        
-        
     }
-
+    
     public byte getSelectedOption() {
         return selectedOption;
     }
