@@ -1,7 +1,7 @@
 package server.model;
 
-import server.exceptions.NotificationException;
 import java.util.GregorianCalendar;
+import server.exceptions.NotificationException;
 
 /**
  * Create the abstrac methods for the User Builder

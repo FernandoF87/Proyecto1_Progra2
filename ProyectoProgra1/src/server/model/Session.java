@@ -3,6 +3,7 @@ package server.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 
 /**
  * @version 16/6/22
@@ -18,12 +19,13 @@ public class Session implements Serializable, Cloneable {
     private int duration, capacity;
     private boolean open, notifSent, finalized;
     private ArrayList<String> participantList;
+    private HashMap<String, String> waitingParticipantsList;
 
     public Session() {
         participantList = new ArrayList();
     }
 
-    public Session(String sesionId, String topic, String expositor, String detail, String link, String platform, String category, 
+    public Session(String sesionId, String topic, String expositor, String detail, String link, String platform, String category,
             GregorianCalendar date, int duration, int capacity, boolean open, boolean notifSent, boolean finalized) {
         this.sesionId = sesionId;
         this.topic = topic;
@@ -39,21 +41,34 @@ public class Session implements Serializable, Cloneable {
         this.notifSent = notifSent;
         this.finalized = finalized;
         participantList = new ArrayList();
-        
-    }
-    
-    public boolean addUser(String userId) {
-        if (participantList.size() < capacity) {
-            participantList.add(userId);
-            return true;
+        if (open) {
+            waitingParticipantsList = new HashMap<>();
         }
-        return false;
     }
-    
+
+    public boolean addUser(String userId, boolean accepted) {
+        if (open) {
+            if (participantList.size() < capacity) {
+                participantList.add(userId);
+                return true;
+            }
+            return false;
+        } else {
+            if (accepted) {
+                participantList.add(waitingParticipantsList.get(userId));
+                waitingParticipantsList.remove(userId);
+                return true;
+            } else {
+                waitingParticipantsList.put(userId, userId);
+                return true;
+            }
+        }
+    }
+
     public boolean removeUser(String userId) {
         return participantList.remove(userId);
     }
-    
+
     public byte availableSpaces() {
         return (byte) (participantList.size() - capacity);
     }
@@ -147,7 +162,6 @@ public class Session implements Serializable, Cloneable {
     }
 
     // Metodos nuevos
-    
     public boolean isNotifSent() {
         return notifSent;
     }
@@ -163,11 +177,12 @@ public class Session implements Serializable, Cloneable {
     public void setFinalized(boolean finalized) {
         this.finalized = finalized;
     }
-    
+
     public boolean isParticipant(String userId) {
         for (String id : participantList) {
-            if (id.equals(userId))
+            if (id.equals(userId)) {
                 return true;
+            }
         }
         return false;
     }
@@ -175,10 +190,10 @@ public class Session implements Serializable, Cloneable {
     public ArrayList<String> getParticipantList() {
         return participantList;
     }
-    
+
     public Session clone() {
-        GregorianCalendar dateClone = (GregorianCalendar)(date.clone());
-        return new Session(sesionId, topic, expositor, detail, link, platform, category, 
-            dateClone, duration, capacity, open, notifSent, finalized);
+        GregorianCalendar dateClone = (GregorianCalendar) (date.clone());
+        return new Session(sesionId, topic, expositor, detail, link, platform, category,
+                dateClone, duration, capacity, open, notifSent, finalized);
     }
 }

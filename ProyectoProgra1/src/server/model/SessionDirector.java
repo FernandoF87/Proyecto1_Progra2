@@ -1,7 +1,7 @@
 package server.model;
 
-import server.exceptions.NotificationException;
 import java.util.GregorianCalendar;
+import server.exceptions.NotificationException;
 
 /**
  * @version 18/06/2022
@@ -10,12 +10,16 @@ import java.util.GregorianCalendar;
  */
 public class SessionDirector {
 
-    public Session buildSession(SessionAbstractBuilder builder, String sesionId,
-            String topic, String expositor, String detail, String link,
-            String platform, GregorianCalendar date, int duration, int capacity, 
+    private int intCont = 0;
+    private String contId = "" + intCont;
+
+    public Session buildSession(SessionAbstractBuilder builder, String topic,
+            String expositor, String detail, String link, String category,
+            String platform, GregorianCalendar date, int duration, int capacity,
             boolean open, boolean notifSent, boolean finalized) throws NotificationException {
         builder.buildSesion();
-        builder.buildId(link);
+        builder.buildCategory(category);
+        builder.buildId(contId);
         builder.buildTopic(topic);
         builder.buildExpositor(expositor);
         builder.buildDetail(detail);
@@ -27,6 +31,8 @@ public class SessionDirector {
         builder.buildOpen(open);
         builder.buildNotifSent(notifSent);
         builder.buildFinalized(finalized);
+        intCont++;
+        contId += intCont;
         return builder.getSession();
     }
 

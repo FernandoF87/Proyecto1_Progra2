@@ -18,8 +18,8 @@ public class ManageSessions extends javax.swing.JDialog {
     /**
      * Creates new form ManageSessions
      */
-    private Session session;
-    private Data data;
+    private final Session session;
+    private final Data data;
 
     public ManageSessions(javax.swing.JFrame parent, boolean modal, Data data, Session session) {
         initComponents();
@@ -36,8 +36,8 @@ public class ManageSessions extends javax.swing.JDialog {
         chooser.setDate(session.getDate().getTime());
         chooser.setMinSelectableDate(new java.util.Date(actualDate.getTime()));
         
-        spnHour.setModel(new javax.swing.SpinnerNumberModel(actualDate.getHours(), session.getTime().getTime().getHours(), 23, 1));
-        spnMinutes.setModel(new javax.swing.SpinnerNumberModel( session.getTime().getTime().getMinutes(), session.getTime().getTime().getMinutes(), 59, 1));
+        spnHour.setModel(new javax.swing.SpinnerNumberModel(session.getDate().getTime().getHours(), session.getDate().getTime().getHours(), 23, 1));
+        spnMinutes.setModel(new javax.swing.SpinnerNumberModel( session.getDate().getTime().getMinutes(), session.getDate().getTime().getMinutes(), 59, 1));
 
     }
 
