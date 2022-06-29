@@ -5,21 +5,18 @@
 package user.view;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.io.File;
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Vector;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import server.model.Session;
-import user.model.SessionComparator;
+import user.model.SessionTableModel;
 
 
 /**
@@ -35,9 +32,13 @@ public class MainFrame extends javax.swing.JFrame {
     public final static byte HISTORY_TAB = 2;
     public final static byte NOTIFICATION_OPTION = 3;
     public final static byte LOGIN_OUT = 4;
+    public final static byte ENROLL_SESSION = 5;
+    public final static byte CANCEL_ENROLL_SESSION = 6;
     
     private boolean readedNotification;
     private final String NOTIFICATION_AUDIO = "src/img/new_notification_sound.wav";
+    
+    private Vector<Session> tempData;
     
     /**
      * Creates new form MainFrame
@@ -48,7 +49,7 @@ public class MainFrame extends javax.swing.JFrame {
         lbWelcome.setText(lbWelcome.getText() + " " + username);
         selectedOption = AVAILABLE_TAB;
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -94,29 +95,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        tbAvailableSessions.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "Categoria", "Tema", "Expositor", "Fecha", "Hora", "Duración", "Plataforma", "Tipo"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        tbAvailableSessions.setModel(new SessionTableModel());
         tbAvailableSessions.getTableHeader().setReorderingAllowed(false);
         tbAvailableSessions.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -144,22 +123,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         tbControls.addTab("Sesiones disponibles", pnAvailableSessions);
 
-        tbEnrolleddSessions.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "Categoria", "Tema", "Expositor", "Fecha", "Hora", "Duración", "Plataforma", "Tipo"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        tbEnrolleddSessions.setModel(new SessionTableModel());
         tbEnrolleddSessions.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tbEnrolleddSessions);
         tbEnrolleddSessions.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -182,29 +146,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         tbControls.addTab("Sesiones inscritas", pnRegisteredSessions);
 
-        tbSessionHistory.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "Categoria", "Tema", "Expositor", "Fecha", "Hora", "Duración", "Plataforma", "Tipo"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        tbSessionHistory.setModel(new SessionTableModel());
         tbSessionHistory.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(tbSessionHistory);
         tbSessionHistory.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -264,53 +206,38 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void btNotificationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNotificationsActionPerformed
         selectedOption = NOTIFICATION_OPTION;
+        disableComponents();
     }//GEN-LAST:event_btNotificationsActionPerformed
 
     private void tbAvailableSessionsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbAvailableSessionsMouseClicked
-        System.out.println("funciona");
+        disableComponents();
+        SessionTableModel model = getTableModel(selectedOption);
+        SessionDetails details = new SessionDetails(this, false, selectedOption, model.getSelectedSession());
+        details.setVisible(true);
     }//GEN-LAST:event_tbAvailableSessionsMouseClicked
 
     private void tbControlsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tbControlsStateChanged
         // TODO add your handling code here:
         selectedOption = (byte) tbControls.getSelectedIndex();
+        disableComponents();
     }//GEN-LAST:event_tbControlsStateChanged
 
     public void writeData(byte table, Vector<Session> data) {
-        DefaultTableModel model = null;
-        data.sort(new SessionComparator());
-        switch (table) {
+        SessionTableModel model = getTableModel(table);
+        model.fillData(data);
+        resetComponents();
+    }
+    
+    private SessionTableModel getTableModel(byte table) {
+        switch(table) {
             case AVAILABLE_TAB:
-                model = (DefaultTableModel) tbAvailableSessions.getModel();
-                break;
+                return (SessionTableModel) tbAvailableSessions.getModel();
             case ENROLLED_TAB:
-                model = (DefaultTableModel) tbEnrolleddSessions.getModel();
-                break;
+                return (SessionTableModel) tbEnrolleddSessions.getModel();
             case HISTORY_TAB:
-                model = (DefaultTableModel) tbEnrolleddSessions.getModel();
-                break;
+                return (SessionTableModel) tbEnrolleddSessions.getModel();
         }
-        if (model.getRowCount() < data.size()) {
-            model.setRowCount(data.size());
-        }
-        for (int i = 0; i < data.size(); i++) {
-            Session temp = data.get(i);
-            model.setValueAt(temp.getSesionId(), i, 0);
-            model.setValueAt(temp.getCategory(), i, 1);
-            model.setValueAt(temp.getTopic(), i, 2);
-            model.setValueAt(temp.getExpositor(), i, 3);
-            GregorianCalendar dateInfo = temp.getDate();
-            String date = dateInfo.get(Calendar.DAY_OF_MONTH) + " - " + (dateInfo.get(Calendar.MONTH) + 1)  +
-                    " - " + dateInfo.get(Calendar.YEAR);
-            String time = dateInfo.get(Calendar.HOUR) + ":" + dateInfo.get(Calendar.MINUTE) + ((dateInfo.get(Calendar.AM_PM) == 0) ? "AM": "PM");
-            model.setValueAt(date, i, 4);
-            model.setValueAt(time, i, 5);
-            model.setValueAt(temp.getDuration(), i, 6);
-            model.setValueAt(temp.getPlatform(), i, 7);
-            model.setValueAt((temp.isOpen()) ? "Abierta" : "Cerrada", i, 8);
-            for (int j = 0; j < model.getColumnCount(); j++) {
-                
-            }
-        }
+        return null;
     }
     
     public byte getSelectedOption() {
@@ -351,6 +278,26 @@ public class MainFrame extends javax.swing.JFrame {
             }
         };
         new Thread(task).start();
+    }
+    
+    public void resetComponents() {
+        tbControls.setEnabled(true);
+        tbAvailableSessions.setEnabled(true);
+        tbEnrolleddSessions.setEnabled(true);
+        tbSessionHistory.setEnabled(true);
+        btLogout.setEnabled(true);
+        btNotifications.setEnabled(true);
+        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }
+    
+    private void disableComponents() {
+        tbControls.setEnabled(false);
+        tbAvailableSessions.setEnabled(false);
+        tbEnrolleddSessions.setEnabled(false);
+        tbSessionHistory.setEnabled(false);
+        btLogout.setEnabled(false);
+        btNotifications.setEnabled(false);
+        setCursor(new Cursor(Cursor.WAIT_CURSOR));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

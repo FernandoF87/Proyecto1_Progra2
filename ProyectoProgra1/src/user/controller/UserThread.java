@@ -229,14 +229,16 @@ public class UserThread {
                                 output.writeObject(new Transmission(Transmission.HISTORY_REQUEST, null));
                                 break;
                             case MainFrame.NOTIFICATION_OPTION:
-                                notifications.loadNotifications(listNotifications);
                                 notifications.setVisible(true);
                                 break;
                             case MainFrame.LOGIN_OUT:
                                 output.writeObject(new Transmission(Transmission.LOGOUT_REQUEST, null));
                                 break;
                         }
-                        output.flush();
+                        if (main.getSelectedOption() != MainFrame.NOTIFICATION_OPTION) {
+                            output.flush();
+                        }
+                        
                         System.out.println("Envio peticion" + main.getSelectedOption());
                         temp = (Transmission) input.readObject();
                         System.out.println("Llegada transmisión" + temp.getType() + "\n" + temp.getObject().toString());

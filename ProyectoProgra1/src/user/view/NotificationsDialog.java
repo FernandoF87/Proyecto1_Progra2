@@ -4,6 +4,7 @@
  */
 package user.view;
 
+import java.awt.Cursor;
 import java.util.LinkedList;
 
 /**
@@ -102,6 +103,7 @@ public class NotificationsDialog extends javax.swing.JDialog {
     private void btCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCloseActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
+        ((MainFrame) getParent()).resetComponents();
     }//GEN-LAST:event_btCloseActionPerformed
 
     public void loadNotifications(LinkedList notifications) {
