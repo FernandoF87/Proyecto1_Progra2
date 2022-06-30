@@ -32,6 +32,10 @@ public class Data {
     public User searchUserEmail(String email) {
         return users.get(email);
     }
+    
+    public Session searchSessionId(String id) {
+        return sessions.get(id);
+    }
 
     public ArrayList<Notification> getNotifications() {
         return notifications;

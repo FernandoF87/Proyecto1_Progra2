@@ -29,7 +29,7 @@ public class Server {
     private HashMap<String, Session> sessions = data.getSessions();
 
     public static void main(String[] args) {
-       // new Server().runServer();
+        new Server().runServer();
        
         AdminView adminView = new AdminView(new javax.swing.JFrame(),true,data);
         adminView.setVisible(true);
@@ -70,6 +70,7 @@ public class Server {
             LocalDateTime sessionTime = LocalDateTime.ofInstant(session.getDate().toInstant(), session.getDate().getTimeZone().toZoneId());
             Duration duration = Duration.between(currentTime, sessionTime);
             if (duration.getSeconds() <= NOTIFICATION_SECONDS && !session.isNotifSent()) { // Determines if notifcation has been sent and time is <= 5 minutes
+                session.setNotifSent(true);
                 ArrayList<String> usersNotified = new ArrayList<>();
                 ArrayList<Notification> tempNotifications = new ArrayList<>();
                 for (int i = 0; i < connections.size(); i++) {
@@ -83,6 +84,7 @@ public class Server {
                         }
                     } catch (NotificationException ex) {
                         ex.printStackTrace();
+                    } catch (ThreadDeath ex) {
                     }
                 }
                 for (int i = 0, count = 0; i < session.getParticipantList().size() && count < tempNotifications.size(); i++) {
@@ -93,9 +95,6 @@ public class Server {
                     }
                 }
             }
-        }
-        for (ConnectionThread connection : connections) {
-            connection.test("Enviada notificacion");
         }
     }
 }

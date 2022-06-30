@@ -1,5 +1,6 @@
 package server.model;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -24,6 +25,7 @@ public class ConnectionThread extends Thread {
     private ObjectOutputStream output;
     private User connectionUser;
     private Data data;
+    private boolean execute = true;
 
     public ConnectionThread(Socket connection, Data data) {
         this.connection = connection;
@@ -44,7 +46,6 @@ public class ConnectionThread extends Thread {
     }
 
     public void listen() {
-        boolean execute = true;
         while (execute) {
             try {
                 Transmission request = (Transmission) (input.readObject());
@@ -150,6 +151,7 @@ public class ConnectionThread extends Thread {
 
                 try {
                     output.writeObject(answer);
+                    System.out.println("Respuesta: " + answer.toString());
                     output.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -166,6 +168,7 @@ public class ConnectionThread extends Thread {
                 }
                 try {
                     output.writeObject(answer);
+                    System.out.println("Respuesta: " + answer.toString());
                     output.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -182,6 +185,7 @@ public class ConnectionThread extends Thread {
                 }
                 try {
                     output.writeObject(answer);
+                    System.out.println("Respuesta: " + answer.toString());
                     output.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -197,6 +201,7 @@ public class ConnectionThread extends Thread {
                 }
                 try {
                     output.writeObject(answer);
+                    System.out.println("Respuesta: " + answer.toString());
                     output.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -210,15 +215,32 @@ public class ConnectionThread extends Thread {
                 }
                 try {
                     output.writeObject(answer);
+                    System.out.println("Respuesta: " + answer.toString());
                     output.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
                 break;
+            case Transmission.ENROLL_SESSION_REQUEST:
+                String sessionId = (String) (request.getObject().get(0));
+                Session session = data.searchSessionId(sessionId);
+                if (session.isOpen()) {
+                    session.addUser(connectionUser.getEmail(), true);
+                } else {
+                    session.addUser(connectionUser.getEmail(), false);
+                }
+                break;
+            case Transmission.CANCEL_ENROLL_REQUEST:
+                sessionId = (String) (request.getObject().get(0));
+                session = data.searchSessionId(sessionId);
+                session.removeUser(sessionId);
+                break;
+            case Transmission.LOGOUT_REQUEST:
+                connectionUser = null;
+                break;
+            case Transmission.CLOSE_CONNECTION_REQUEST:
+                execute = false;
+                break;
         }
-    }
-
-    public void test(String msg) {
-        System.out.println(msg);
     }
 }
