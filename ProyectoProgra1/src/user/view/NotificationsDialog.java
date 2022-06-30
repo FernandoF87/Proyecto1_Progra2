@@ -6,6 +6,9 @@ package user.view;
 
 import java.awt.Cursor;
 import java.util.LinkedList;
+import javax.swing.table.DefaultTableModel;
+import server.model.Notification;
+import user.model.NotificationTableModel;
 
 /**
  *
@@ -35,34 +38,12 @@ public class NotificationsDialog extends javax.swing.JDialog {
         tbNotifications = new javax.swing.JTable();
         btClose = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Notificaciones");
 
-        tbNotifications.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null},
-                {null}
-            },
-            new String [] {
-                "Detalles"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+        tbNotifications.setModel(new NotificationTableModel());
+        tbNotifications.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbNotificationsMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tbNotifications);
@@ -106,14 +87,33 @@ public class NotificationsDialog extends javax.swing.JDialog {
         ((MainFrame) getParent()).resetComponents();
     }//GEN-LAST:event_btCloseActionPerformed
 
-    public void loadNotifications(LinkedList notifications) {
+    private void tbNotificationsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbNotificationsMouseClicked
+        // TODO add your handling code here:
+        NotificationTableModel model = (NotificationTableModel) tbNotifications.getModel();
+        Notification temp = model.getSelectedNotification(tbNotifications.getSelectedRow());
+        NotificationDetails details = new NotificationDetails(null, false, temp);
+        details.setVisible(true);
+    }//GEN-LAST:event_tbNotificationsMouseClicked
+
+    public void loadNotifications(LinkedList<Notification> notifications) {
+        NotificationTableModel model = (NotificationTableModel) tbNotifications.getModel();
         if (notifications.size() > 0) {
+            if (notifications.get(0).getType() == -1) {
+                notifications.poll();
+                model.setRowCount(notifications.size());
+            }
             for (int i = 0; i < notifications.size(); i++) {
-                tbNotifications.getModel().setValueAt(notifications.get(i), i, 0);
+                model.setValueAt(notifications.get(i), i, 0);
             }
         } else {
-            tbNotifications.getModel().setValueAt("No tiene notificaciones.", 0, 0);
+            Notification temp = new Notification(null, "No tiene notificaciones", true);
+            model.setRowCount(1);
+            model.setValueAt(temp.getMessage(), 0, 0);
+            temp.setType((byte) -1);
+            notifications.add(temp);
+            
         }
+        model.setNotifications(notifications);
     }
     
 

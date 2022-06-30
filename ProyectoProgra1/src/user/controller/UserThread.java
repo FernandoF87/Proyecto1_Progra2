@@ -17,9 +17,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.LinkedList;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import user.view.LoginFrame;
 import user.view.MessageDialog;
@@ -80,21 +83,25 @@ public class UserThread {
                     login.setVisible(false);
                     registerOption();
                     login.resetComponents();
-                    login.setOption((byte) 0);
+                    login.setOption(login.WAIT);
                     login.setVisible(true);
                 } else if (login.getOption() == login.LOGIN) {
                     if (loginOption(login.getEmail(), login.getPassword())) {
                         //Acá lo que pasa cuando todo está correcto
+                        //login.setVisible(false);
                         login.dispose();
                         loggedUserInterface();
+                        login.setOption((byte) 0);
+                        login.resetComponents();
+                        login.setVisible(true);
                     } else {
                         //Login incorrecto, reinicio de interfaz LoginFrame
-                        login.setOption((byte) 0);
+                        login.setOption(login.WAIT);
                         login.resetComponents();
                     }
                 }
-            } while (login.getOption() == 0 && !login.isClosed());
-            output.writeObject(new Transmission(Transmission.LOGOUT_REQUEST));
+            } while (login.getOption() == login.WAIT && !login.isClosed());
+            output.writeObject(new Transmission(Transmission.CLOSE_CONNECTION_REQUEST));
             output.flush();
         } catch(IOException ex) {
             MessageDialog.showMessageDialog("No se pudo establecer comunicación con el servidor", "Error");
@@ -189,12 +196,15 @@ public class UserThread {
      */
     
     private void loggedUserInterface() {
+        Transmission temp = null;
+        MainFrame main = null;
+        byte lastSelected = -1;
         try {
             output.writeObject(new Transmission(Transmission.NOTIFICATION_REQUEST, null));
             output.flush();
-            Transmission temp = (Transmission) input.readObject();
+            temp = (Transmission) input.readObject();
             System.out.println("Llegada objeto " + temp.getType() + "  " + temp.getObject().toString());
-            MainFrame main = new MainFrame(loggedUsername);
+            main = new MainFrame(loggedUsername);
             main.setVisible(true);
             if (temp.getType() == Transmission.NOTIFICATION_REQUEST) {
                 notifications = new NotificationsDialog(main, false);
@@ -207,16 +217,20 @@ public class UserThread {
                 }
                 notifications.loadNotifications(listNotifications);
             }
-            byte lastSelected = -1;
-            do {
+        } catch (ClassNotFoundException | IOException ex) {
+            MessageDialog.showMessageDialog("Error inesperado", "Error");
+        }
+
+        do {
+            try {
+                connection.setSoTimeout(2000);
+                temp = (Transmission) input.readObject();
+                if (temp.getType() == Transmission.NOTIFICATION_REQUEST) {
+                    Notification notification = (Notification) ((Vector) temp.getObject()).get(0);
+                    newNotification(notification);
+                }
+            } catch (SocketTimeoutException ex) {
                 try {
-                    connection.setSoTimeout(2000);
-                    temp = (Transmission) input.readObject();
-                    if (temp.getType() == Transmission.NOTIFICATION_REQUEST) {
-                        Notification notification = (Notification) ((Vector) temp.getObject()).get(0);
-                        newNotification(notification);
-                    }
-                } catch (SocketTimeoutException ex) {
                     if (lastSelected != main.getSelectedOption()) {
                         switch (main.getSelectedOption()) {
                             case MainFrame.AVAILABLE_TAB:
@@ -232,7 +246,7 @@ public class UserThread {
                                 notifications.setVisible(true);
                                 break;
                             case MainFrame.ENROLL_SESSION:
-                                temp  = new Transmission(Transmission.ENROLL_SESSION_REQUEST);
+                                temp = new Transmission(Transmission.ENROLL_SESSION_REQUEST);
                                 temp.getObject().add(main.getSessionId());
                                 output.writeObject(temp);
                                 main.setSessionId(null);
@@ -248,27 +262,30 @@ public class UserThread {
                         }
                         if (main.getSelectedOption() != MainFrame.NOTIFICATION_OPTION) {
                             output.flush();
+                            System.out.println("Envio peticion" + main.getSelectedOption());
                         }
-                        
-                        System.out.println("Envio peticion" + main.getSelectedOption());
-                        temp = (Transmission) input.readObject();
-                        System.out.println("Llegada transmisión" + temp.getType() + "\n" + temp.getObject().toString());
-                        main.writeData((byte) (temp.getType() - 2), temp.getObject());
                     }
+                    temp = (Transmission) input.readObject();
+                    System.out.println("Llegada transmisión" + temp.getType() + "\n" + temp.getObject().toString());
+                    main.writeData((byte) (temp.getType() - 2), temp.getObject());
                     lastSelected = main.getSelectedOption();
+                } catch (SocketTimeoutException ex1) {
+                    System.out.println("tiempo agotado");
+                } catch (IOException | ClassNotFoundException ex2) {
+                    MessageDialog.showMessageDialog("Error inesperado", "Error");
                 }
-            } while ((main.getSelectedOption() != MainFrame.LOGIN_OUT));
-        } catch (SocketTimeoutException ex) {
-            System.out.println("vencio tiempo");
-        } catch (IOException ex) {
-            MessageDialog.showMessageDialog("Error inesperado", "Error");
-            ex.printStackTrace();
-
-        } catch (ClassNotFoundException ex) {
-            MessageDialog.showMessageDialog("Error inesperado", "Error");
-        }
-        
+            } catch (SocketException ex) {
+                MessageDialog.showMessageDialog("Error inesperado", "Error");
+            } catch (IOException ex) {
+                MessageDialog.showMessageDialog("Error inesperado", "Error");;
+            } catch (ClassNotFoundException ex) {
+                MessageDialog.showMessageDialog("Error inesperado", "Error");
+            }
+        } while ((main.getSelectedOption() != MainFrame.LOGIN_OUT));
+        main.dispose();
     }
+        
+        
     
     /**
      * Method that charge the notification data to his respective form

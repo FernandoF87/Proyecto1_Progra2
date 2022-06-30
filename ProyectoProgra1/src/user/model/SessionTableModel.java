@@ -52,8 +52,8 @@ public class SessionTableModel extends DefaultTableModel {
         }
     }
     
-    public Session getSelectedSession() {
-        return sessions.get(super.getRowCount() - 1);
+    public Session getSelectedSession(int rowIndex) {
+        return sessions.get(rowIndex);
     }
 
 }

@@ -73,7 +73,7 @@ public class MainFrame extends javax.swing.JFrame {
         tbSessionHistory = new javax.swing.JTable();
         lbWelcome = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Menu");
         setResizable(false);
         setType(java.awt.Window.Type.UTILITY);
@@ -130,6 +130,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         tbEnrolleddSessions.setModel(new SessionTableModel());
         tbEnrolleddSessions.getTableHeader().setReorderingAllowed(false);
+        tbEnrolleddSessions.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbEnrolleddSessionsMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tbEnrolleddSessions);
         tbEnrolleddSessions.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
@@ -153,6 +158,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         tbSessionHistory.setModel(new SessionTableModel());
         tbSessionHistory.getTableHeader().setReorderingAllowed(false);
+        tbSessionHistory.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbSessionHistoryMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tbSessionHistory);
         tbSessionHistory.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
@@ -216,8 +226,8 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void tbAvailableSessionsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbAvailableSessionsMouseClicked
         disableComponents();
-        SessionTableModel model = getTableModel(selectedOption);
-        SessionDetails details = new SessionDetails(this, false, selectedOption, model.getSelectedSession());
+        SessionTableModel model = (SessionTableModel) tbAvailableSessions.getModel();
+        SessionDetails details = new SessionDetails(this, false, selectedOption, model.getSelectedSession(tbAvailableSessions.getSelectedRow()));
         details.setVisible(true);
     }//GEN-LAST:event_tbAvailableSessionsMouseClicked
 
@@ -232,6 +242,22 @@ public class MainFrame extends javax.swing.JFrame {
         selectedOption = LOGIN_OUT;
         disableComponents();
     }//GEN-LAST:event_btLogoutActionPerformed
+
+    private void tbEnrolleddSessionsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbEnrolleddSessionsMouseClicked
+        // TODO add your handling code here:
+        disableComponents();
+        SessionTableModel model = (SessionTableModel) tbEnrolleddSessions.getModel();
+        SessionDetails details = new SessionDetails(this, false, selectedOption, model.getSelectedSession(tbEnrolleddSessions.getSelectedRow()));
+        details.setVisible(true);
+    }//GEN-LAST:event_tbEnrolleddSessionsMouseClicked
+
+    private void tbSessionHistoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbSessionHistoryMouseClicked
+        // TODO add your handling code here:
+        disableComponents();
+        SessionTableModel model = (SessionTableModel) tbSessionHistory.getModel();
+        SessionDetails details = new SessionDetails(this, false, selectedOption, model.getSelectedSession(tbSessionHistory.getSelectedRow()));
+        details.setVisible(true);
+    }//GEN-LAST:event_tbSessionHistoryMouseClicked
 
     public void writeData(byte table, Vector<Session> data) {
         SessionTableModel model = getTableModel(table);
