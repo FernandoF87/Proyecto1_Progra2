@@ -16,10 +16,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import server.model.Session;
@@ -34,16 +31,15 @@ public class SessionDetails extends javax.swing.JDialog {
      * Creates new form SessionDetails
      */
     
-    private byte type;
     private Session data;
+    private JButton btCancel;
     
     public SessionDetails(java.awt.Frame parent, boolean modal, byte type, Session data) {
         super(parent, modal);
         initComponents();
         this.data = data;
-        this.type = type;
+        adaptForm(type);
         fillData();
-        adaptForm();
         this.setLocationRelativeTo(null);
     }
 
@@ -88,6 +84,11 @@ public class SessionDetails extends javax.swing.JDialog {
         setAlwaysOnTop(true);
         setPreferredSize(new java.awt.Dimension(550, 650));
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         tfType.setEditable(false);
 
@@ -265,7 +266,32 @@ public class SessionDetails extends javax.swing.JDialog {
 
     private void btEnrollActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEnrollActionPerformed
         // TODO add your handling code here:
+        btEnroll.setEnabled(false);
+        setCursor(new Cursor(Cursor.WAIT_CURSOR));
+        ((MainFrame) getParent()).setSessionId(data.getSesionId());
+        ((MainFrame) getParent()).setSelectedOption(MainFrame.ENROLL_SESSION);
+        do {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                
+            }
+        } while (((MainFrame) getParent()).getSessionId() != null);
+        if (data.isOpen()) {
+            MessageDialog.showMessageDialog("Se ha inscrito en la sesión", "Hecho");
+        } else {
+            MessageDialog.showMessageDialog("Se le enviará una notificación en caso de ser aprobado en esta sesión", "Hecho");
+        }
+        if (btCancel != null) {
+            btCancel.setEnabled(true);
+        }
+        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_btEnrollActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        ((MainFrame) getParent()).resetComponents();
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments
@@ -320,7 +346,7 @@ public class SessionDetails extends javax.swing.JDialog {
         }
     }
     
-    private void adaptForm() {
+    private void adaptForm(byte type) {
         
         switch (type) {
             case MainFrame.AVAILABLE_TAB:
@@ -331,20 +357,34 @@ public class SessionDetails extends javax.swing.JDialog {
                 }
                 break;
             case MainFrame.ENROLLED_TAB:
+                btEnroll.setEnabled(false);
                 GregorianCalendar tempDate = data.getDate();
                 GregorianCalendar now = (GregorianCalendar) GregorianCalendar.getInstance();
-                long diff = tempDate.getTimeInMillis() - now.getTimeInMillis();
-                if ((diff / 1000) > 300) {
+                long diff = (tempDate.getTimeInMillis() - now.getTimeInMillis()) / 1000;
+                if (diff > 300) {
                     Point point = btEnroll.getLocation();
                     Dimension dim = btEnroll.getSize();
                     btEnroll.setLocation(300, (int) point.getY());
                     pnData.add(btEnroll);
-                    JButton btCancel = new JButton("Cancelar inscripción");
+                    btCancel = new JButton("Cancelar inscripción");
                     btCancel.setBounds(100, (int) point.getY(), 150, (int) dim.getHeight());
                     btCancel.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             ((MainFrame) getParent()).setSelectedOption(MainFrame.CANCEL_ENROLL_SESSION);
+                            ((MainFrame) getParent()).setSessionId(data.getSesionId());
+                            btCancel.setEnabled(false);
+                            setCursor(new Cursor(Cursor.WAIT_CURSOR));
+                            do {
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException ex) {
+                             
+                                }
+                            } while (((MainFrame) getParent()).getSessionId() != null);
+                            MessageDialog.showMessageDialog("Se ha eliminado de la sesión", "Correcto");
+                            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                            btEnroll.setEnabled(true);
                         }
                     });
                     btCancel.setVisible(true);

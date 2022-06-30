@@ -231,6 +231,17 @@ public class UserThread {
                             case MainFrame.NOTIFICATION_OPTION:
                                 notifications.setVisible(true);
                                 break;
+                            case MainFrame.ENROLL_SESSION:
+                                temp  = new Transmission(Transmission.ENROLL_SESSION_REQUEST);
+                                temp.getObject().add(main.getSessionId());
+                                output.writeObject(temp);
+                                main.setSessionId(null);
+                                break;
+                            case MainFrame.CANCEL_ENROLL_SESSION:
+                                temp = new Transmission(Transmission.CANCEL_ENROLL_REQUEST);
+                                temp.getObject().add(main.getSessionId());
+                                main.setSessionId(null);
+                                break;
                             case MainFrame.LOGIN_OUT:
                                 output.writeObject(new Transmission(Transmission.LOGOUT_REQUEST, null));
                                 break;

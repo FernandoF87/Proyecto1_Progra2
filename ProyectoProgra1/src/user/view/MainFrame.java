@@ -26,19 +26,18 @@ import user.model.SessionTableModel;
 public class MainFrame extends javax.swing.JFrame {
 
     private byte selectedOption;
+    private String sessionId;
     
     public final static byte AVAILABLE_TAB = 0;
     public final static byte ENROLLED_TAB = 1;
     public final static byte HISTORY_TAB = 2;
     public final static byte NOTIFICATION_OPTION = 3;
-    public final static byte LOGIN_OUT = 4;
-    public final static byte ENROLL_SESSION = 5;
-    public final static byte CANCEL_ENROLL_SESSION = 6;
+    public final static byte ENROLL_SESSION = 4;
+    public final static byte CANCEL_ENROLL_SESSION = 5;
+    public final static byte LOGIN_OUT = 6;
     
     private boolean readedNotification;
     private final String NOTIFICATION_AUDIO = "src/img/new_notification_sound.wav";
-    
-    private Vector<Session> tempData;
     
     /**
      * Creates new form MainFrame
@@ -48,6 +47,7 @@ public class MainFrame extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         lbWelcome.setText(lbWelcome.getText() + " " + username);
         selectedOption = AVAILABLE_TAB;
+        disableComponents();
     }
     
     /**
@@ -80,6 +80,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         btLogout.setText("Cerrar sesión");
         btLogout.setFocusable(false);
+        btLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btLogoutActionPerformed(evt);
+            }
+        });
 
         btNotifications.setText("Notificaciones");
         btNotifications.setFocusable(false);
@@ -222,6 +227,12 @@ public class MainFrame extends javax.swing.JFrame {
         disableComponents();
     }//GEN-LAST:event_tbControlsStateChanged
 
+    private void btLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLogoutActionPerformed
+        // TODO add your handling code here:
+        selectedOption = LOGIN_OUT;
+        disableComponents();
+    }//GEN-LAST:event_btLogoutActionPerformed
+
     public void writeData(byte table, Vector<Session> data) {
         SessionTableModel model = getTableModel(table);
         model.fillData(data);
@@ -299,6 +310,16 @@ public class MainFrame extends javax.swing.JFrame {
         btNotifications.setEnabled(false);
         setCursor(new Cursor(Cursor.WAIT_CURSOR));
     }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btLogout;
