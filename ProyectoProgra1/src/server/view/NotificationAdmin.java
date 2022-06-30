@@ -46,7 +46,7 @@ public class NotificationAdmin extends javax.swing.JDialog {
         jTextArea1.setWrapStyleWord(true);
         txtArea.setViewportView(jTextArea1);
 
-        btnExit.setText("jButton1");
+        btnExit.setText("Salir");
         btnExit.setActionCommand("Salir");
         btnExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

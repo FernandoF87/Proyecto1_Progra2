@@ -6,6 +6,7 @@ package server.view;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import server.model.Data;
 import server.model.Session;
 
@@ -20,25 +21,25 @@ public class ManageSessions extends javax.swing.JDialog {
      */
     private final Session session;
     private final Data data;
-
+    
     public ManageSessions(javax.swing.JFrame parent, boolean modal, Data data, Session session) {
         initComponents();
         setLocationRelativeTo(parent);
-
+        
         this.data = data;
         this.session = session;
         setValues();
         setDate();
     }
-
+    
     private void setDate() {
         Date actualDate = Date.from(Instant.now());
         chooser.setDate(session.getDate().getTime());
         chooser.setMinSelectableDate(new java.util.Date(actualDate.getTime()));
         
         spnHour.setModel(new javax.swing.SpinnerNumberModel(session.getDate().getTime().getHours(), session.getDate().getTime().getHours(), 23, 1));
-        spnMinutes.setModel(new javax.swing.SpinnerNumberModel( session.getDate().getTime().getMinutes(), session.getDate().getTime().getMinutes(), 59, 1));
-
+        spnMinutes.setModel(new javax.swing.SpinnerNumberModel(session.getDate().getTime().getMinutes(), session.getDate().getTime().getMinutes(), 59, 1));
+        
     }
 
     /**
@@ -115,18 +116,6 @@ public class ManageSessions extends javax.swing.JDialog {
         jLabel14.setText("Modificar Sesion");
         jLabel14.setToolTipText("");
         jLabel14.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        txtCategory.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCategoryActionPerformed(evt);
-            }
-        });
-
-        txtDetail.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDetailActionPerformed(evt);
-            }
-        });
 
         cbxPlatform.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cbxPlatform.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Teams", "Zoom", "Google Meet", "Skype" }));
@@ -219,7 +208,7 @@ public class ManageSessions extends javax.swing.JDialog {
                                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                                 .addComponent(txtExpositor, javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addComponent(txtTopic, javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(txtCategory, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(txtCategory, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addGroup(layout.createSequentialGroup()
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
@@ -231,14 +220,14 @@ public class ManageSessions extends javax.swing.JDialog {
                                                     .addComponent(cbxPlatform, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(jLabel5))
-                                            .addComponent(txtDetail, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(txtDetail, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(0, 0, Short.MAX_VALUE)))
                                 .addGap(70, 70, 70))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(spnDuratin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(spnAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(chooser, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(chooser, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -254,23 +243,27 @@ public class ManageSessions extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtTopic, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel4)
+                        .addGap(33, 33, 33))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(txtExpositor, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtExpositor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtDetail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDetail, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
-                    .addComponent(chooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                    .addComponent(chooser, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -282,19 +275,19 @@ public class ManageSessions extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(spnDuratin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(cbxPlatform, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11)
-                    .addComponent(txtLink, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                    .addComponent(txtLink, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
                     .addComponent(spnAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
                     .addComponent(rbtnOpen)
@@ -304,7 +297,7 @@ public class ManageSessions extends javax.swing.JDialog {
                     .addComponent(btnSaveSession, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
 
         pack();
@@ -314,26 +307,13 @@ public class ManageSessions extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_btnExitActionPerformed
 
-    private void txtCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCategoryActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCategoryActionPerformed
-
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-
-        txtCategory.setText(null);
-        txtDetail.setText(null);
-        txtLink.setText(null);
-        txtTopic.setText(null);
-        txtExpositor.setText(null);
-        rbtnOpen.setSelected(true);
-        cbxPlatform.setSelectedIndex(0);
-        spnDuratin.setValue(30);
-        spnAmount.setValue(5);
-        setDate();
-
+        
+        data.deleteSession(session.getSesionId());
+        dispose();
 
     }//GEN-LAST:event_btnDeleteActionPerformed
-
+    
     public void setValues() {
         txtCategory.setText(session.getCategory());
         txtDetail.setText(session.getDetail());
@@ -341,22 +321,14 @@ public class ManageSessions extends javax.swing.JDialog {
         txtTopic.setText(session.getTopic());
         txtExpositor.setText(session.getExpositor());
         rbtnOpen.setSelected(!session.isOpen());
-
+        
         String platform = session.getPlatform().toLowerCase();
-        int indexPlatfor = 3;
+        int indexPlatfor = 0;
         switch (platform) {
-            case "teams":
-                indexPlatfor = 0;
-                break;
-            case "zoom":
-                indexPlatfor = 1;
-                break;
-            case "google meet":
-                indexPlatfor = 2;
-                break;
-            case "skype":
-                indexPlatfor = 3;
-                break;
+            case "teams" -> indexPlatfor = 0;
+            case "zoom" -> indexPlatfor = 1;
+            case "google meet" -> indexPlatfor = 2;
+            case "skype" -> indexPlatfor = 3;
         }
         cbxPlatform.setSelectedIndex(indexPlatfor);
         spnDuratin.setValue(session.getDuration());
@@ -364,30 +336,41 @@ public class ManageSessions extends javax.swing.JDialog {
     }
 
     private void btnSaveSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveSessionActionPerformed
-        btnDeleteActionPerformed(evt);
+        GregorianCalendar date = new GregorianCalendar(chooser.getDate().getYear() + 1900, chooser.getDate().getMonth(),
+                chooser.getDate().getDate(), (int) spnHour.getModel().getValue(),
+                (int) spnMinutes.getModel().getValue());
+        data.searchSessionId(session.getSesionId()).setCategory(txtCategory.getText());
+        data.searchSessionId(session.getSesionId()).setTopic(txtTopic.getText());
+        data.searchSessionId(session.getSesionId()).setExpositor(txtExpositor.getText());
+        data.searchSessionId(session.getSesionId()).setDate(date);
+        data.searchSessionId(session.getSesionId()).setDuration((int) spnDuratin.getValue());
+        data.searchSessionId(session.getSesionId()).setPlatform(cbxPlatform.toString());
+        data.searchSessionId(session.getSesionId()).setLink(txtLink.getText());
+        data.searchSessionId(session.getSesionId()).setCapacity((int) spnAmount.getValue());
+        if (rbtnOpen.isSelected()) {
+            data.searchSessionId(session.getSesionId()).setOpen(true);
+        } else {
+            data.searchSessionId(session.getSesionId()).setOpen(false);
+        }
+        
     }//GEN-LAST:event_btnSaveSessionActionPerformed
 
-    private void txtDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDetailActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDetailActionPerformed
-
     private void chooserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_chooserPropertyChange
-
+        
         if (chooser.getDate() != null) {
             if (chooser.getDate().getTime() > Date.from(Instant.now()).getTime()) {
                 spnHour.setModel(new javax.swing.SpinnerNumberModel(0, 0, 23, 1));
                 spnMinutes.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
-
+                
             } else {
-
+                
                 spnHour.setModel(new javax.swing.SpinnerNumberModel(Date.from(Instant.now()).getHours(), Date.from(Instant.now()).getHours(), 23, 1));
                 spnMinutes.setModel(new javax.swing.SpinnerNumberModel(Date.from(Instant.now()).getMinutes(), Date.from(Instant.now()).getMinutes(), 59, 1));
             }
         }
-
+        
 
     }//GEN-LAST:event_chooserPropertyChange
-
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

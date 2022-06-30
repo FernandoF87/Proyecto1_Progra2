@@ -29,7 +29,7 @@ public class Server {
     private HashMap<String, Session> sessions = data.getSessions();
 
     public static void main(String[] args) {
-        new Server().runServer();
+       // new Server().runServer();
        
         AdminView adminView = new AdminView(new javax.swing.JFrame(),true,data);
         adminView.setVisible(true);
