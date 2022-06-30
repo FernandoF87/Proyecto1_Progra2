@@ -6,9 +6,10 @@ package server.view;
 
 import java.util.HashMap;
 import javax.swing.JOptionPane;
-import server.model.CustomListModel;
 import server.model.Data;
 import server.model.Session;
+import server.model.SessionListModel;
+import server.model.User;
 
 /**
  *
@@ -17,10 +18,10 @@ import server.model.Session;
 public class AdminView extends javax.swing.JFrame {
 
     /**
-     * Probando pull
-     * Creates new form AdminView
+     * Probando pull Creates new form AdminView
      */
-    private CustomListModel model = new CustomListModel();
+    private SessionListModel sessionModel = new SessionListModel();
+    private UserListModel userModel = new UserListModel();
     private Data data;
 
     public AdminView(javax.swing.JFrame parent, boolean modal, Data data) {
@@ -30,8 +31,6 @@ public class AdminView extends javax.swing.JFrame {
         jListArea.setVisible(false);
         btnDeleteSession.setVisible(false);
         btnModify.setVisible(false);
-
-        jListArea.setModel(model);
         this.data = data;
 
     }
@@ -105,11 +104,6 @@ public class AdminView extends javax.swing.JFrame {
         });
         jListArea.setFocusable(false);
         jListArea.setLayoutOrientation(javax.swing.JList.HORIZONTAL_WRAP);
-        jListArea.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jListAreaMousePressed(evt);
-            }
-        });
 
         btnDeleteSession.setText("Eliminar");
         btnDeleteSession.addActionListener(new java.awt.event.ActionListener() {
@@ -180,44 +174,48 @@ public class AdminView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 //
     private void btnCreateSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateSessionActionPerformed
-        CreateSessions sessions = new CreateSessions(this, true);
+        CreateSessions sessions = new CreateSessions(this, true, data);
 
         sessions.setVisible(true);
     }//GEN-LAST:event_btnCreateSessionActionPerformed
 
     private void btnManageSessionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageSessionsActionPerformed
+        jListArea.setModel(sessionModel);
         jListArea.setVisible(true);
-        int cont = 0;
         for (HashMap.Entry<String, Session> session : data.getSessions().entrySet()) {
 
-            model.addSessio(session.getValue());
-
-            cont++;
+            sessionModel.addSessio(session.getValue());
         }
+        btnDeleteSession.setVisible(true);
+        btnModify.setVisible(true);
 
     }//GEN-LAST:event_btnManageSessionsActionPerformed
 
     private void btnShowSessionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowSessionsActionPerformed
+        jListArea.setModel(sessionModel);
         jListArea.setVisible(true);
+        for (HashMap.Entry<String, Session> session : data.getSessions().entrySet()) {
+
+            sessionModel.addSessio(session.getValue());
+        }
 
     }//GEN-LAST:event_btnShowSessionsActionPerformed
 
     private void btnShowUsersListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowUsersListActionPerformed
+        jListArea.setModel(userModel);
         jListArea.setVisible(true);
+        for (HashMap.Entry<String, User> user : data.getUsers().entrySet()) {
+            userModel.addUser(user.getValue());
+        }
     }//GEN-LAST:event_btnShowUsersListActionPerformed
-
-    private void jListAreaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListAreaMousePressed
-        btnDeleteSession.setVisible(true);
-        btnModify.setVisible(true);
-    }//GEN-LAST:event_jListAreaMousePressed
 
     private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
         int index = jListArea.getSelectedIndex();
         if (index == -1) {
-            JOptionPane.showMessageDialog(this, "No hay sesiones en la lista","Error",NORMAL);
+            JOptionPane.showMessageDialog(this, "No hay sesiones en la lista", "Error", NORMAL);
             return;
         }
-        Session session = model.getSession(index);
+        Session session = sessionModel.getSession(index);
 
         ManageSessions manageSessions = new ManageSessions(this, true, data, session);
 
@@ -227,7 +225,8 @@ public class AdminView extends javax.swing.JFrame {
 
     private void btnDeleteSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteSessionActionPerformed
         int index = jListArea.getSelectedIndex();
-        model.deleteSession(index);
+        data.deleteSession(sessionModel.getSession(index).getSesionId());
+        sessionModel.deleteSession(index);
 
     }//GEN-LAST:event_btnDeleteSessionActionPerformed
 

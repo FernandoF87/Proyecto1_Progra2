@@ -6,7 +6,11 @@ package server.view;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import javax.swing.JFrame;
+import server.exceptions.NotificationException;
+import server.model.Data;
+import server.model.Session;
 import server.model.SessionAbstractBuilder;
 import server.model.SessionConcreteBuilder;
 import server.model.SessionDirector;
@@ -19,17 +23,19 @@ public class CreateSessions extends javax.swing.JDialog {
 
     private SessionDirector director;
     private SessionAbstractBuilder builder;
+    private Data data;
 
     /**
      * Creates new form ManageSessions
      */
-    public CreateSessions(javax.swing.JFrame parent, boolean modal) {
+    public CreateSessions(javax.swing.JFrame parent, boolean modal, Data data) {
         views();
         initComponents();
         setLocationRelativeTo(parent);
         setDate();
         this.director = new SessionDirector();
         this.builder = new SessionConcreteBuilder();
+        this.data = data;
 
     }
 
@@ -320,21 +326,21 @@ public class CreateSessions extends javax.swing.JDialog {
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnSaveSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveSessionActionPerformed
-//        GregorianCalendar date = new GregorianCalendar(chooser.getDate().getYear() + 1900, chooser.getDate().getMonth(),
-//                chooser.getDate().getDate(), (int) spnHour.getModel().getValue(),
-//                (int) spnMinutes.getModel().getValue());
-//
-//        try {
-//            director.buildSession(builder, txtTopic.getText(), txtExpositor.getText(),
-//                    txtDetail.getText(), txtLink.getText(), txtCategory.getText(),
-//                    cbxPlatform.getSelectedItem().toString(), date, ERROR, ALLBITS, rootPaneCheckingEnabled, rootPaneCheckingEnabled, rootPaneCheckingEnabled);
-//        } catch (NotificationException ex) {
-//            NotificationAdmin notificationAdmin = new NotificationAdmin(new JFrame(), true, ex.getMessage());
-//            notificationAdmin.setVisible(true);
-//        }
-       NotificationAdmin notificationAdmin = new NotificationAdmin(new JFrame(), true, "probando");
+        GregorianCalendar date = new GregorianCalendar(chooser.getDate().getYear() + 1900, chooser.getDate().getMonth(),
+                chooser.getDate().getDate(), (int) spnHour.getModel().getValue(),
+                (int) spnMinutes.getModel().getValue());
+
+        try {
+            Session session = director.buildSession(builder, txtTopic.getText(), txtExpositor.getText(),
+                    txtDetail.getText(), txtLink.getText(), txtCategory.getText(),
+                    cbxPlatform.getSelectedItem().toString(), date, ERROR, ALLBITS, rootPaneCheckingEnabled, rootPaneCheckingEnabled, rootPaneCheckingEnabled);
+            data.addSession(session);
+        } catch (NotificationException ex) {
+            NotificationAdmin notificationAdmin = new NotificationAdmin(new JFrame(), true, ex.getMessage());
             notificationAdmin.setVisible(true);
-//        btnDeleteActionPerformed(evt);
+        }
+
+        btnDeleteActionPerformed(evt);
     }//GEN-LAST:event_btnSaveSessionActionPerformed
 
     private void chooserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_chooserPropertyChange
@@ -361,57 +367,6 @@ public class CreateSessions extends javax.swing.JDialog {
         spnHour.setModel(new javax.swing.SpinnerNumberModel(actualDate.getHours(), actualDate.getHours(), 23, 1));
         spnMinutes.setModel(new javax.swing.SpinnerNumberModel(actualDate.getMinutes(), actualDate.getMinutes(), 59, 1));
 
-    }
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CreateSessions.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CreateSessions.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CreateSessions.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CreateSessions.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                CreateSessions dialog = new CreateSessions(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
     }
 
     private void views() {

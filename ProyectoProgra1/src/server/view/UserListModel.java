@@ -1,14 +1,15 @@
-package server.model;
+package server.view;
 
 import java.util.ArrayList;
 import javax.swing.AbstractListModel;
+import server.model.User;
 
 /**
  * @version @author Joshua Mora Garita
  */
-public class CustomListModel extends AbstractListModel {
+public class UserListModel extends AbstractListModel {
 
-    private ArrayList<Session> listArray = new ArrayList<>();
+    private final ArrayList<User> listArray = new ArrayList<>();
 
     @Override
     public int getSize() {
@@ -17,21 +18,21 @@ public class CustomListModel extends AbstractListModel {
 
     @Override
     public Object getElementAt(int index) {
-        Session s = listArray.get(index);
-        return s.getSesionId();
+        User user = listArray.get(index);
+        return user.getUserID();
     }
 
-    public void addSessio(Session s) {
+    public void addUser(User s) {
         listArray.add(s);
         this.fireIntervalAdded(this, getSize(), getSize() + 1);
     }
 
-    public void deleteSession(int index) {
+    public void deleteUser(int index) {
         listArray.remove(index);
         this.fireIntervalRemoved(index, getSize(), getSize() + 1);
     }
 
-    public Session getSession(int index) {
+    public User getItem(int index) {
         return listArray.get(index);
     }
 
