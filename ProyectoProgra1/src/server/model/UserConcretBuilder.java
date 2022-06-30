@@ -25,7 +25,7 @@ public class UserConcretBuilder implements UserAbstractbuilder {
         if (id == null || id.trim().equals("")) {
             throw new NotificationException("La cedula no puede estar vacia");
         }
-        if (id.length() != 9) {
+        if (id.length() != 10) {
             throw new NotificationException("La cedula no contiene la cantidad "
                     + "de numeros correcto");
         }
@@ -56,7 +56,7 @@ public class UserConcretBuilder implements UserAbstractbuilder {
         for (int i = 0; i < name.length(); i++) {
             valAscii = (int) name.charAt(i);
 
-            if (valAscii > 64 && valAscii < 91 || valAscii > 96 && valAscii < 123) {
+            if (valAscii > 64 && valAscii < 91 || valAscii > 96 && valAscii < 123 || valAscii == 32) {
 
             } else {
                 throw new NotificationException("El nombre no debe contener"
@@ -75,17 +75,18 @@ public class UserConcretBuilder implements UserAbstractbuilder {
             }
             if (i == email.length() && email.charAt(i) != '@') {
                 throw new NotificationException("El correo debe tener el simbolo @");
-            } else {
-                if (email.charAt(i) != '@') {
-//                    if (email.charAt(email.length()) == '.') {
-//                        throw new NotificationException("El correo no debe terminar en '.'");
-//                    }
-                    if (email.charAt(email.length() - 2) != '.' || email.charAt(email.length() - 4) != '.') {
-                        throw new NotificationException("El correo no debe terminar en '.'");
-
-                    }
-                }
             }
+//            } else {
+//                if (email.charAt(i) != '@') {
+////                    if (email.charAt(email.length()) == '.') {
+////                        throw new NotificationException("El correo no debe terminar en '.'");
+////                    }
+//                    if (email.charAt(email.length() - 2) != '.' || email.charAt(email.length() - 4) != '.') {
+//                        throw new NotificationException("El correo no debe terminar en '.'");
+//
+//                    }
+//                }
+//            }
         }
         user.setEmail(email);
     }
@@ -95,7 +96,7 @@ public class UserConcretBuilder implements UserAbstractbuilder {
         int valAscii = 0;
         int contNum = 0;
         int contLetters = 0;
-        if (password.length() <= 8) {
+        if (password.length() < 8) {
             throw new NotificationException("La contraseña debe tener minimo 8 caracteres");
         }
 

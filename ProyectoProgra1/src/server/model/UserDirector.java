@@ -17,6 +17,7 @@ public class UserDirector {
         builder.buildId(id);
         builder.buildName(name);
         builder.buildEmail(email);
+        builder.buildPassword(password);
         builder.buildPhone(phone);
         builder.buildBorndDate(bornDate);
         return builder.getUser();

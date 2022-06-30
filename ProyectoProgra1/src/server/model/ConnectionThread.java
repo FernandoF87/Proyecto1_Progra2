@@ -134,12 +134,14 @@ public class ConnectionThread extends Thread {
                 String id = (String) (request.getObject().get(0));
                 email = (String) (request.getObject().get(1));
                 password = (String) (request.getObject().get(2));
-                int phone = (int) (request.getObject().get(3));
-                GregorianCalendar birthDate = (GregorianCalendar) (request.getObject().get(4));
+                GregorianCalendar birthDate = (GregorianCalendar) (request.getObject().get(3));
+                String name = (String)(request.getObject().get(4));
+                int phone = (int) (request.getObject().get(5));
 
                 User newUser;
                 try {
-                    newUser = director.buildUser(builder, id, email, email, password, phone, birthDate);
+                    newUser = director.buildUser(builder, id, name, email, password, phone, birthDate);
+                    System.out.println(newUser.getPassword());
                     data.addUser(newUser);
                     data.resetUserAvailable();
                     answer.addComponent(true);

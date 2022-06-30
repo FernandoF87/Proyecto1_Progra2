@@ -57,7 +57,7 @@ public class Data {
             ex.printStackTrace();
         }
         userAvailable = false;
-        users.put(user.getUserID(), user);
+        users.put(user.getEmail(), user);
     }
 
     public synchronized void resetUserAvailable() {

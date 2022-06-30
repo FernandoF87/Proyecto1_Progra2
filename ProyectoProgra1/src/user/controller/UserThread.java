@@ -135,6 +135,7 @@ public class UserThread {
             userData.add(register.getName());
             userData.add(register.getPhoneNumber());
             Transmission temp = new Transmission(Transmission.REGISTER_REQUEST, userData);
+            System.out.println(temp);
             try {
                 output.writeObject(temp);
                 output.flush();

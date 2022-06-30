@@ -307,6 +307,11 @@ public class RegisterForm extends javax.swing.JDialog {
         final String START_MESSAGE = "<html><p>";
         final String END_MESSAGE = "</p></html>";
         String message = "";
+        if (checkId()) {
+            this.id = tfId.getText();
+        } else {
+            message += "La cédula no cumple con los requisitos</p><p>";
+        }
         if (checkMail()) {
             this.email = tfEmail.getText();
         } else {
