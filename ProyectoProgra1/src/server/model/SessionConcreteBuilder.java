@@ -150,15 +150,7 @@ public class SessionConcreteBuilder implements SessionAbstractBuilder {
         session.setOpen(open);
     }
     
-    @Override
-    public void buildNotifSent(boolean notifSent) throws NotificationException {
-        session.setNotifSent(notifSent);
-    }
     
-    @Override
-    public void buildFinalized(boolean finalized) throws NotificationException {
-        session.setFinalized(finalized);
-    }
     
     @Override
     public Session getSession() throws NotificationException {

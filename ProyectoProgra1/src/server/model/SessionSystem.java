@@ -12,6 +12,6 @@ public class SessionSystem {
         Server server = new Server();
         AdminView adminView = new AdminView(new javax.swing.JFrame(),true, Server.getData(), server);
         adminView.setVisible(true);
-      //  server.runServer();
+        server.runServer();
     }
 }

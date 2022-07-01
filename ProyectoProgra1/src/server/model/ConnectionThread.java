@@ -1,6 +1,5 @@
 package server.model;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -52,7 +51,6 @@ public class ConnectionThread extends Thread {
                 System.out.println(request);
                 processRequest(request);
             } catch (SocketTimeoutException ex) {
-                System.out.println("Nada");
             } catch (ClassNotFoundException ex) {
                 ex.printStackTrace();
             } catch (IOException ex) {
@@ -85,7 +83,10 @@ public class ConnectionThread extends Thread {
 
     public void notifyUser(Notification notification) {
         try {
-            output.writeObject(notification);
+            Transmission answer = new Transmission(Transmission.NOTIFICATION_REQUEST);
+            answer.addComponent(notification);
+            System.out.println("Enviando " + answer);
+            output.writeObject(answer);
             output.flush();
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -164,7 +165,7 @@ public class ConnectionThread extends Thread {
                 answer = new Transmission(Transmission.AVAILABLE_SESSIONS_REQUEST);
                 HashMap<String, Session> sessions = data.getSessions();
                 for (String sessionId : sessions.keySet()) {
-                    if (!sessions.get(sessionId).isParticipant(connectionUser.getEmail()) && !sessions.get(sessionId).isFinalized()) {
+                    if (!sessions.get(sessionId).isParticipant(connectionUser.getEmail()) && sessions.get(sessionId).getState() == Session.INACTIVE_STATE) {
                         answer.addComponent(sessions.get(sessionId).clone());
                     }
                 }
@@ -197,7 +198,7 @@ public class ConnectionThread extends Thread {
                 answer = new Transmission(Transmission.HISTORY_REQUEST);
                 sessions = data.getSessions();
                 for (String sessionId : sessions.keySet()) {
-                    if (sessions.get(sessionId).isFinalized()) {
+                    if (sessions.get(sessionId).getState() == Session.FINALIZED_STATE) {
                         answer.addComponent(sessions.get(sessionId).clone());
                     }
                 }

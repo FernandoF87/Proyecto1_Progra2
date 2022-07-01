@@ -240,6 +240,7 @@ public class UserThread {
                 if (temp.getType() == Transmission.NOTIFICATION_REQUEST) {
                     Notification notification = (Notification) ((Vector) temp.getObject()).get(0);
                     newNotification(notification);
+                    System.out.println("Llegada de notificación " + temp);
                 }
             } catch (SocketTimeoutException ex) {
                 try {

@@ -16,7 +16,7 @@ public class SessionDirector {
     public Session buildSession(SessionAbstractBuilder builder, String topic,
             String expositor, String detail, String link, String category,
             String platform, GregorianCalendar date, int duration, int capacity,
-            boolean open, boolean notifSent, boolean finalized) throws NotificationException {
+            boolean open) throws NotificationException {
         builder.buildSesion();
         builder.buildCategory(category);
         builder.buildId(contId);
@@ -29,8 +29,6 @@ public class SessionDirector {
         builder.builDuration(duration);
         builder.buildCapacity(capacity);
         builder.buildOpen(open);
-        builder.buildNotifSent(notifSent);
-        builder.buildFinalized(finalized);
         intCont++;
         contId += intCont;
         return builder.getSession();

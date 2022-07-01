@@ -1,6 +1,9 @@
 package server.model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import server.controller.FilesLoader;
 
@@ -14,11 +17,22 @@ public class Data {
     private HashMap<String, User> users;
     private ArrayList<Notification> notifications;
     private boolean userAvailable = true;
+    private final int FIVE_MINUTES_SECONDS = 300;
 
     public Data() {
         sessions = FilesLoader.loadSessions();
         users = FilesLoader.loadUsers();
         notifications = FilesLoader.loadNotifications();
+        for (String key : sessions.keySet()) {
+            Session session = sessions.get(key);
+            GregorianCalendar currentDate = new GregorianCalendar();
+            LocalDateTime currentTime = LocalDateTime.ofInstant(currentDate.toInstant(), currentDate.getTimeZone().toZoneId());
+            LocalDateTime sessionTime = LocalDateTime.ofInstant(session.getDate().toInstant(), session.getDate().getTimeZone().toZoneId());
+            Duration duration = Duration.between(currentTime, sessionTime);
+            if (duration.getSeconds() + FIVE_MINUTES_SECONDS < 0)  {
+                session.setState(Session.FINALIZED_STATE);
+            }
+        }
     }
 
     public HashMap<String, Session> getSessions() {

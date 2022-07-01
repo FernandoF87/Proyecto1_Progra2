@@ -18,7 +18,7 @@ import server.exceptions.NotificationException;
 public class Server {
 
     private final int PORT = 8000;
-    private final int TIME_OUT = 2000;
+    private final int TIME_OUT = 5000;
     private final int NOTIFICATION_SECONDS = 300;
 
     private ServerSocket socket;
@@ -28,17 +28,8 @@ public class Server {
     private HashMap<String, Session> sessions = data.getSessions();
     private boolean execute = true;
 
-    // Quitar main cuando se implemente SessionSystem
-//    public static void main(String[] args) {
-//        new Server().runServer();
-//       
-////        AdminView adminView = new AdminView(new javax.swing.JFrame(),true,data,);
-////        adminView.setVisible(true);
-//    }
     public void runServer() {
         // Aqui se leen los archivos primeros y se cargan los datos
-        for (String key : data.getUsers().keySet()) {
-        }
         try {
             socket = new ServerSocket(PORT);
             socket.setSoTimeout(TIME_OUT);
@@ -55,6 +46,9 @@ public class Server {
                     checkSessions();
                 }
             }
+            for (ConnectionThread connection : connections) {
+
+            }
             socket.close();
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -68,37 +62,14 @@ public class Server {
             LocalDateTime currentTime = LocalDateTime.ofInstant(currentDate.toInstant(), currentDate.getTimeZone().toZoneId());
             LocalDateTime sessionTime = LocalDateTime.ofInstant(session.getDate().toInstant(), session.getDate().getTimeZone().toZoneId());
             Duration duration = Duration.between(currentTime, sessionTime);
-            if (duration.getSeconds() <= NOTIFICATION_SECONDS && !session.isNotifSent()) { // Determines if notifcation has been sent and time is <= 5 minutes
+            if (duration.getSeconds() <= NOTIFICATION_SECONDS && session.getState() != Session.FINALIZED_STATE && !session.isNotifSent()) { // Determines if notifcation has been sent and time is <= 5 minutes
                 session.setNotifSent(true);
-                ArrayList<String> usersNotified = new ArrayList<>();
-                ArrayList<Notification> tempNotifications = new ArrayList<>();
-                for (int i = 0; i < connections.size(); i++) {
-                    ConnectionThread temp = connections.get(i);
-                    try {
-                        if (temp.getConnectionUser() != null && session.isParticipant(temp.getConnectionUser().getEmail())) {
-                            temp.notifyUser(new Notification(temp.getConnectionUser().getEmail(), Notification.FIVE_MINUTES, true));
-                            usersNotified.add(temp.getConnectionUser().getEmail());
-                        } else {
-                            tempNotifications.add(new Notification(Notification.FIVE_MINUTES, false));
-                        }
-                    } catch (NotificationException ex) {
-                        ex.printStackTrace();
-                    } catch (ThreadDeath ex) {
-                    }
-                }
-                for (int i = 0, count = 0; i < session.getParticipantList().size() && count < tempNotifications.size(); i++) {
-                    if (!usersNotified.contains(session.getParticipantList().get(i))) {
-                        tempNotifications.get(count).setUserId(session.getParticipantList().get(i));
-                        data.addNotification(tempNotifications.get(count));
-                        count++;
-                    }
-                }
+                sendNotification(Notification.FIVE_MINUTES, session);
             }
         }
     }
 
     public void sendNotification(String msg, Session session) {
-
         switch (msg) {
             case "Modificada":
                 sendNotification(Notification.MODIFIED_SESSION, session);
@@ -118,26 +89,25 @@ public class Server {
 
     private void sendNotification(byte type, Session session) {
         ArrayList<String> usersNotified = new ArrayList<>();
-        ArrayList<Notification> tempNotifications = new ArrayList<>();
+        ArrayList<String> participants = session.getParticipantList();
         for (int i = 0; i < connections.size(); i++) {
             ConnectionThread connectionTemp = connections.get(i);
             try {
                 if (connectionTemp.getConnectionUser() != null && session.isParticipant(connectionTemp.getConnectionUser().getEmail())) {
                     connectionTemp.notifyUser(new Notification(connectionTemp.getConnectionUser().getEmail(), type, true));
                     usersNotified.add(connectionTemp.getConnectionUser().getEmail());
-                } else {
-                    tempNotifications.add(new Notification(type, false));
                 }
             } catch (NotificationException ex) {
                 ex.printStackTrace();
-            } catch (ThreadDeath ex) {
             }
         }
-        for (int i = 0, count = 0; i < session.getParticipantList().size() && count < tempNotifications.size(); i++) {
-            if (!usersNotified.contains(session.getParticipantList().get(i))) {
-                tempNotifications.get(count).setUserId(session.getParticipantList().get(i));
-                data.addNotification(tempNotifications.get(count));
-                count++;
+        for (int i = 0; i < participants.size(); i++) {
+            if (!usersNotified.contains(participants.get(i))) {
+                try {
+                    data.addNotification(new Notification(participants.get(i), type, false));
+                } catch (NotificationException ex) {
+                    ex.printStackTrace();
+                }
             }
         }
 

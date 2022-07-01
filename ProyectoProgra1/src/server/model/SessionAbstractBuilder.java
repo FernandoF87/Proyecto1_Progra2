@@ -34,10 +34,6 @@ public interface SessionAbstractBuilder {
     public void buildCapacity(int capacity) throws NotificationException;
 
     public void buildOpen(boolean open) throws NotificationException;
-    
-    public void buildNotifSent(boolean notifSent) throws NotificationException;
-    
-    public void buildFinalized(boolean finalized) throws NotificationException;
 
     public Session getSession() throws NotificationException;
 

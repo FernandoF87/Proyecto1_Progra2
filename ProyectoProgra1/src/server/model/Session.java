@@ -17,16 +17,23 @@ public class Session implements Serializable, Cloneable {
     private String detail, link, platform, category;
     private GregorianCalendar date;
     private int duration, capacity;
-    private boolean open, notifSent, finalized;
+    private boolean open, notifSent;
+    private byte state;
     private ArrayList<String> participantList;
     private HashMap<String, String> waitingParticipantsList;
+    
+    public static final byte INACTIVE_STATE = 0;
+    public static final byte ACTIVE_STATE = 1;
+    public static final byte FINALIZED_STATE = 2;
 
     public Session() {
         participantList = new ArrayList();
+        state = FINALIZED_STATE;
+        notifSent = false;
     }
 
     public Session(String sesionId, String topic, String expositor, String detail, String link, String platform, String category,
-            GregorianCalendar date, int duration, int capacity, boolean open, boolean notifSent, boolean finalized) {
+            GregorianCalendar date, int duration, int capacity, boolean open, boolean notifSent, byte state) {
         this.sesionId = sesionId;
         this.topic = topic;
         this.expositor = expositor;
@@ -39,7 +46,7 @@ public class Session implements Serializable, Cloneable {
         this.capacity = capacity;
         this.open = open;
         this.notifSent = notifSent;
-        this.finalized = finalized;
+        this.state = state;
         participantList = new ArrayList();
         if (!open) {
             waitingParticipantsList = new HashMap<>();
@@ -60,6 +67,8 @@ public class Session implements Serializable, Cloneable {
                 return true;
             } else {
                 waitingParticipantsList.put(userId, userId);
+                System.out.println("Esperando a aceptar a " + userId);
+                System.out.println("Lista de espera: " + waitingParticipantsList);
                 return true;
             }
         }
@@ -170,12 +179,12 @@ public class Session implements Serializable, Cloneable {
         this.notifSent = notifSent;
     }
 
-    public boolean isFinalized() {
-        return finalized;
+    public byte getState() {
+        return state;
     }
 
-    public void setFinalized(boolean finalized) {
-        this.finalized = finalized;
+    public void setState(byte state) {
+        this.state = state;
     }
 
     public boolean isParticipant(String userId) {
@@ -194,6 +203,6 @@ public class Session implements Serializable, Cloneable {
     public Session clone() {
         GregorianCalendar dateClone = (GregorianCalendar) (date.clone());
         return new Session(sesionId, topic, expositor, detail, link, platform, category,
-                dateClone, duration, capacity, open, notifSent, finalized);
+                dateClone, duration, capacity, open, notifSent, state);
     }
 }
