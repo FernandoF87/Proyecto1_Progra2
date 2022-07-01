@@ -42,7 +42,7 @@ public class UserThread {
     private ObjectOutputStream output;
     
     private final int PORT = 8000;
-    private final int WAIT_TIME = 3000;
+    private final int WAIT_TIME = 2000;
     private final String HOST = "127.0.0.1";
     
     private String loggedUsername;
@@ -112,6 +112,7 @@ public class UserThread {
                 }
             } while (login.getOption() == login.WAIT && !login.isClosed());
             output.writeObject(new Transmission(Transmission.CLOSE_CONNECTION_REQUEST));
+            System.out.println("Petición de cerrar conexión hecha");
             output.flush();
         } catch(IOException ex) {
             MessageDialog.showMessageDialog("No se pudo establecer comunicación con el servidor", "Error");
@@ -271,10 +272,11 @@ public class UserThread {
                                 output.writeObject(new Transmission(Transmission.LOGOUT_REQUEST, null));
                                 break;
                         }
-                        if (main.getSelectedOption() != MainFrame.NOTIFICATION_OPTION) {
+                        if (main.getSelectedOption() != MainFrame.NOTIFICATION_OPTION && main.getSelectedOption() != -1) {
                             output.flush();
                             System.out.println("Envio peticion" + main.getSelectedOption());
                         }
+                        //main.setSelectedOption((byte) -1);
                     }
                     lastSelected = main.getSelectedOption();
                     temp = (Transmission) input.readObject();

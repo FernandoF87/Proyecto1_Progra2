@@ -61,6 +61,9 @@ public class LoginFrame extends javax.swing.JFrame {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
             }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
         });
 
         jLabel1.setText("Bienvenido, digite sus datos:");
@@ -191,8 +194,22 @@ public class LoginFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btRegisterActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        closed = true;
+        //closed = true;
+        pfPassword.setEnabled(false);
+        tfEmail.setEnabled(false);
+        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
     }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        disableComponents();
+        closed = true;
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException ex) {
+            
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * Method used to reset the different components in the frame.
@@ -205,6 +222,12 @@ public class LoginFrame extends javax.swing.JFrame {
         tfEmail.setEnabled(true);
         pfPassword.setEnabled(true);
         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }
+    
+    private void disableComponents() {
+        pfPassword.setEnabled(false);
+        tfEmail.setEnabled(false);
+        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
     }
     
     public String getEmail() {
