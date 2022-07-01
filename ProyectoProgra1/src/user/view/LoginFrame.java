@@ -8,7 +8,8 @@ import java.awt.Cursor;
 import java.awt.Dialog;
 
 /**
- *
+ * Frame that permits login in the system.
+ * @version 30/06/2022
  * @author Jostin Castro
  */
 public class LoginFrame extends javax.swing.JFrame {
@@ -25,7 +26,7 @@ public class LoginFrame extends javax.swing.JFrame {
     public final byte REGISTER = 2;
     
     /**
-     * Creates new form LoginFrame
+     * Creates new LoginFrame frame.
      */
     public LoginFrame() {
         initComponents();
@@ -187,7 +188,11 @@ public class LoginFrame extends javax.swing.JFrame {
         closed = true;
     }//GEN-LAST:event_formWindowClosed
 
+    /**
+     * Method used to reset the different components in the frame.
+     */
     public void resetComponents() {
+        pfPassword.setText("");
         btLogin.setEnabled(true);
         btRegister.setEnabled(true);
         tfEmail.setEnabled(true);

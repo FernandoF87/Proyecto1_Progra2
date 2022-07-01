@@ -5,7 +5,7 @@
 package server.exceptions;
 
 /**
- *
+ * Exception thowed when is tried to create a non-contemplated type of notification.
  * @author Jostin Castro
  */
 public class NotificationException extends Exception {

@@ -42,15 +42,25 @@ public class UserThread {
     private ObjectOutputStream output;
     
     private final int PORT = 8000;
+    private final int WAIT_TIME = 2000;
     private final String HOST = "127.0.0.1";
     
     private String loggedUsername;
     private LinkedList<Notification> listNotifications;
     private NotificationsDialog notifications;
     
+    /**
+     * Constructor of the class.
+     */
+    
     public UserThread() {
         listNotifications = new LinkedList();
     }
+    
+    /**
+     * Creates and run the UserThread.
+     * @param args 
+     */
     
     public static void main(String[] args) {
         new UserThread().mainProcess();
@@ -66,6 +76,7 @@ public class UserThread {
     /**
      * Method that manage the main process of the thread 
      */
+    
     private void mainProcess() {
         try {
             connection = new Socket(HOST, PORT);
@@ -75,7 +86,7 @@ public class UserThread {
             login.setVisible(true);
             do {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(WAIT_TIME);
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 }
@@ -88,10 +99,9 @@ public class UserThread {
                 } else if (login.getOption() == login.LOGIN) {
                     if (loginOption(login.getEmail(), login.getPassword())) {
                         //Acá lo que pasa cuando todo está correcto
-                        //login.setVisible(false);
-                        login.dispose();
+                        login.setVisible(false);
                         loggedUserInterface();
-                        login.setOption((byte) 0);
+                        login.setOption(login.WAIT);
                         login.resetComponents();
                         login.setVisible(true);
                     } else {
@@ -121,7 +131,7 @@ public class UserThread {
         register.setVisible(true);
         while (!register.isComplete() && !register.isClosed()) {
             try {
-                Thread.sleep(500);
+                Thread.sleep(WAIT_TIME);
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
@@ -224,7 +234,7 @@ public class UserThread {
 
         do {
             try {
-                connection.setSoTimeout(2000);
+                connection.setSoTimeout(WAIT_TIME);
                 temp = (Transmission) input.readObject();
                 if (temp.getType() == Transmission.NOTIFICATION_REQUEST) {
                     Notification notification = (Notification) ((Vector) temp.getObject()).get(0);
@@ -294,6 +304,7 @@ public class UserThread {
      * Method that charge the notification data to his respective form
      * @param notification a new notification to manage
      */
+    
     private void newNotification(Notification notification) {
         if (listNotifications.size() == 5) {
             listNotifications.pop();
@@ -307,6 +318,7 @@ public class UserThread {
     /**
      * Method used to close connection when user close the program
      */
+    
     private void closeConnection() {
         try {
             output.close();

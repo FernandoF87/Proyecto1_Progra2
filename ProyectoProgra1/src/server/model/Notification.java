@@ -14,10 +14,24 @@ import java.io.Serializable;
  * @author Jostin Castro
  */
 public class Notification implements Serializable {
-    
+    /**
+     * To create a notification with the five minutes left message.
+     */
     public static final byte FIVE_MINUTES = 0;
+    
+    /**
+     * To create a notification with the denied request message.
+     */
     public static final byte DENIED_REQUEST = 1;
+    
+    /**
+     * To create a notification with the accepted session request message.
+     */
     public static final byte ACCEPTED_REQUEST = 2;
+    
+    /**
+     * To create a notication with the deleted session message. 
+     */
     public static final byte DELETED_SESSION = 3;
     
     private static final String FIVE_MINUTES_LEFT = "La sesión iniciará en menos de 5 minutos";
@@ -31,6 +45,12 @@ public class Notification implements Serializable {
     private String extraInfo;
     private boolean sended;
     
+    /**
+     * Notification constructor wich contruct a notification with a definied message.
+     * @param type one of the public static variables of this class.
+     * @param sended boolean wich defines if the notification is sended to the user.
+     * @throws NotificationException if the type not correspond to a public static variable.
+     */
     public Notification(byte type, boolean sended) throws NotificationException {
         switch (type) {
             case FIVE_MINUTES:
@@ -50,7 +70,13 @@ public class Notification implements Serializable {
         this.type = type;
         this.sended = sended;
     }
-    
+    /**
+     * Notification constructor wich contruct a notification with a definied message.
+     * @param userId the destinatary od this notification.
+     * @param type one of the public static variables of this class.
+     * @param sended boolean wich defines if the notification is sended to the user.
+     * @throws NotificationException if the type not correspond to a public static variable.
+     */
     public Notification(String userId, byte type, boolean sended) throws NotificationException {
         this(type, sended);
         this.userId = userId;
@@ -63,6 +89,14 @@ public class Notification implements Serializable {
         this.sended = sended;
     }
     
+    /**
+     * 
+     * @param userId the destinatary of this notification.
+     * @param type one of the public static variables of this class
+     * @param sended boolean wich defines if the notification is sended to the user.
+     * @param extraInfo a extra information to the notification.
+     * @throws NotificationException if the type not correspond to a public static variable.
+     */
     public Notification(String userId, byte type, boolean sended, String extraInfo) throws NotificationException {
         this(userId, type, sended);
         this.extraInfo = extraInfo;

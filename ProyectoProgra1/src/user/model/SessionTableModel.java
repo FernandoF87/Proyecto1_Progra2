@@ -12,21 +12,38 @@ import javax.swing.table.DefaultTableModel;
 import server.model.Session;
 
 /**
- *
- * @version
+ * Custom model used to the different tabs in the MainFrame frame. 
+ * @version 29/06/2022
  * @author Jostin Castro
  */
 public class SessionTableModel extends DefaultTableModel {
     
+    /**
+     * The pre-defined column names.
+     */
+    
     private static final String[] columnNames = {
         "ID", "Categoria", "Tema", "Expositor", "Fecha", "Hora", "Duración", "Plataforma", "Tipo"
     };
+    
+    /**
+     * A vector with all the table sessions. 
+     */
     private Vector<Session> sessions;
+    
+    /**
+     * Class contructor, only puts the different column names in the table.
+     */
     
     public SessionTableModel() {
         super(columnNames, 0);
         
     }
+    
+    /**
+     * Method that fills all the table.
+     * @param sessions a Vector with the information to fill. 
+     */
     
     public void fillData(Vector<Session> sessions) {
         this.sessions = sessions;
@@ -51,6 +68,12 @@ public class SessionTableModel extends DefaultTableModel {
             super.setValueAt((temp.isOpen()) ? "Abierta" : "Cerrada", i, 8);
         }
     }
+    
+    /**
+     * Method used to show the information of the selected session on a tab.
+     * @param rowIndex the selected session index.
+     * @return the selected session object.
+     */
     
     public Session getSelectedSession(int rowIndex) {
         return sessions.get(rowIndex);

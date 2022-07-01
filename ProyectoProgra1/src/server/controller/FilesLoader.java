@@ -6,8 +6,8 @@
 package server.controller;
 
 /**
- *
- * @version
+ * This class load all the external files to the different server data structures.
+ * @version 30/06/2022
  * @author Jostin Castro
  */
 
@@ -55,16 +55,33 @@ public class FilesLoader {
     private static HashMap<String, server.model.Session> sessionList = new HashMap();
     private static ArrayList<server.model.Notification> notificationList = new ArrayList();
     private static Properties adminData;
-    
+   
+    //Encryption-Decryption key:
     private static final String KEY = "jorchozz";
+    
+    /**
+     * Load the users file to a collection.
+     * @return a HashMap with all the users.
+     */
     
     public static HashMap loadUsers() {
         return loadHashMap(USERS);
     }
     
+    /**
+     * Load the sessions file to a collection.
+     * @return a HashMap with all the sessions. 
+     */
+    
     public static HashMap loadSessions() {
         return loadHashMap(SESSION);
     }
+    
+    /**
+     * Internal use method, load a HashMap de according to type.
+     * @param type a byte used to select wich file load.
+     * @return a HashMap with the file data. 
+     */
     
     private static HashMap loadHashMap(byte type) {
         HashMap hashMap = null;
@@ -120,6 +137,11 @@ public class FilesLoader {
         return hashMap;
     }
     
+    /**
+     * Load the notifications file into a data estructure
+     * @return a ArrayList with all pendant notifications
+     */
+    
     public static ArrayList loadNotifications() {
         notificationList = new ArrayList();
         File file = new File(NOTIFICATIONS_FILE);
@@ -154,6 +176,10 @@ public class FilesLoader {
         return notificationList;
     }
     
+    /**
+     * Method of internal use, only load the properties file in the Properties class.
+     */
+    
     private static void loadPropertiesFile() {
         adminData = new Properties();
         try {
@@ -166,12 +192,22 @@ public class FilesLoader {
         }
     }
     
+    /**
+     * Method used to obtain the admin username.
+     * @return a String with the admin username.
+     */
+    
     public static String getAdminUser() {
         if (adminData == null) {
             loadPropertiesFile();
         }
         return adminData.getProperty("adminUser");
     }
+    
+    /**
+     * Method used to obtain the decrypted admin password
+     * @return a String with the admin password
+     */
     
     public static String getAdminPassword() {
         if (adminData == null) {
@@ -180,13 +216,25 @@ public class FilesLoader {
         return decrypt(adminData.getProperty("adminPassword"));
     }
     
+    /**
+     * Method used to update the users file.
+     */
     public static void updateUsers() {
         updateHashMap(USERS);
     }
     
+    /**
+     * Method used to update the sessions file.
+     */
+    
     public static void updateSessions() {
         updateHashMap(SESSION);
     }
+    
+    /**
+     * Method for internal use, writes a collection in a file.
+     * @param type a byte that select wich file modify.
+     */
     
     public static void updateHashMap(byte type) {
         String path = "";
@@ -234,6 +282,10 @@ public class FilesLoader {
         }
     }
     
+    /**
+     * Method used to write the notification collection in the notification file.
+     */
+    
     public static void updateNotifications() {
         File file = new File(NOTIFICATIONS_FILE);
         ObjectOutputStream output = null;
@@ -258,6 +310,11 @@ public class FilesLoader {
         }
     }
     
+    /**
+     * Method used to create a key to encrypt or decrypt a String.
+     * @return a SecretKeySpec with the key.
+     */
+    
     private static SecretKeySpec createPass() {
         try {
             byte[] string = KEY.getBytes("UTF-8");
@@ -270,12 +327,18 @@ public class FilesLoader {
         }
     }
     
-    private static String encrypt(String toEncript) {
+    /**
+     * Methot that allows to encrypt a determinated string.
+     * @param toEncrypt the String to encrypt.
+     * @return a encrypted String.
+     */
+    
+    private static String encrypt(String toEncrypt) {
         try {
             SecretKeySpec secretKey = createPass();
             Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-            byte[] string = toEncript.getBytes("UTF-8");
+            byte[] string = toEncrypt.getBytes("UTF-8");
             byte[] encripted = cipher.doFinal(string);
             Base64.Encoder encoder = Base64.getEncoder();
             return encoder.encodeToString(encripted);
@@ -288,6 +351,11 @@ public class FilesLoader {
         }
         return null;
     }
+    /**
+     * Method that uses the key to decrypt a String encrypted.
+     * @param toDecrypt the String to decrypt.
+     * @return a decrypted String.
+     */
     
     private static String decrypt(String toDecrypt) {
         try {
@@ -380,6 +448,8 @@ public class FilesLoader {
             }
         }
     }
+    
+    //BORRAR HASTA ACÁ
     
     
 }

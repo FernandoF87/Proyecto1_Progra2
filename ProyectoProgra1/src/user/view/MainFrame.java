@@ -20,7 +20,8 @@ import user.model.SessionTableModel;
 
 
 /**
- *
+ * Main user GUI, shows all the information needed of the sessions, manage new notifications.
+ * @version 30/06/2022
  * @author Jostin Castro
  */
 public class MainFrame extends javax.swing.JFrame {
@@ -42,6 +43,7 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Creates new form MainFrame
      */
+    
     public MainFrame(String username) {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -259,11 +261,23 @@ public class MainFrame extends javax.swing.JFrame {
         details.setVisible(true);
     }//GEN-LAST:event_tbSessionHistoryMouseClicked
 
+    /**
+     * Writes the data in the differents tables.
+     * @param table a byte indicating wich table is needed to write.
+     * @param data the data to write. 
+     */
+    
     public void writeData(byte table, Vector<Session> data) {
         SessionTableModel model = getTableModel(table);
         model.fillData(data);
         resetComponents();
     }
+    
+    /**
+     * Internal use method to get the selected table model.
+     * @param table a byte that indicate wich table model is needed. 
+     * @return the SessionTableModel of the selected tab.
+     */
     
     private SessionTableModel getTableModel(byte table) {
         switch(table) {
@@ -284,6 +298,11 @@ public class MainFrame extends javax.swing.JFrame {
     public void setSelectedOption(byte selectedOption) {
         this.selectedOption = selectedOption;
     }
+    
+    /**
+     * Method used to plays an audio clip and add visual effects in the notification button
+     * indicating a new notification.
+     */
     
     public void manageNewNotification() {
         readedNotification = false;
@@ -317,6 +336,10 @@ public class MainFrame extends javax.swing.JFrame {
         new Thread(task).start();
     }
     
+    /**
+     * Enables the user interface.
+     */
+    
     public void resetComponents() {
         tbControls.setEnabled(true);
         tbAvailableSessions.setEnabled(true);
@@ -326,6 +349,10 @@ public class MainFrame extends javax.swing.JFrame {
         btNotifications.setEnabled(true);
         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
+    
+    /**
+     * Disable all the components in the frame.
+     */
     
     private void disableComponents() {
         tbControls.setEnabled(false);
