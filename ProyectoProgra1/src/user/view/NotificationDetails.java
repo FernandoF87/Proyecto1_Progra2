@@ -19,7 +19,7 @@ import server.exceptions.NotificationException;
 import server.model.Notification;
 
 /**
- *
+ * Show a detailed view of a notification.
  * @author Jostin Castro
  */
 public class NotificationDetails extends javax.swing.JDialog {
@@ -117,12 +117,19 @@ public class NotificationDetails extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_btCloseActionPerformed
     
+    /**
+     * Method used to charge and show detailed information of a notification.
+     * @param notification the notification to put.
+     */
+    
     public void loadNotification(Notification notification) {
-        final String startLink = "<html><p><a href=\"";
-        final String endLink = "</a></p></html>";
+        final String START_LINK = "<html><p><a href=\""; //To show in a hyperlink format
+        final String END_LINK = "</a></p></html>";
+        final String MID_LINK = "\">";
+        final String DEFAULT_MESSAGE = "** No hay información adicional **";
         tfTypeNotification.setText(notification.getMessage());
         if (notification.getType() == Notification.FIVE_MINUTES) {
-            this.remove(taDetails);
+            this.remove(taDetails); //Removed text area to put there a label with text, and a label with the link.
             this.remove(jScrollPane1);
             this.setSize(this.getSize().width, 250);
             Point point = lbDescription.getLocation();
@@ -131,7 +138,7 @@ public class NotificationDetails extends javax.swing.JDialog {
             lb1.setBounds(150, point.y, 220, 20);
             lb1.setVisible(true);
             
-            JLabel lbLink = new JLabel(startLink + notification.getExtraInfo() + "\">" + notification.getExtraInfo() +  endLink);
+            JLabel lbLink = new JLabel(START_LINK + notification.getExtraInfo() + MID_LINK + notification.getExtraInfo() +  END_LINK);
             lbLink.setBounds(150, point.y + 25, 220, 20);
             lbLink.addMouseListener(new MouseListener() {
                         @Override
@@ -168,14 +175,15 @@ public class NotificationDetails extends javax.swing.JDialog {
                         public void mouseExited(MouseEvent e) {
                             lbLink.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                         }
-                    });
+                    }); //Adds a listener to the label.
             lbLink.setVisible(true);
-            this.add(lb1);
+            this.add(lb1);  //Add the two labels.
             this.add(lbLink);
             
         } else {
+            //If theres not extra info in the notification, show a default message
             if (notification.getExtraInfo() == null) {
-                taDetails.setText("** No hay información adicional **");
+                taDetails.setText(DEFAULT_MESSAGE);
             } else {
                 taDetails.setText(notification.getExtraInfo());
             }

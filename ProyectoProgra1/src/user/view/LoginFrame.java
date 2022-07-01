@@ -150,15 +150,21 @@ public class LoginFrame extends javax.swing.JFrame {
     
     private void btLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLoginActionPerformed
         // TODO add your handling code here:
+        final String EMPTY_EMAIL = "ERROR: El nombre de usuario se encuentra vacio";
+        final String EMPTY_PASS = "ERROR: El campo contraseña está vacio";
+        final String START_TEXT = "<html><p>";
+        final String START_PAR = "<p>";
+        final String END_PAR = "</p>";
+        final String END_TEXT = "</html>";
         String text = "";
         if (tfEmail.getText().isEmpty() || tfEmail.getText().isBlank()) {
-            text += "ERROR: El nombre de usuario se encuentra vacio</p>";
+            text += START_TEXT + EMPTY_EMAIL + END_PAR;
         }
         if (pfPassword.getPassword().length == 0) {
-            text += "<p>ERROR: El campo contraseña está vacio</p>";
+            text += ((text.isEmpty()) ? START_TEXT : START_PAR) + EMPTY_PASS + END_PAR;
         }
         if (!text.isEmpty()) {
-            text += "</html>";
+            text += END_TEXT;
             MessageDialog.showMessageDialog(text, "Error");
         } else {
             option = LOGIN;
@@ -191,6 +197,7 @@ public class LoginFrame extends javax.swing.JFrame {
     /**
      * Method used to reset the different components in the frame.
      */
+    
     public void resetComponents() {
         pfPassword.setText("");
         btLogin.setEnabled(true);

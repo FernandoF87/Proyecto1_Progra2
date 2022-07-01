@@ -11,7 +11,8 @@ import server.model.Notification;
 import user.model.NotificationTableModel;
 
 /**
- *
+ * An basic dialog to show all the notifications receipted.
+ * @version 30/06/2022
  * @author Jostin Castro
  */
 public class NotificationsDialog extends javax.swing.JDialog {
@@ -81,12 +82,20 @@ public class NotificationsDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * If the button close is clicked, puts the dialog visibility in false.
+     * @param evt 
+     */
     private void btCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCloseActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
         ((MainFrame) getParent()).resetComponents();
     }//GEN-LAST:event_btCloseActionPerformed
 
+    /**
+     * If a notification is clicked, a notification dialog is open.
+     * @param evt the click event.
+     */
     private void tbNotificationsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbNotificationsMouseClicked
         // TODO add your handling code here:
         NotificationTableModel model = (NotificationTableModel) tbNotifications.getModel();
@@ -95,21 +104,31 @@ public class NotificationsDialog extends javax.swing.JDialog {
         details.setVisible(true);
     }//GEN-LAST:event_tbNotificationsMouseClicked
 
+    /**
+     * Method used to fill the table with the notifications.
+     * @param notifications a LinkedList with all the notification to put.
+     */
+    
     public void loadNotifications(LinkedList<Notification> notifications) {
+        final byte DEFAULT_NOTIFICATION = -1;
+        
         NotificationTableModel model = (NotificationTableModel) tbNotifications.getModel();
         if (notifications.size() > 0) {
-            if (notifications.get(0).getType() == -1) {
+            //If the notification in the first position is a default notification, it erases it.
+            if (notifications.get(0).getType() == DEFAULT_NOTIFICATION) {
                 notifications.poll();
                 model.setRowCount(notifications.size());
             }
+            //Fill the table with the notifications.
             for (int i = 0; i < notifications.size(); i++) {
                 model.setValueAt(notifications.get(i), i, 0);
             }
         } else {
-            Notification temp = new Notification(null, "No tiene notificaciones", true);
+            //In case of receipt and size 0 LinkedList, it puts a default notication.
+            Notification temp = new Notification(null, "No tiene notificaciones", true); 
             model.setRowCount(1);
             model.setValueAt(temp.getMessage(), 0, 0);
-            temp.setType((byte) -1);
+            temp.setType(DEFAULT_NOTIFICATION);
             notifications.add(temp);
             
         }

@@ -5,13 +5,19 @@
 package user.view;
 
 /**
- *
+ * A simple dialog used to show small messages to the user.
  * @author Jostin Castro
  */
 public class MessageDialog extends javax.swing.JDialog {
 
     /**
-     * Creates new form MessageDialog
+     * Creates new form MessageDialog.
+     * @param parent the parent of the dialog.
+     * @param modal specifies whether dialog blocks user input to other top-level
+     * windows when shown. If {@code true}, the modality type property is set to
+     * {@code DEFAULT_MODALITY_TYPE}, otherwise the dialog is modeless. 
+     * @param message the message to show.
+     * @param title the title of the dialog.
      */
     public MessageDialog(java.awt.Frame parent, boolean modal, String message, String title) {
         super(parent, modal);
@@ -22,10 +28,21 @@ public class MessageDialog extends javax.swing.JDialog {
         this.setVisible(true);
     }
     
+    /**
+     * Creates a new message dialog.
+     * @param message the message to show.
+     * @param title the title of the dialog.
+     */
+    
     public MessageDialog(String message, String title) {
         this(null, false, message, title);
     }
     
+    /**
+     * Shows the message dialog with a message and a tittle.
+     * @param message the message to show.
+     * @param title the title of the dialog.
+     */
     public static void showMessageDialog(String message, String title) {
         new MessageDialog(message, title);
     }
@@ -50,8 +67,8 @@ public class MessageDialog extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(69, 69, 69)
-                .addComponent(lbMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17)
+                .addComponent(lbMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 487, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(16, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(

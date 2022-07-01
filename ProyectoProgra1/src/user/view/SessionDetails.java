@@ -33,6 +33,7 @@ public class SessionDetails extends javax.swing.JDialog {
     
     private Session data;
     private JButton btCancel;
+    private final int WAIT_TIME = 1000;
     
     public SessionDetails(java.awt.Frame parent, boolean modal, byte type, Session data) {
         super(parent, modal);
@@ -272,7 +273,7 @@ public class SessionDetails extends javax.swing.JDialog {
         ((MainFrame) getParent()).setSelectedOption(MainFrame.ENROLL_SESSION);
         do {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(WAIT_TIME);
             } catch (InterruptedException ex) {
                 
             }
@@ -293,9 +294,13 @@ public class SessionDetails extends javax.swing.JDialog {
         ((MainFrame) getParent()).resetComponents();
     }//GEN-LAST:event_formWindowClosed
 
+    /**
+     * Method used to fill all the field of the dialog. 
+     */
     
     private void fillData() {
         if (data != null) {
+            final String DATE_FORMAT = "dd MMM yyyy hh:mm aaa";
             tfId.setText(data.getSesionId());
             tfExpositor.setText(data.getExpositor());
             tfMinutes.setText(Integer.toString(data.getDuration()));
@@ -306,11 +311,16 @@ public class SessionDetails extends javax.swing.JDialog {
             tfAvailableSpaces.setText(Integer.toString(data.availableSpaces()));
             tfPlatform.setText(data.getPlatform());
             GregorianCalendar temp = data.getDate();
-            SimpleDateFormat date = new SimpleDateFormat("dd MMM yyyy hh:mm aaa");
+            SimpleDateFormat date = new SimpleDateFormat(DATE_FORMAT);
             tfDate.setText(date.format(temp.getTime()));
         }
     }
     
+    /**
+     * Internal use method, used to adapt the dialog to the requirements,
+     * it adds buttons, or cuts the size of the dialog depending of the parameter.
+     * @param type a value to determine the type of the dialog.
+     */
     private void adaptForm(byte type) {
         
         switch (type) {
@@ -325,7 +335,8 @@ public class SessionDetails extends javax.swing.JDialog {
                 btEnroll.setEnabled(false);
                 GregorianCalendar tempDate = data.getDate();
                 GregorianCalendar now = (GregorianCalendar) GregorianCalendar.getInstance();
-                long diff = (tempDate.getTimeInMillis() - now.getTimeInMillis()) / 1000;
+                long diff = (tempDate.getTimeInMillis() - now.getTimeInMillis()) / 1000; //Calculate left time in seconds. 
+                //If the session starts in more of 5 minutes, then permit enroll or cancel the enroll.
                 if (diff > 300) {
                     Point point = btEnroll.getLocation();
                     Dimension dim = btEnroll.getSize();
@@ -333,7 +344,7 @@ public class SessionDetails extends javax.swing.JDialog {
                     pnData.add(btEnroll);
                     btCancel = new JButton("Cancelar inscripción");
                     btCancel.setBounds(100, (int) point.getY(), 150, (int) dim.getHeight());
-                    btCancel.addActionListener(new ActionListener() {
+                    btCancel.addActionListener(new ActionListener() { //Adds a listener to the button
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             ((MainFrame) getParent()).setSelectedOption(MainFrame.CANCEL_ENROLL_SESSION);
@@ -342,7 +353,7 @@ public class SessionDetails extends javax.swing.JDialog {
                             setCursor(new Cursor(Cursor.WAIT_CURSOR));
                             do {
                                 try {
-                                    Thread.sleep(1000);
+                                    Thread.sleep(WAIT_TIME);
                                 } catch (InterruptedException ex) {
                              
                                 }
@@ -355,10 +366,14 @@ public class SessionDetails extends javax.swing.JDialog {
                     btCancel.setVisible(true);
                     pnData.add(btCancel);
                 } else {
-                    String text = "<html><p><a href=\"" + data.getLink() + "\">" + data.getLink() + "</a></p></html>";
+                    //Code to show the session link
+                    final String START_LINK = "<html><p><a href=\"";
+                    final String END_LINK = "</a></p></html>";
+                    final String MID_LINK = "\">";
+                    String text = START_LINK + data.getLink() + MID_LINK + data.getLink() + END_LINK;
                     JLabel lbLink = new JLabel(text);
                     lbLink.setBounds(btEnroll.getLocation().x, btEnroll.getLocation().y, 100, 20);
-                    lbLink.addMouseListener(new MouseListener() {
+                    lbLink.addMouseListener(new MouseListener() { //Adds the mouse listener to the label.
                         @Override
                         public void mouseClicked(MouseEvent e) {
                             Desktop desktop = Desktop.getDesktop();
@@ -376,21 +391,23 @@ public class SessionDetails extends javax.swing.JDialog {
 
                         @Override
                         public void mousePressed(MouseEvent e) {
-                            
+                            //Not used
                         }
 
                         @Override
                         public void mouseReleased(MouseEvent e) {
-                            
+                            //Not used
                         }
 
                         @Override
                         public void mouseEntered(MouseEvent e) {
+                            //Puts the hand cursor when the mouse enter in the label area.
                             lbLink.setCursor(new Cursor(Cursor.HAND_CURSOR));
                         }
 
                         @Override
                         public void mouseExited(MouseEvent e) {
+                            //Purs the default cursor when the mouse exit of the label area.
                             lbLink.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                         }
                     });
@@ -400,6 +417,7 @@ public class SessionDetails extends javax.swing.JDialog {
                 }
                 break;
             case MainFrame.HISTORY_TAB:
+                //Cut the dialog to hide the button.
                 btEnroll.setEnabled(false);
                 Dimension dim = this.getSize();
                 this.setSize(dim.width, dim.height - 125);

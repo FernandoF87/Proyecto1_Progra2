@@ -22,15 +22,12 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 /**
- *
+ * Shows to the user a register form to put his information and create a new user.
+ * @version 30/06/2022
  * @author Jostin Castro
  */
 public class RegisterForm extends javax.swing.JDialog {
 
-    /**
-     * Creates new form RegisterForm
-     */
-    
     private boolean leapYear;
     
     private boolean complete;
@@ -49,6 +46,9 @@ public class RegisterForm extends javax.swing.JDialog {
     
     private final String PHONE_NUMBER_PLACEHOLDER = "00000000";
     
+    /**
+     * Creates new form RegisterForm
+     */
     
     public RegisterForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -67,12 +67,22 @@ public class RegisterForm extends javax.swing.JDialog {
         configureDate();
     }
     
+    /**
+     * Adds a placeholder to a text field.
+     * @param textField the text field to put a placeholder.
+     */
+    
     private void addPlaceholder(JTextField textField) {
         Font font = textField.getFont();
         font = font.deriveFont(Font.ITALIC);
         textField.setFont(font);
         textField.setForeground(Color.gray);
     }
+    
+    /**
+     * Removes a placeholder in a text field.
+     * @param textField the text field to remove a placeholder.
+     */
     
     private void removePlaceHolder(JTextField textField) {
         Font font = textField.getFont();
@@ -415,6 +425,10 @@ public class RegisterForm extends javax.swing.JDialog {
         closed = true;
     }//GEN-LAST:event_formWindowClosed
 
+    /**
+     * Method used to check if the id comply with the requirements.
+     * @return <b>true</b> if comply, <b>false</b> otherwise. 
+     */
     private boolean checkId() {
         if (tfId.getText().equals(ID_PLACEHOLDER)) {
             return false;
@@ -429,6 +443,11 @@ public class RegisterForm extends javax.swing.JDialog {
         return false;
     }
     
+    /**
+     * Method used to check if the email comply with the requirements.
+     * @return <b>true</b> if comply, <b>false</b> otherwise. 
+     */
+    
     private boolean checkMail() {
         final String EMAIL_PATTERN = "[a-zA-Z0-9_.]{1,}[@]{1}[a-z1-9-.]+[.]{1}[a-z]{2,4}";
         Pattern pat = Pattern.compile(EMAIL_PATTERN);
@@ -439,6 +458,10 @@ public class RegisterForm extends javax.swing.JDialog {
         return false;
     }
     
+    /**
+     * Method used to check if the born date comply with the requirements.
+     * @return <b>true</b> if comply, <b>false</b> otherwise. 
+     */ 
     
     private boolean checkBornDate() {
         final byte MIN_AGE = 18;
@@ -453,6 +476,11 @@ public class RegisterForm extends javax.swing.JDialog {
         return false;
     }
     
+    /**
+     * Method used to check if the name comply with the requirements.
+     * @return <b>true</b> if comply, <b>false</b> otherwise. 
+     */
+    
     private boolean checkName() {
         final String NAME_PATTERN = "[[a-zA-Z]+|\\s{1}]{1,100}";
         Pattern pat = Pattern.compile(NAME_PATTERN);
@@ -462,6 +490,11 @@ public class RegisterForm extends javax.swing.JDialog {
         }
         return false;
     }
+    
+    /**
+     * Method used to check if the password comply with the requirements.
+     * @return <b>true</b> if comply, <b>false</b> otherwise. 
+     */
     
     private String checkPassword() {
         char[] pass1 = pfPassword.getPassword();
@@ -484,6 +517,11 @@ public class RegisterForm extends javax.swing.JDialog {
         }
         return null;
     }
+    
+    /**
+     * Method used to check if the email comply with the requirements.
+     * @return <b>true</b> if comply, <b>false</b> otherwise. 
+     */
     
     private boolean checkPhoneNumber() {
         if (tfPhoneNumber.getText().equals(PHONE_NUMBER_PLACEHOLDER)) {
@@ -531,6 +569,9 @@ public class RegisterForm extends javax.swing.JDialog {
     }
 
     
+    /**
+     * Internal use method, used to set the different days by month, or determine if a year is a leap year.
+     */
     
     private void configureDate() {
         spYear.addChangeListener(new ChangeListener() {

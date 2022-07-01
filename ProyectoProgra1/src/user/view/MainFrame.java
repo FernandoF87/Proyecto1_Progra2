@@ -14,7 +14,6 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.table.DefaultTableModel;
 import server.model.Session;
 import user.model.SessionTableModel;
 
@@ -308,16 +307,17 @@ public class MainFrame extends javax.swing.JFrame {
         readedNotification = false;
         File file = new File(NOTIFICATION_AUDIO);
         try {
-            AudioInputStream audioInput = AudioSystem.getAudioInputStream(file);
+            AudioInputStream audioInput = AudioSystem.getAudioInputStream(file); //Open input stream
             Clip clip = AudioSystem.getClip();
             clip.open(audioInput);
-            clip.start();
+            clip.start(); //Start the reproduction of the clip
         } catch (IOException | UnsupportedAudioFileException | LineUnavailableException ex) {
             ex.printStackTrace();
         }
         
         Color buttonColor = btNotifications.getBackground();
-        Runnable task = () -> {
+        //Creates a thread to change the color of the notification button
+        Runnable task = () -> {  
             while (!readedNotification) {
                 btNotifications.setBackground(Color.red);
                 try {
@@ -333,11 +333,11 @@ public class MainFrame extends javax.swing.JFrame {
                 }
             }
         };
-        new Thread(task).start();
+        new Thread(task).start(); //Starts the thread
     }
     
     /**
-     * Enables the user interface.
+     * Enables the components of the frame.
      */
     
     public void resetComponents() {
