@@ -111,6 +111,7 @@ public class NotificationsDialog extends javax.swing.JDialog {
     
     public void loadNotifications(LinkedList<Notification> notifications) {
         final byte DEFAULT_NOTIFICATION = -1;
+        final String DEFAULT_MESSAGE = "No tiene notificaciones";
         
         NotificationTableModel model = (NotificationTableModel) tbNotifications.getModel();
         if (notifications.size() > 0) {
@@ -125,7 +126,7 @@ public class NotificationsDialog extends javax.swing.JDialog {
             }
         } else {
             //In case of receipt and size 0 LinkedList, it puts a default notication.
-            Notification temp = new Notification(null, "No tiene notificaciones", true); 
+            Notification temp = new Notification(null, DEFAULT_MESSAGE, true); 
             model.setRowCount(1);
             model.setValueAt(temp.getMessage(), 0, 0);
             temp.setType(DEFAULT_NOTIFICATION);

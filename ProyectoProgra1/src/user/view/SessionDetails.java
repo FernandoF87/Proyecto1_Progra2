@@ -279,6 +279,8 @@ public class SessionDetails extends javax.swing.JDialog {
             }
         } while (((MainFrame) getParent()).getSessionId() != null);
         if (data.isOpen()) {
+            //Rest in one the available spaces.
+            tfAvailableSpaces.setText(Integer.toString(Integer.parseInt(tfAvailableSpaces.getText()) - 1));
             MessageDialog.showMessageDialog("Se ha inscrito en la sesión", "Hecho");
         } else {
             MessageDialog.showMessageDialog("Se le enviará una notificación en caso de ser aprobado en esta sesión", "Hecho");
@@ -359,6 +361,7 @@ public class SessionDetails extends javax.swing.JDialog {
                                 }
                             } while (((MainFrame) getParent()).getSessionId() != null);
                             MessageDialog.showMessageDialog("Se ha eliminado de la sesión", "Correcto");
+                            tfAvailableSpaces.setText(Integer.toString(Integer.parseInt(tfAvailableSpaces.getText()) + 1));
                             setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                             btEnroll.setEnabled(true);
                         }

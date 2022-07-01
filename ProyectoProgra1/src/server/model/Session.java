@@ -41,7 +41,7 @@ public class Session implements Serializable, Cloneable {
         this.notifSent = notifSent;
         this.finalized = finalized;
         participantList = new ArrayList();
-        if (open) {
+        if (!open) {
             waitingParticipantsList = new HashMap<>();
         }
     }

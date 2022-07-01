@@ -42,7 +42,7 @@ public class UserThread {
     private ObjectOutputStream output;
     
     private final int PORT = 8000;
-    private final int WAIT_TIME = 2000;
+    private final int WAIT_TIME = 3000;
     private final String HOST = "127.0.0.1";
     
     private String loggedUsername;
