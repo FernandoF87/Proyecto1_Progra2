@@ -23,13 +23,24 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.Properties;
 import java.util.Set;
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.SecretKeySpec;
 
 
-import server.model.User;
-import server.model.Session;
 import server.model.Notification;
+import server.model.Session;
+import server.model.User;
 
 public class FilesLoader {
     
@@ -45,13 +56,13 @@ public class FilesLoader {
     private static ArrayList<server.model.Notification> notificationList = new ArrayList();
     private static Properties adminData;
     
+    private static final String KEY = "jorchozz";
+    
     public static HashMap loadUsers() {
-        final byte USERS = 0;
         return loadHashMap(USERS);
     }
     
     public static HashMap loadSessions() {
-        final byte SESSION = 1;
         return loadHashMap(SESSION);
     }
     
@@ -78,8 +89,14 @@ public class FilesLoader {
             Object object = input.readObject();
             while (object != null) {
                 if (object != null) {
-                    hashMap.put(((type == USERS)?((server.model.User) object).getEmail(): ((server.model.Session) object).getSesionId()), 
-                        ((type == USERS)? (server.model.User) object: (server.model.Session) object));
+                    if (type == USERS) {
+                        User user = (User) object;
+                        user.setPassword(decrypt(user.getPassword()));
+                        hashMap.put(user.getEmail(), user);
+                    } else {
+                        Session session = (Session) object;
+                        hashMap.put(session.getSesionId(), session);
+                    }
                     object = input.readObject();
                 } 
             }
@@ -160,7 +177,7 @@ public class FilesLoader {
         if (adminData == null) {
             loadPropertiesFile();
         }
-        return adminData.getProperty("adminPassword");
+        return decrypt(adminData.getProperty("adminPassword"));
     }
     
     public static void updateUsers() {
@@ -192,10 +209,18 @@ public class FilesLoader {
         try {
             FileOutputStream fileOutput = new FileOutputStream(file);
             output = new ObjectOutputStream(fileOutput);
-            
-            for (String temp: (Set<String>) hashMap.keySet()) {
-                output.writeObject(hashMap.get(temp));
+            if (type == USERS) {
+                for (String temp: (Set<String>) hashMap.keySet()) {
+                    User user = (User) hashMap.get(temp); 
+                    user.setPassword(encrypt(user.getPassword()));
+                    output.writeObject(user);
+                } 
+            } else {
+                for (String temp : (Set<String>) hashMap.keySet()) {
+                    output.writeObject(hashMap.get(temp));
+                }
             }
+            
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         } catch (IOException ex){
@@ -232,6 +257,57 @@ public class FilesLoader {
             }
         }
     }
+    
+    private static SecretKeySpec createPass() {
+        try {
+            byte[] string = KEY.getBytes("UTF-8");
+            MessageDigest md = MessageDigest.getInstance("SHA-1");
+            string = Arrays.copyOf(string, 16);
+            SecretKeySpec secretKeySpec = new SecretKeySpec(string, "AES");
+            return secretKeySpec;
+        } catch (UnsupportedEncodingException | NoSuchAlgorithmException ex) {
+            return null;
+        }
+    }
+    
+    private static String encrypt(String toEncript) {
+        try {
+            SecretKeySpec secretKey = createPass();
+            Cipher cipher = Cipher.getInstance("AES");
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+            byte[] string = toEncript.getBytes("UTF-8");
+            byte[] encripted = cipher.doFinal(string);
+            Base64.Encoder encoder = Base64.getEncoder();
+            return encoder.encodeToString(encripted);
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException ex) {
+            ex.printStackTrace();
+        } catch (InvalidKeyException | UnsupportedEncodingException ex) {
+            ex.printStackTrace();
+        } catch (IllegalBlockSizeException | BadPaddingException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+    
+    private static String decrypt(String toDecrypt) {
+        try {
+            SecretKeySpec secretKey = createPass();
+            Cipher cipher = Cipher.getInstance("AES");
+            cipher.init(Cipher.DECRYPT_MODE, secretKey);
+            Base64.Decoder decoder = Base64.getDecoder();
+            byte[] string = decoder.decode(toDecrypt);
+            byte[] decryptate = cipher.doFinal(string);
+            return new String(decryptate);
+        } catch (BadPaddingException | IllegalBlockSizeException ex) {
+            ex.printStackTrace();
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException ex) {
+            ex.printStackTrace();
+        } catch (InvalidKeyException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+    
     
     //METODOS TEMPORALES. BORRAR ANTES DE ENTREGAR
     
@@ -281,8 +357,16 @@ public class FilesLoader {
             FileOutputStream fileOutput = new FileOutputStream(file);
             output = new ObjectOutputStream(fileOutput);
             
-            for (String temp: (Set<String>) hashMap.keySet()) {
-                output.writeObject(hashMap.get(temp));
+            if (type == USERS) {
+                for (String temp: (Set<String>) hashMap.keySet()) {
+                    User user = (User) hashMap.get(temp); 
+                    user.setPassword(encrypt(user.getPassword()));
+                    output.writeObject(user);
+                } 
+            } else {
+                for (String temp : (Set<String>) hashMap.keySet()) {
+                    output.writeObject(hashMap.get(temp));
+                }
             }
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();

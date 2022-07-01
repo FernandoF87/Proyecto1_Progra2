@@ -266,10 +266,11 @@ public class UserThread {
                             System.out.println("Envio peticion" + main.getSelectedOption());
                         }
                     }
+                    lastSelected = main.getSelectedOption();
                     temp = (Transmission) input.readObject();
                     System.out.println("Llegada transmisión" + temp.getType() + "\n" + temp.getObject().toString());
                     main.writeData((byte) (temp.getType() - 2), temp.getObject());
-                    lastSelected = main.getSelectedOption();
+                    
                 } catch (SocketTimeoutException ex1) {
                     System.out.println("tiempo agotado");
                 } catch (IOException | ClassNotFoundException ex2) {
@@ -282,6 +283,7 @@ public class UserThread {
             } catch (ClassNotFoundException ex) {
                 MessageDialog.showMessageDialog("Error inesperado", "Error");
             }
+            System.out.println("Actual seleccionado: " + main.getSelectedOption() + "\nAnterior: " + lastSelected);
         } while ((main.getSelectedOption() != MainFrame.LOGIN_OUT));
         main.dispose();
     }

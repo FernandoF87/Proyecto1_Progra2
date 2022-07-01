@@ -25,7 +25,7 @@ public class LoginFrame extends javax.swing.JFrame {
     public final byte REGISTER = 2;
     
     /**
-     * Creates new form LoginFrame2
+     * Creates new form LoginFrame
      */
     public LoginFrame() {
         initComponents();
@@ -142,6 +142,11 @@ public class LoginFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * This method manages the action event when the users click on login button
+     * @param evt a click in the login button
+     */
+    
     private void btLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLoginActionPerformed
         // TODO add your handling code here:
         String text = "";
