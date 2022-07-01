@@ -72,7 +72,7 @@ public class Data {
     }
 
     //Eliminar sesion, se usa en el Adminview
-    public void deleteSession(String key) {
-        sessions.remove(key);
+    public Session deleteSession(String key) {
+        return sessions.remove(key);
     }
 }

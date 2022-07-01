@@ -198,7 +198,7 @@ public class AdminView extends javax.swing.JFrame {
         jListArea.setVisible(true);
         for (HashMap.Entry<String, Session> session : data.getSessions().entrySet()) {
 
-            sessionModel.addSessio(session.getValue());
+            sessionModel.addSession(session.getValue());
         }
         btnDeleteSession.setVisible(true);
         btnModify.setVisible(true);
@@ -212,7 +212,7 @@ public class AdminView extends javax.swing.JFrame {
         jListArea.setVisible(true);
         for (HashMap.Entry<String, Session> session : data.getSessions().entrySet()) {
 
-            sessionModel.addSessio(session.getValue());
+            sessionModel.addSession(session.getValue());
         }
         btnDeleteSession.setVisible(false);
         btnModify.setVisible(false);

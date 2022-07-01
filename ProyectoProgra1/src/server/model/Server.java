@@ -27,9 +27,11 @@ public class Server {
     private static Data data = new Data();
     private ArrayList<ConnectionThread> connections = new ArrayList<>();
     private HashMap<String, Session> sessions = data.getSessions();
+    private boolean execute = true;
 
+    // Quitar main cuando se implemente SessionSystem
     public static void main(String[] args) {
-       // new Server().runServer();
+        new Server().runServer();
        
         AdminView adminView = new AdminView(new javax.swing.JFrame(),true,data);
         adminView.setVisible(true);
@@ -42,7 +44,6 @@ public class Server {
         try {
             socket = new ServerSocket(PORT);
             socket.setSoTimeout(TIME_OUT);
-            boolean execute = true;
             // Listening channel
             while (execute) {
                 try {
@@ -96,5 +97,17 @@ public class Server {
                 }
             }
         }
+    }
+    
+    public void sendNotification(String msg, Session session) {
+        
+    }
+    
+    public void turnOff() {
+        execute = false;
+    }
+    
+    public static Data getData() {
+        return data;
     }
 }

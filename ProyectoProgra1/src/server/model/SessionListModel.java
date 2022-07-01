@@ -21,7 +21,7 @@ public class SessionListModel extends AbstractListModel {
         return s.getSesionId();
     }
 
-    public void addSessio(Session s) {
+    public void addSession(Session s) {
         listArray.add(s);
         this.fireIntervalAdded(this, getSize(), getSize() + 1);
     }
