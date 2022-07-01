@@ -20,26 +20,27 @@ public class ManageSessions extends javax.swing.JDialog {
      * Creates new form ManageSessions
      */
     private final Session session;
-    private final Data data;
-    
+    private static Data data;
+    private String message;
+
     public ManageSessions(javax.swing.JFrame parent, boolean modal, Data data, Session session) {
         initComponents();
         setLocationRelativeTo(parent);
-        
+
         this.data = data;
         this.session = session;
         setValues();
         setDate();
     }
-    
+
     private void setDate() {
         Date actualDate = Date.from(Instant.now());
         chooser.setDate(session.getDate().getTime());
         chooser.setMinSelectableDate(new java.util.Date(actualDate.getTime()));
-        
+
         spnHour.setModel(new javax.swing.SpinnerNumberModel(session.getDate().getTime().getHours(), session.getDate().getTime().getHours(), 23, 1));
         spnMinutes.setModel(new javax.swing.SpinnerNumberModel(session.getDate().getTime().getMinutes(), session.getDate().getTime().getMinutes(), 59, 1));
-        
+
     }
 
     /**
@@ -308,12 +309,13 @@ public class ManageSessions extends javax.swing.JDialog {
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        
+
         data.deleteSession(session.getSesionId());
+        message = "Borrada";
         dispose();
 
     }//GEN-LAST:event_btnDeleteActionPerformed
-    
+
     public void setValues() {
         txtCategory.setText(session.getCategory());
         txtDetail.setText(session.getDetail());
@@ -321,14 +323,18 @@ public class ManageSessions extends javax.swing.JDialog {
         txtTopic.setText(session.getTopic());
         txtExpositor.setText(session.getExpositor());
         rbtnOpen.setSelected(!session.isOpen());
-        
+
         String platform = session.getPlatform().toLowerCase();
         int indexPlatfor = 0;
         switch (platform) {
-            case "teams" -> indexPlatfor = 0;
-            case "zoom" -> indexPlatfor = 1;
-            case "google meet" -> indexPlatfor = 2;
-            case "skype" -> indexPlatfor = 3;
+            case "teams" ->
+                indexPlatfor = 0;
+            case "zoom" ->
+                indexPlatfor = 1;
+            case "google meet" ->
+                indexPlatfor = 2;
+            case "skype" ->
+                indexPlatfor = 3;
         }
         cbxPlatform.setSelectedIndex(indexPlatfor);
         spnDuratin.setValue(session.getDuration());
@@ -352,25 +358,31 @@ public class ManageSessions extends javax.swing.JDialog {
         } else {
             data.searchSessionId(session.getSesionId()).setOpen(false);
         }
-        
+
+        message = "Modificada";
+
     }//GEN-LAST:event_btnSaveSessionActionPerformed
 
     private void chooserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_chooserPropertyChange
-        
+
         if (chooser.getDate() != null) {
             if (chooser.getDate().getTime() > Date.from(Instant.now()).getTime()) {
                 spnHour.setModel(new javax.swing.SpinnerNumberModel(0, 0, 23, 1));
                 spnMinutes.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
-                
+
             } else {
-                
+
                 spnHour.setModel(new javax.swing.SpinnerNumberModel(Date.from(Instant.now()).getHours(), Date.from(Instant.now()).getHours(), 23, 1));
                 spnMinutes.setModel(new javax.swing.SpinnerNumberModel(Date.from(Instant.now()).getMinutes(), Date.from(Instant.now()).getMinutes(), 59, 1));
             }
         }
-        
+
 
     }//GEN-LAST:event_chooserPropertyChange
+
+    public String getMessage() {
+        return message;
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

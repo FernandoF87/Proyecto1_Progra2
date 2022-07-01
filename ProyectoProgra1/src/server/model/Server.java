@@ -29,13 +29,12 @@ public class Server {
     private boolean execute = true;
 
     // Quitar main cuando se implemente SessionSystem
-    public static void main(String[] args) {
-        new Server().runServer();
-       
-//        AdminView adminView = new AdminView(new javax.swing.JFrame(),true,data);
-//        adminView.setVisible(true);
-    }
-
+//    public static void main(String[] args) {
+//        new Server().runServer();
+//       
+////        AdminView adminView = new AdminView(new javax.swing.JFrame(),true,data,);
+////        adminView.setVisible(true);
+//    }
     public void runServer() {
         // Aqui se leen los archivos primeros y se cargan los datos
         for (String key : data.getUsers().keySet()) {
@@ -61,7 +60,7 @@ public class Server {
             ex.printStackTrace();
         }
     }
-    
+
     private void checkSessions() {
         for (String key : sessions.keySet()) {
             Session session = sessions.get(key);
@@ -97,15 +96,57 @@ public class Server {
             }
         }
     }
-    
+
     public void sendNotification(String msg, Session session) {
-        
+
+        switch (msg) {
+            case "Modificada":
+                sendNotification(Notification.MODIFIED_SESSION, session);
+                break;
+            case "Borrada":
+                sendNotification(Notification.DELETED_SESSION, session);
+                break;
+            case "Aceptado":
+                sendNotification(Notification.ACCEPTED_REQUEST, session);
+                break;
+            case "Denegado":
+                sendNotification(Notification.DENIED_REQUEST, session);
+                break;
+        }
+
     }
-    
+
+    private void sendNotification(byte type, Session session) {
+        ArrayList<String> usersNotified = new ArrayList<>();
+        ArrayList<Notification> tempNotifications = new ArrayList<>();
+        for (int i = 0; i < connections.size(); i++) {
+            ConnectionThread connectionTemp = connections.get(i);
+            try {
+                if (connectionTemp.getConnectionUser() != null && session.isParticipant(connectionTemp.getConnectionUser().getEmail())) {
+                    connectionTemp.notifyUser(new Notification(connectionTemp.getConnectionUser().getEmail(), type, true));
+                    usersNotified.add(connectionTemp.getConnectionUser().getEmail());
+                } else {
+                    tempNotifications.add(new Notification(type, false));
+                }
+            } catch (NotificationException ex) {
+                ex.printStackTrace();
+            } catch (ThreadDeath ex) {
+            }
+        }
+        for (int i = 0, count = 0; i < session.getParticipantList().size() && count < tempNotifications.size(); i++) {
+            if (!usersNotified.contains(session.getParticipantList().get(i))) {
+                tempNotifications.get(count).setUserId(session.getParticipantList().get(i));
+                data.addNotification(tempNotifications.get(count));
+                count++;
+            }
+        }
+
+    }
+
     public void turnOff() {
         execute = false;
     }
-    
+
     public static Data getData() {
         return data;
     }

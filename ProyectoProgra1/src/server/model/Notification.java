@@ -42,7 +42,7 @@ public class Notification implements Serializable {
     private static final String DENIED_SESSION_REQUEST = "Su solicitud de ingreso a la reunión fue rechazada";
     private static final String ACCEPTED_SESSION_REQUEST = "Su solicitud de ingreso a la reunión fue aceptada";
     private static final String DELETED_SESSION_MESSAGE = "Una sesión de su lista de sesiones inscritas fue eliminada";
-    private static final String MODIFIED_SESSION_MESSAGE = "Una session de su lista haa sido modificada";
+    private static final String MODIFIED_SESSION_MESSAGE = "Una session de su lista ha sido modificada";
 
     private byte type;
     private String message;

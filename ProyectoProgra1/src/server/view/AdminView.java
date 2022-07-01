@@ -193,7 +193,7 @@ public class AdminView extends javax.swing.JFrame {
         CreateSessions sessions = new CreateSessions(this, true, data);
 
         sessions.setVisible(true);
-        System.out.println("Probando");
+
     }//GEN-LAST:event_btnCreateSessionActionPerformed
 
     private void btnManageSessionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageSessionsActionPerformed
@@ -207,6 +207,7 @@ public class AdminView extends javax.swing.JFrame {
         btnDeleteSession.setVisible(true);
         btnModify.setVisible(true);
         btnSessionDetails.setVisible(false);
+
 
     }//GEN-LAST:event_btnManageSessionsActionPerformed
 
@@ -252,6 +253,7 @@ public class AdminView extends javax.swing.JFrame {
         ManageSessions manageSessions = new ManageSessions(this, true, data, session);
 
         manageSessions.setVisible(true);
+        server.sendNotification(manageSessions.getMessage(), session);
 
     }//GEN-LAST:event_btnModifyActionPerformed
 
