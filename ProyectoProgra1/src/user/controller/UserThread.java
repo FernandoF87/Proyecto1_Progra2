@@ -21,16 +21,13 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.LinkedList;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 import user.view.LoginFrame;
 import user.view.MessageDialog;
 import user.view.RegisterForm;
 import server.model.Transmission;
 import server.model.Notification;
-import server.model.Session;
-import server.model.User;
 import user.view.MainFrame;
 import user.view.NotificationsDialog;
 
@@ -98,14 +95,14 @@ public class UserThread {
                     login.setVisible(true);
                 } else if (login.getOption() == login.LOGIN) {
                     if (loginOption(login.getEmail(), login.getPassword())) {
-                        //Acá lo que pasa cuando todo está correcto
+                        //If login is correct:
                         login.setVisible(false);
                         loggedUserInterface();
                         login.setOption(login.WAIT);
                         login.resetComponents();
                         login.setVisible(true);
                     } else {
-                        //Login incorrecto, reinicio de interfaz LoginFrame
+                        //If login is incorrect:
                         login.setOption(login.WAIT);
                         login.resetComponents();
                     }
@@ -240,6 +237,7 @@ public class UserThread {
                 if (temp.getType() == Transmission.NOTIFICATION_REQUEST) {
                     Notification notification = (Notification) ((Vector) temp.getObject()).get(0);
                     newNotification(notification);
+                    main.manageNewNotification();
                     System.out.println("Llegada de notificación " + temp);
                 }
             } catch (SocketTimeoutException ex) {
@@ -273,11 +271,10 @@ public class UserThread {
                                 output.writeObject(new Transmission(Transmission.LOGOUT_REQUEST, null));
                                 break;
                         }
-                        if (main.getSelectedOption() != MainFrame.NOTIFICATION_OPTION && main.getSelectedOption() != -1) {
+                        if (main.getSelectedOption() != MainFrame.NOTIFICATION_OPTION) {
                             output.flush();
                             System.out.println("Envio peticion" + main.getSelectedOption());
                         }
-                        //main.setSelectedOption((byte) -1);
                     }
                     lastSelected = main.getSelectedOption();
                     temp = (Transmission) input.readObject();

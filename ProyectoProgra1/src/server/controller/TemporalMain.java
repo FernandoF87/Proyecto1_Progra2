@@ -6,6 +6,7 @@
 package server.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import server.exceptions.NotificationException;
@@ -47,10 +48,29 @@ public class TemporalMain {
 //        user.setUserID("207890325");
 //        testUserH.put(user.getEmail(), user);
 //        
+//
+//        GregorianCalendar temp = (GregorianCalendar) GregorianCalendar.getInstance();
+//        temp.set(Calendar.HOUR, 6);
+//        temp.set(Calendar.MINUTE, 0);
+//        temp.set(Calendar.AM_PM, Calendar.PM);
+//        Session session = new Session("ZM0", "Sesión n: " + 0, "Jostin Castro", "Sesiones de prueba", "http://google.com", "Zoom",
+//                    "Prueba", temp, 30, 25, true, false, Session.ACTIVE_STATE);
+//        
+//
 //        HashMap<String, Session> testSessionH = new HashMap();
-//        Session session = new Session("test", "test", "Jostin Castro", "Esto es una prueba", "dksdjfkd.com", "Zoom", 
-//            "Prueba", new GregorianCalendar(), 5, 25, false, false, false);
 //        testSessionH.put(session.getSesionId(), session);
+//        for (int i = 1; i < 10; i++) {
+//            byte hour = (byte) (Math.random() * 11);
+//            System.out.println(hour);
+//            temp = (GregorianCalendar) GregorianCalendar.getInstance();
+//            temp.set(Calendar.HOUR, hour);
+//            temp.set(Calendar.MINUTE, 0);
+//            temp.set(Calendar.DAY_OF_MONTH, i);
+//            session = new Session("ZM" + i, "Sesión n: " + i, "Jostin Castro", "Sesiones de prueba", "http://google.com", "Zoom",
+//                    "Prueba", temp, 30, 25, ((i % 2) == 0) ?true : false, false, Session.ACTIVE_STATE);
+//            testSessionH.put(session.getSesionId(), session);
+//        }
+//        
 //        
 //        FilesLoader.updateNotifications(testArray);
 //        FilesLoader.updateHashMap((byte) 0, testUserH);

@@ -46,7 +46,30 @@ public class MessageDialog extends javax.swing.JDialog {
     public static void showMessageDialog(String message, String title) {
         new MessageDialog(message, title);
     }
+    
+    /**
+     * Show the message dialog with a message, title, and a option to lock the background threads.
+     * @param modal <b>true</b> if you want to lock the background threads, <b>false</b> otherwise.
+     * @param message the message to show.
+     * @param title the title of the dialog.
+     */
+    public static void showMessageDialog(boolean modal, String message, String title) {
+        new MessageDialog(null, modal, message, title);
+    }
 
+    
+    /**
+     * Show the message dialog with a message, title, and a option to lock the background threads and his parent.
+     * @param parent the frame parent of this dialog.
+     * @param modal <b>true</b> if you want to lock the background threads, <b>false</b> otherwise.
+     * @param message the message to show.
+     * @param title the title of the dialog.
+     */
+    
+    public static void showMessageDialog(java.awt.Frame parent, boolean modal, String message, String title) {
+        new MessageDialog(parent, modal, message, title);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -59,6 +82,7 @@ public class MessageDialog extends javax.swing.JDialog {
         lbMessage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setAlwaysOnTop(true);
 
         lbMessage.setText("jLabel1");
 

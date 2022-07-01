@@ -54,7 +54,6 @@ public class LoginFrame extends javax.swing.JFrame {
         pfPassword = new javax.swing.JPasswordField();
         btRegister = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Iniciar sesión");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -194,21 +193,19 @@ public class LoginFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btRegisterActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        //closed = true;
-        pfPassword.setEnabled(false);
-        tfEmail.setEnabled(false);
-        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+        
     }//GEN-LAST:event_formWindowClosed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-        disableComponents();
+        final int WAIT_TIME = 2000;
         closed = true;
         try {
-            Thread.sleep(2000);
+            Thread.sleep(WAIT_TIME);
         } catch (InterruptedException ex) {
-            
         }
+        System.exit(0);
+            
     }//GEN-LAST:event_formWindowClosing
 
     /**

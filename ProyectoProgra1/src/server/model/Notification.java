@@ -55,7 +55,7 @@ public class Notification implements Serializable {
      * message.
      *
      * @param type one of the public static variables of this class.
-     * @param sended boolean wich defines if the notification is sended to the
+     * @param sended boolean wich defines if the notification was sended to the
      * user.
      * @throws NotificationException if the type not correspond to a public
      * static variable.
@@ -88,9 +88,9 @@ public class Notification implements Serializable {
      * Notification constructor wich contruct a notification with a definied
      * message.
      *
-     * @param userId the destinatary od this notification.
+     * @param userId the destinatary of this notification.
      * @param type one of the public static variables of this class.
-     * @param sended boolean wich defines if the notification is sended to the
+     * @param sended boolean wich defines if the notification was sended to the
      * user.
      * @throws NotificationException if the type not correspond to a public
      * static variable.
@@ -111,7 +111,7 @@ public class Notification implements Serializable {
      *
      * @param userId the destinatary of this notification.
      * @param type one of the public static variables of this class
-     * @param sended boolean wich defines if the notification is sended to the
+     * @param sended boolean wich defines if the notification was sended to the
      * user.
      * @param extraInfo a extra information to the notification.
      * @throws NotificationException if the type not correspond to a public
