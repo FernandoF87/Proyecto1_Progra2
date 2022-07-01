@@ -7,7 +7,6 @@ package server.view;
 import java.time.Instant;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import javax.swing.JFrame;
 import server.exceptions.NotificationException;
 import server.model.Data;
 import server.model.Session;
@@ -331,16 +330,24 @@ public class CreateSessions extends javax.swing.JDialog {
                 (int) spnMinutes.getModel().getValue());
 
         try {
+            boolean open;
+            if (rbtnOpen.isSelected()) {
+                open = true;
+            } else {
+                open = false;
+            }
             Session session = director.buildSession(builder, txtTopic.getText(), txtExpositor.getText(),
                     txtDetail.getText(), txtLink.getText(), txtCategory.getText(),
-                    cbxPlatform.getSelectedItem().toString(), date, ERROR, ALLBITS, rootPaneCheckingEnabled, rootPaneCheckingEnabled, rootPaneCheckingEnabled);
+                    cbxPlatform.getSelectedItem().toString(), date, (int) spnDuratin.getValue(), (int) spnAmount.getValue(), open);
             data.addSession(session);
+            AddminMessageDialog.showMessageDialog("Sesion agregada", "Sesion agregada");
+            btnDeleteActionPerformed(evt);
         } catch (NotificationException ex) {
-            NotificationAdmin notificationAdmin = new NotificationAdmin(new JFrame(), true, ex.getMessage());
-            notificationAdmin.setVisible(true);
+            System.out.println(ex.getMessage());
+            AddminMessageDialog.showMessageDialog(ex.getMessage(), "Admin Exception");
         }
 
-        btnDeleteActionPerformed(evt);
+
     }//GEN-LAST:event_btnSaveSessionActionPerformed
 
     private void chooserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_chooserPropertyChange

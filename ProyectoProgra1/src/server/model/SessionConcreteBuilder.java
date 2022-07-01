@@ -10,24 +10,38 @@ import server.exceptions.NotificationException;
  * Joshua Mora Garita
  */
 public class SessionConcreteBuilder implements SessionAbstractBuilder {
-    
+
     private Session session;
-    
+
     @Override
     public void buildSesion() {
         session = new Session();
     }
-    
+
     @Override
     public void buildId(String id) throws NotificationException {
         if (id == null || id.trim().equals("")) {
             throw new NotificationException("El id no debe estar vacio");
         } else {
-            String concretId = session.getCategory() + "-" + id;
-            session.setSesionId(concretId);
+            String concretId = session.getPlatform();
+            switch (concretId) {
+                case "Zoom":
+                    concretId = "ZM";
+                    break;
+                case "Skype":
+                    concretId = "SKP";
+                    break;
+                case "Google Meet":
+                    concretId = "GMT";
+                    break;
+                case "Teams":
+                    concretId = "TMS";
+                    break;
+            }
+            session.setSesionId(concretId + "-" + id);
         }
     }
-    
+
     @Override
     public void buildCategory(String category) throws NotificationException {
         int valAscii = 0;
@@ -39,9 +53,9 @@ public class SessionConcreteBuilder implements SessionAbstractBuilder {
          */
         for (int i = 0; i < category.length(); i++) {
             valAscii = (int) category.charAt(i);
-            
+
             if (valAscii > 64 && valAscii < 91 || valAscii > 96 && valAscii < 123) {
-                
+
             } else {
                 throw new NotificationException("La categoria no debe contener"
                         + " caracteres especiales : " + category.charAt(i));
@@ -49,7 +63,7 @@ public class SessionConcreteBuilder implements SessionAbstractBuilder {
         }
         session.setCategory(category);
     }
-    
+
     @Override
     public void buildTopic(String topic) throws NotificationException {
         int valAscii = 0;
@@ -61,9 +75,9 @@ public class SessionConcreteBuilder implements SessionAbstractBuilder {
          */
         for (int i = 0; i < topic.length(); i++) {
             valAscii = (int) topic.charAt(i);
-            
+
             if (valAscii > 64 && valAscii < 91 || valAscii > 96 && valAscii < 123) {
-                
+
             } else {
                 throw new NotificationException("El tema no debe contener"
                         + " caracteres especiales : " + topic.charAt(i));
@@ -71,7 +85,7 @@ public class SessionConcreteBuilder implements SessionAbstractBuilder {
         }
         session.setTopic(topic);
     }
-    
+
     @Override
     public void buildExpositor(String expositor) throws NotificationException {
         int valAscii = 0;
@@ -84,9 +98,9 @@ public class SessionConcreteBuilder implements SessionAbstractBuilder {
          */
         for (int i = 0; i < expositor.length(); i++) {
             valAscii = (int) expositor.charAt(i);
-            
+
             if (valAscii > 64 && valAscii < 91 || valAscii > 96 && valAscii < 123) {
-                
+
             } else {
                 throw new NotificationException("El nombre del expositor no debe"
                         + " contener caracteres especiales : " + expositor.charAt(i));
@@ -94,7 +108,7 @@ public class SessionConcreteBuilder implements SessionAbstractBuilder {
         }
         session.setExpositor(expositor);
     }
-    
+
     @Override
     public void buildDetail(String detail) throws NotificationException {
         if (detail.length() > 300) {
@@ -102,7 +116,7 @@ public class SessionConcreteBuilder implements SessionAbstractBuilder {
         }
         session.setDetail(detail);
     }
-    
+
     @Override
     public void buildLink(String link) throws NotificationException {
         if (link == null || link.trim().equals("")) {
@@ -110,7 +124,7 @@ public class SessionConcreteBuilder implements SessionAbstractBuilder {
         }
         session.setLink(link);
     }
-    
+
     @Override
     public void buildPlatform(String platform) throws NotificationException {
         if (platform == null || platform.trim().equals("")) {
@@ -118,7 +132,7 @@ public class SessionConcreteBuilder implements SessionAbstractBuilder {
         }
         session.setPlatform(platform);
     }
-    
+
     @Override
     public void buildDate(GregorianCalendar date) throws NotificationException {
         GregorianCalendar localDate = new GregorianCalendar(Locale.ITALY);
@@ -127,7 +141,7 @@ public class SessionConcreteBuilder implements SessionAbstractBuilder {
         }
         session.setDate(date);
     }
-    
+
     @Override
     public void builDuration(int duration) throws NotificationException {
         if (duration < 30) {
@@ -135,23 +149,21 @@ public class SessionConcreteBuilder implements SessionAbstractBuilder {
         }
         session.setDuration(duration);
     }
-    
+
     @Override
     public void buildCapacity(int capacity) throws NotificationException {
-        if (capacity > 5 && capacity < 30) {
+        if (capacity >= 5 && capacity <= 30) {
             session.setCapacity(capacity);
         } else {
             throw new NotificationException("El cupo debe estar en 5 y 30");
         }
     }
-    
+
     @Override
     public void buildOpen(boolean open) {
         session.setOpen(open);
     }
-    
-    
-    
+
     @Override
     public Session getSession() throws NotificationException {
         if (session == null) {
@@ -159,5 +171,5 @@ public class SessionConcreteBuilder implements SessionAbstractBuilder {
         }
         return session;
     }
-    
+
 }

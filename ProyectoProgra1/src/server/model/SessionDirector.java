@@ -18,19 +18,20 @@ public class SessionDirector {
             String platform, GregorianCalendar date, int duration, int capacity,
             boolean open) throws NotificationException {
         builder.buildSesion();
-        builder.buildCategory(category);
+        builder.buildPlatform(platform);
         builder.buildId(contId);
         builder.buildTopic(topic);
         builder.buildExpositor(expositor);
         builder.buildDetail(detail);
         builder.buildLink(link);
-        builder.buildPlatform(platform);
+        builder.buildCategory(category);
+
         builder.buildDate(date);
         builder.builDuration(duration);
         builder.buildCapacity(capacity);
         builder.buildOpen(open);
         intCont++;
-        contId += intCont;
+        contId = "" + intCont;
         return builder.getSession();
     }
 
