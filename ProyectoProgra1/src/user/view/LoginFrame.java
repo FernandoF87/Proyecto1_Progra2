@@ -55,6 +55,7 @@ public class LoginFrame extends javax.swing.JFrame {
         btRegister = new javax.swing.JButton();
 
         setTitle("Iniciar sesión");
+        setAlwaysOnTop(true);
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {

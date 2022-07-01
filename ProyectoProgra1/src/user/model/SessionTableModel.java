@@ -60,7 +60,8 @@ public class SessionTableModel extends DefaultTableModel {
             GregorianCalendar dateInfo = temp.getDate();
             String date = dateInfo.get(Calendar.DAY_OF_MONTH) + " - " + (dateInfo.get(Calendar.MONTH) + 1)  +
                     " - " + dateInfo.get(Calendar.YEAR);
-            String time = dateInfo.get(Calendar.HOUR) + ":" + dateInfo.get(Calendar.MINUTE) + ((dateInfo.get(Calendar.AM_PM) == 0) ? "AM": "PM");
+            String time = dateInfo.get(Calendar.HOUR) + ":" + ((dateInfo.get(Calendar.MINUTE) < 10)? "0" + dateInfo.get(Calendar.MINUTE) :dateInfo.get(Calendar.MINUTE)) + 
+                    ((dateInfo.get(Calendar.AM_PM) == 0) ? "AM": "PM");
             super.setValueAt(date, i, 4);
             super.setValueAt(time, i, 5);
             super.setValueAt(temp.getDuration(), i, 6);

@@ -32,6 +32,7 @@ public class NotificationTableModel extends DefaultTableModel {
     public NotificationTableModel() {
         super(columnName, 0);
         
+        
     }
     /**
      * Method used to return the selected notification from the NotificationDialog.

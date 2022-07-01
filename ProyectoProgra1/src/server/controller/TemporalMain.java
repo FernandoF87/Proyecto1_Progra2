@@ -67,7 +67,7 @@ public class TemporalMain {
 //            temp.set(Calendar.MINUTE, 0);
 //            temp.set(Calendar.DAY_OF_MONTH, i);
 //            session = new Session("ZM" + i, "Sesión n: " + i, "Jostin Castro", "Sesiones de prueba", "http://google.com", "Zoom",
-//                    "Prueba", temp, 30, 25, ((i % 2) == 0) ?true : false, false, Session.ACTIVE_STATE);
+//                    "Prueba", temp, 30, 25, ((i % 2) == 0) ?true : false, false, Session.INACTIVE_STATE);
 //            testSessionH.put(session.getSesionId(), session);
 //        }
 //        
