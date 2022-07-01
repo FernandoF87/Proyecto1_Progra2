@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import server.exceptions.NotificationException;
-import server.view.AdminView;
 
 /**
  *
@@ -33,8 +32,8 @@ public class Server {
     public static void main(String[] args) {
         new Server().runServer();
        
-        AdminView adminView = new AdminView(new javax.swing.JFrame(),true,data);
-        adminView.setVisible(true);
+//        AdminView adminView = new AdminView(new javax.swing.JFrame(),true,data);
+//        adminView.setVisible(true);
     }
 
     public void runServer() {

@@ -10,8 +10,8 @@ public class SessionSystem {
 
     public static void main(String[] args) {
         Server server = new Server();
-//        AdminView adminView = new AdminView(new javax.swing.JFrame(),true, Server.getData(), server);
-//        adminView.setVisible(true);
-        server.runServer();
+        AdminView adminView = new AdminView(new javax.swing.JFrame(),true, Server.getData(), server);
+        adminView.setVisible(true);
+      //  server.runServer();
     }
 }

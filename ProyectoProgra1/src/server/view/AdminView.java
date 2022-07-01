@@ -7,6 +7,7 @@ package server.view;
 import java.util.HashMap;
 import javax.swing.JOptionPane;
 import server.model.Data;
+import server.model.Server;
 import server.model.Session;
 import server.model.SessionListModel;
 import server.model.User;
@@ -22,9 +23,10 @@ public class AdminView extends javax.swing.JFrame {
      */
     private SessionListModel sessionModel;
     private UserListModel userModel;
-    private Data data;
+    private static Data data;
+    private static Server server;
 
-    public AdminView(javax.swing.JFrame parent, boolean modal, Data data) {
+    public AdminView(javax.swing.JFrame parent, boolean modal, Data data, Server server) {
         views();
         initComponents();
         setLocationRelativeTo(null);
@@ -33,6 +35,7 @@ public class AdminView extends javax.swing.JFrame {
         btnModify.setVisible(false);
         btnSessionDetails.setVisible(false);
         this.data = data;
+        this.server = server;
 
     }
 
@@ -190,6 +193,7 @@ public class AdminView extends javax.swing.JFrame {
         CreateSessions sessions = new CreateSessions(this, true, data);
 
         sessions.setVisible(true);
+        System.out.println("Probando");
     }//GEN-LAST:event_btnCreateSessionActionPerformed
 
     private void btnManageSessionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageSessionsActionPerformed
@@ -268,7 +272,7 @@ public class AdminView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeleteSessionActionPerformed
 
     private void btnSessionDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSessionDetailsActionPerformed
-       int index = -2;
+        int index = -2;
         index = jListArea.getSelectedIndex();
         if (index == -1) {
             JOptionPane.showMessageDialog(this, "No ha seleccionado una sesion o no hay sesiones en la lista", "Error", NORMAL);
@@ -279,7 +283,7 @@ public class AdminView extends javax.swing.JFrame {
             return;
         }
         Session session = sessionModel.getSession(index);
-        
+
         SessionDetail sessionDetail = new SessionDetail(this, true, data, session);
         sessionDetail.setVisible(true);
     }//GEN-LAST:event_btnSessionDetailsActionPerformed
