@@ -79,7 +79,10 @@ public class Session implements Serializable, Cloneable {
     }
 
     public byte availableSpaces() {
-        return (byte) (capacity - participantList.size());
+        if (open) {
+            return (byte) (capacity - participantList.size());
+        }
+        return (byte) (capacity - (participantList.size() + waitingParticipantsList.size()));
     }
 
     public String getCategory() {

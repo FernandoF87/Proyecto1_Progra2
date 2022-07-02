@@ -44,6 +44,7 @@ public class UserThread {
     
     private String loggedUsername;
     private LinkedList<Notification> listNotifications;
+    private MainFrame main;
     private NotificationsDialog notifications;
     
     /**
@@ -206,7 +207,6 @@ public class UserThread {
     
     private void loggedUserInterface() {
         Transmission temp = null;
-        MainFrame main = null;
         byte lastSelected = -1;
         try {
             output.writeObject(new Transmission(Transmission.NOTIFICATION_REQUEST, null));
@@ -281,11 +281,21 @@ public class UserThread {
                     temp = (Transmission) input.readObject();
                     if (temp.getType() == Transmission.NOTIFICATION_REQUEST) {
                         break;
+                    } else if (temp.getType() == Transmission.ENROLL_SESSION_REQUEST) {
+                        Vector vector = temp.getObject();
+                        if (vector != null && vector.size() > 0) {
+                            if ((boolean) vector.get(0)) {
+                                MessageDialog.showMessageDialog(main, true, (String) vector.get(1), "Correcto");
+                                main.setSessionAcepted(Boolean.TRUE);
+                            } else {
+                                MessageDialog.showMessageDialog(main, true, (String) vector.get(1), "Incorrecto");
+                                main.setSessionAcepted(Boolean.TRUE);
+                            }
+                        }
+                    } else {
+                        main.writeData((byte) (temp.getType() - 2), temp.getObject());
                     }
-                    
                     System.out.println("Llegada transmisión" + temp.getType() + "\n" + temp.getObject().toString());
-                    main.writeData((byte) (temp.getType() - 2), temp.getObject());
-                    
                 } catch (SocketTimeoutException ex1) {
                     System.out.println("tiempo agotado");
                 } catch (IOException | ClassNotFoundException ex2) {

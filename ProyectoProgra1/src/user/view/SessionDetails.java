@@ -284,22 +284,20 @@ public class SessionDetails extends javax.swing.JDialog {
                 
             }
         } while (((MainFrame) getParent()).getSessionId() != null);
-        
-        if (data.isOpen()) {
-            //Rest one to the available spaces.
+        if (((MainFrame) getParent()).getSessionAcepted()) {
             tfAvailableSpaces.setText(Integer.toString(Integer.parseInt(tfAvailableSpaces.getText()) - 1));
-            MessageDialog.showMessageDialog("Se ha inscrito en la sesión", "Hecho");
+            //Removes the session from the table.
+            if (btCancel == null) {
+                model.removeRow(selectedRow);
+                ((MainFrame) getParent()).setSelectedOption(MainFrame.AVAILABLE_TAB);
+            } else {
+                btCancel.setEnabled(true);
+                ((MainFrame) getParent()).setSelectedOption(MainFrame.ENROLLED_TAB);
+            }
         } else {
-            MessageDialog.showMessageDialog("Se le enviará una notificación en caso de ser aprobado en esta sesión", "Hecho");
+            
         }
-        //Removes the session from the table.
-        if (btCancel == null) {
-            model.removeRow(selectedRow);
-            ((MainFrame) getParent()).setSelectedOption(MainFrame.AVAILABLE_TAB);
-        } else {
-            btCancel.setEnabled(true);
-            ((MainFrame) getParent()).setSelectedOption(MainFrame.ENROLLED_TAB);
-        }
+        
         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         
     }//GEN-LAST:event_btEnrollActionPerformed

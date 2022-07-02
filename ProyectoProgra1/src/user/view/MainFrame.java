@@ -27,6 +27,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private byte selectedOption;
     private String sessionId;
+    private Boolean sessionAcepted;
     
     public final static byte AVAILABLE_TAB = 0;
     public final static byte ENROLLED_TAB = 1;
@@ -378,6 +379,16 @@ public class MainFrame extends javax.swing.JFrame {
     public void setReadedNotification(boolean readedNotification) {
         this.readedNotification = readedNotification;
     }
+
+    public Boolean getSessionAcepted() {
+        return sessionAcepted;
+    }
+
+    public void setSessionAcepted(Boolean sessionAcepted) {
+        this.sessionAcepted = sessionAcepted;
+    }
+    
+    
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
