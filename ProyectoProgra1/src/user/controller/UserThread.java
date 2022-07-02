@@ -279,6 +279,10 @@ public class UserThread {
                     }
                     lastSelected = main.getSelectedOption();
                     temp = (Transmission) input.readObject();
+                    if (temp.getType() == Transmission.NOTIFICATION_REQUEST) {
+                        break;
+                    }
+                    
                     System.out.println("Llegada transmisión" + temp.getType() + "\n" + temp.getObject().toString());
                     main.writeData((byte) (temp.getType() - 2), temp.getObject());
                     

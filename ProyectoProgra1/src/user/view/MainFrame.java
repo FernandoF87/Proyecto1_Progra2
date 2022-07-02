@@ -223,6 +223,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void btNotificationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNotificationsActionPerformed
         selectedOption = NOTIFICATION_OPTION;
+        readedNotification = true;
         disableComponents();
     }//GEN-LAST:event_btNotificationsActionPerformed
 
@@ -374,6 +375,9 @@ public class MainFrame extends javax.swing.JFrame {
         this.sessionId = sessionId;
     }
     
+    public void setReadedNotification(boolean readedNotification) {
+        this.readedNotification = readedNotification;
+    }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
