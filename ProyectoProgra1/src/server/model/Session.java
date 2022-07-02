@@ -195,6 +195,10 @@ public class Session implements Serializable, Cloneable {
         }
         return false;
     }
+    
+    public boolean isWaiting(String userId) {
+        return waitingParticipantsList.containsKey(userId);
+    }
 
     public ArrayList<String> getParticipantList() {
         return participantList;

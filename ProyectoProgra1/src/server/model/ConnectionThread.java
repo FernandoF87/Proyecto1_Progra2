@@ -136,7 +136,7 @@ public class ConnectionThread extends Thread {
                 email = (String) (request.getObject().get(1));
                 password = (String) (request.getObject().get(2));
                 GregorianCalendar birthDate = (GregorianCalendar) (request.getObject().get(3));
-                String name = (String)(request.getObject().get(4));
+                String name = (String) (request.getObject().get(4));
                 int phone = (int) (request.getObject().get(5));
 
                 User newUser;
@@ -183,7 +183,13 @@ public class ConnectionThread extends Thread {
                 sessions = data.getSessions();
                 for (String sessionId : sessions.keySet()) {
                     if (sessions.get(sessionId).isParticipant(connectionUser.getEmail())) {
-                        answer.addComponent(sessions.get(sessionId).clone());
+                        Session temp = sessions.get(sessionId).clone();
+                        temp.setNotifSent(true);
+                        answer.addComponent(temp);
+                    } else if (sessions.get(sessionId).isWaiting(connectionUser.getEmail())) {
+                        Session temp = sessions.get(sessionId).clone();
+                        temp.setNotifSent(false);
+                        answer.addComponent(temp);
                     }
                 }
                 try {
@@ -225,14 +231,40 @@ public class ConnectionThread extends Thread {
                 }
                 break;
             case Transmission.ENROLL_SESSION_REQUEST:
+                answer = new Transmission(Transmission.ENROLL_SESSION_REQUEST);
                 String sessionId = (String) (request.getObject().get(0));
                 Session session = data.searchSessionId(sessionId);
+                // Verifies to not enroll in a session at the same time
+                for (String key : data.getSessions().keySet()) {
+                    Session temp = data.getSessions().get(key);
+                    if (temp.isParticipant(connectionUser.getEmail()) && session.getDate().equals(temp.getDate())) {
+                        answer.addComponent(false);
+                        answer.addComponent("Usted ya está inscrito en una sesión a la misma hora");
+                        try {
+                            output.writeObject(answer);
+                            System.out.println("Respuesta: " + answer.toString());
+                            output.flush();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        return;
+                    }
+                }
                 if (session.isOpen()) {
                     session.addUser(connectionUser.getEmail(), true);
                 } else {
                     session.addUser(connectionUser.getEmail(), false);
                 }
+                answer.addComponent(true);
+                try {
+                    output.writeObject(answer);
+                    System.out.println("Respuesta: " + answer.toString());
+                    output.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 break;
+
             case Transmission.CANCEL_ENROLL_REQUEST:
                 sessionId = (String) (request.getObject().get(0));
                 session = data.searchSessionId(sessionId);
