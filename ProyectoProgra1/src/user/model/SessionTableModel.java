@@ -69,6 +69,15 @@ public class SessionTableModel extends DefaultTableModel {
             super.setValueAt((temp.isOpen()) ? "Abierta" : "Cerrada", i, 8);
         }
     }
+    /**
+     * Permits add only one session to the table.
+     * @param session the session to add.
+     */
+    public void addSession(Session session) {
+        sessions.add(session);
+        fillData(sessions);
+    }
+    
     
     /**
      * Method used to show the information of the selected session on a tab.

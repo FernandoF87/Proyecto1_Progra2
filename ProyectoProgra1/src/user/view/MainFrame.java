@@ -229,7 +229,8 @@ public class MainFrame extends javax.swing.JFrame {
     private void tbAvailableSessionsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbAvailableSessionsMouseClicked
         disableComponents();
         SessionTableModel model = (SessionTableModel) tbAvailableSessions.getModel();
-        SessionDetails details = new SessionDetails(this, false, selectedOption, model.getSelectedSession(tbAvailableSessions.getSelectedRow()));
+        SessionDetails details = new SessionDetails(this, false, selectedOption, 
+                tbAvailableSessions.getSelectedRow(), model);
         details.setVisible(true);
     }//GEN-LAST:event_tbAvailableSessionsMouseClicked
 
@@ -249,7 +250,7 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         disableComponents();
         SessionTableModel model = (SessionTableModel) tbEnrolleddSessions.getModel();
-        SessionDetails details = new SessionDetails(this, false, selectedOption, model.getSelectedSession(tbEnrolleddSessions.getSelectedRow()));
+        SessionDetails details = new SessionDetails(this, false, selectedOption, tbEnrolleddSessions.getSelectedRow(), model);
         details.setVisible(true);
     }//GEN-LAST:event_tbEnrolleddSessionsMouseClicked
 
@@ -257,7 +258,7 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         disableComponents();
         SessionTableModel model = (SessionTableModel) tbSessionHistory.getModel();
-        SessionDetails details = new SessionDetails(this, false, selectedOption, model.getSelectedSession(tbSessionHistory.getSelectedRow()));
+        SessionDetails details = new SessionDetails(this, false, selectedOption, tbSessionHistory.getSelectedRow(), model);
         details.setVisible(true);
     }//GEN-LAST:event_tbSessionHistoryMouseClicked
 
