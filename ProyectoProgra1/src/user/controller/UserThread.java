@@ -265,6 +265,7 @@ public class UserThread {
                             case MainFrame.CANCEL_ENROLL_SESSION:
                                 temp = new Transmission(Transmission.CANCEL_ENROLL_REQUEST);
                                 temp.getObject().add(main.getSessionId());
+                                output.writeObject(temp);
                                 main.setSessionId(null);
                                 break;
                             case MainFrame.LOGIN_OUT:
