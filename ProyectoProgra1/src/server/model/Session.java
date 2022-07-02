@@ -75,6 +75,8 @@ public class Session implements Serializable, Cloneable {
     }
 
     public boolean removeUser(String userId) {
+        if (waitingParticipantsList != null)
+            waitingParticipantsList.remove(userId);
         return participantList.remove(userId);
     }
 

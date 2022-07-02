@@ -293,6 +293,7 @@ public class UserThread {
                             }
                         }
                     } else {
+                        System.out.println("Respuesta " + temp);
                         main.writeData((byte) (temp.getType() - 2), temp.getObject());
                     }
                     System.out.println("Llegada transmisión" + temp.getType() + "\n" + temp.getObject().toString());
