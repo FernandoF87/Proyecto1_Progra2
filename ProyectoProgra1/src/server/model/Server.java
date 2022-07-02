@@ -28,15 +28,12 @@ public class Server {
     private HashMap<String, Session> sessions = data.getSessions();
     private boolean execute = true;
 
-    
     // Quitar main cuando se implemente SessionSystem
     //public static void main(String[] args) {
-        //new Server().runServer();
-       
+    //new Server().runServer();
 //        AdminView adminView = new AdminView(new javax.swing.JFrame(),true,data,);
 //        adminView.setVisible(true);
     //}
-    
     public void runServer() {
         // Aqui se leen los archivos primeros y se cargan los datos
         try {
@@ -79,21 +76,23 @@ public class Server {
     }
 
     public void sendNotification(String msg, Session session) {
-        switch (msg) {
-            case "Modificada":
-                sendNotification(Notification.MODIFIED_SESSION, session);
-                break;
-            case "Borrada":
-                sendNotification(Notification.DELETED_SESSION, session);
-                break;
-            case "Aceptado":
-                sendNotification(Notification.ACCEPTED_REQUEST, session);
-                break;
-            case "Denegado":
-                sendNotification(Notification.DENIED_REQUEST, session);
-                break;
+        if (msg != null) {
+            switch (msg) {
+                case "Modificada":
+                    sendNotification(Notification.MODIFIED_SESSION, session);
+                    break;
+                case "Borrada":
+                    sendNotification(Notification.DELETED_SESSION, session);
+                    break;
+                case "Aceptado":
+                    sendNotification(Notification.ACCEPTED_REQUEST, session);
+                    break;
+                case "Denegado":
+                    sendNotification(Notification.DENIED_REQUEST, session);
+                    break;
+                default:
+            }
         }
-
     }
 
     private void sendNotification(byte type, Session session) {

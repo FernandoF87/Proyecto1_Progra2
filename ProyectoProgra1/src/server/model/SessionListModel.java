@@ -9,6 +9,7 @@ import javax.swing.AbstractListModel;
 public class SessionListModel extends AbstractListModel {
 
     private final ArrayList<Session> listArray = new ArrayList<>();
+   
 
     @Override
     public int getSize() {

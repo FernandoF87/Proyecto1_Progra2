@@ -370,6 +370,7 @@ public class CreateSessions extends javax.swing.JDialog {
     private void setDate() {
         Date actualDate = Date.from(Instant.now());
         chooser.setMinSelectableDate(new java.util.Date(actualDate.getTime()));
+
         chooser.setDate(actualDate);
         spnHour.setModel(new javax.swing.SpinnerNumberModel(actualDate.getHours(), actualDate.getHours(), 23, 1));
         spnMinutes.setModel(new javax.swing.SpinnerNumberModel(actualDate.getMinutes(), actualDate.getMinutes(), 59, 1));

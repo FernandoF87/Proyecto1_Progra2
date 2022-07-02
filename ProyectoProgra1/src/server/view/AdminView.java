@@ -4,8 +4,10 @@
  */
 package server.view;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.JOptionPane;
+import server.model.AdminSessionComparator;
 import server.model.Data;
 import server.model.Server;
 import server.model.Session;
@@ -25,6 +27,7 @@ public class AdminView extends javax.swing.JFrame {
     private UserListModel userModel;
     private static Data data;
     private static Server server;
+   
 
     public AdminView(javax.swing.JFrame parent, boolean modal, Data data, Server server) {
         views();
@@ -53,10 +56,10 @@ public class AdminView extends javax.swing.JFrame {
         btnManageSessions = new javax.swing.JButton();
         btnShowSessions = new javax.swing.JButton();
         btnShowUsersList = new javax.swing.JButton();
-        jListArea = new javax.swing.JList();
         btnDeleteSession = new javax.swing.JButton();
         btnModify = new javax.swing.JButton();
         btnSessionDetails = new javax.swing.JButton();
+        jListArea = new javax.swing.JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Administrador");
@@ -100,16 +103,6 @@ public class AdminView extends javax.swing.JFrame {
             }
         });
 
-        jListArea.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jListArea.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jListArea.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { " " };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        jListArea.setFocusable(false);
-        jListArea.setLayoutOrientation(javax.swing.JList.HORIZONTAL_WRAP);
-
         btnDeleteSession.setText("Eliminar");
         btnDeleteSession.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -131,6 +124,24 @@ public class AdminView extends javax.swing.JFrame {
             }
         });
 
+        jListArea.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jListArea.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jListArea.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { " " };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jListArea.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jListArea.setAutoscrolls(false);
+        jListArea.setFocusable(false);
+        jListArea.setInheritsPopupMenu(true);
+        jListArea.setLayoutOrientation(javax.swing.JList.VERTICAL_WRAP);
+        jListArea.setMaximumSize(new java.awt.Dimension(20, 1));
+        jListArea.setMinimumSize(new java.awt.Dimension(20, 1));
+        jListArea.setPreferredSize(new java.awt.Dimension(20, 1));
+        jListArea.setRequestFocusEnabled(false);
+        jListArea.setVerifyInputWhenFocusTarget(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -141,32 +152,34 @@ public class AdminView extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(84, 84, 84)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnShowUsersList, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnShowSessions, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCreateSession, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnManageSessions, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnDeleteSession, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(15, 15, 15)
-                        .addComponent(btnModify, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnSessionDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(103, 103, 103))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jListArea, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(76, 76, 76))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnShowUsersList, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnShowSessions, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnCreateSession, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnManageSessions, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(78, 78, 78)
+                                .addComponent(btnDeleteSession, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnModify, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(26, 26, 26)
+                                .addComponent(btnSessionDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(82, 82, 82)
+                                .addComponent(jListArea, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(160, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(39, 39, 39)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
                         .addComponent(btnManageSessions, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                         .addComponent(btnCreateSession, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -176,9 +189,8 @@ public class AdminView extends javax.swing.JFrame {
                         .addComponent(btnShowUsersList, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(61, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(jListArea, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
+                        .addComponent(jListArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(48, 48, 48)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnDeleteSession, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnModify, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -197,24 +209,24 @@ public class AdminView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCreateSessionActionPerformed
 
     private void btnManageSessionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageSessionsActionPerformed
+
         sessionModel = new SessionListModel();
         jListArea.setModel(sessionModel);
         jListArea.setVisible(true);
+
+        int cont = 0;
+        ArrayList<Session> arraySessions = new ArrayList<>();
         for (HashMap.Entry<String, Session> session : data.getSessions().entrySet()) {
 
-            for (int i = 0; i < sessionModel.getSize(); i++) {
-                if (sessionModel.getSession(i) != null) {
-                    if (sessionModel.getSession(i).getDate().getTimeInMillis() > session.getValue().getDate().getTimeInMillis()) {
-                        System.out.println("ADMINVIEW");
-                        sessionModel.addSession(i + 1, session.getValue());
-                        break;
-                    }
-                } else {
-                    sessionModel.addSession(session.getValue());
-                    break;
-                }
-            }
+            arraySessions.add(session.getValue());
+
         }
+        arraySessions.sort(new AdminSessionComparator());
+
+        for (int i = 0; i < arraySessions.size(); i++) {
+            sessionModel.addSession(arraySessions.get(i));
+        }
+
         btnDeleteSession.setVisible(true);
         btnModify.setVisible(true);
         btnSessionDetails.setVisible(false);
@@ -223,23 +235,22 @@ public class AdminView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnManageSessionsActionPerformed
 
     private void btnShowSessionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowSessionsActionPerformed
+
         sessionModel = new SessionListModel();
         jListArea.setModel(sessionModel);
         jListArea.setVisible(true);
+        jListArea.setAutoscrolls(true);
+        
+        ArrayList<Session> arraySessions = new ArrayList<>();
         for (HashMap.Entry<String, Session> session : data.getSessions().entrySet()) {
-            for (int i = 0; i < sessionModel.getSize(); i++) {
-                if (sessionModel.getSession(i) != null) {
-                    if (sessionModel.getSession(i).getDate().getTimeInMillis() > session.getValue().getDate().getTimeInMillis()) {
 
-                        sessionModel.addSession(i + 1, session.getValue());
-                        break;
-                    }
-                } else {
-                    sessionModel.addSession(session.getValue());
-                    break;
-                }
-            }
+            arraySessions.add(session.getValue());
 
+        }
+        arraySessions.sort(new AdminSessionComparator());
+
+        for (int i = 0; i < arraySessions.size(); i++) {
+            sessionModel.addSession(arraySessions.get(i));
         }
         btnDeleteSession.setVisible(false);
         btnModify.setVisible(false);
@@ -275,6 +286,7 @@ public class AdminView extends javax.swing.JFrame {
         ManageSessions manageSessions = new ManageSessions(this, true, data, session);
 
         manageSessions.setVisible(true);
+
         server.sendNotification(manageSessions.getMessage(), session);
 
     }//GEN-LAST:event_btnModifyActionPerformed

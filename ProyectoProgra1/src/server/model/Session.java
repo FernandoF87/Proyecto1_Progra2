@@ -21,7 +21,7 @@ public class Session implements Serializable, Cloneable {
     private byte state;
     private ArrayList<String> participantList;
     private HashMap<String, String> waitingParticipantsList;
-    
+
     public static final byte INACTIVE_STATE = 0;
     public static final byte ACTIVE_STATE = 1;
     public static final byte FINALIZED_STATE = 2;
@@ -205,4 +205,6 @@ public class Session implements Serializable, Cloneable {
         return new Session(sesionId, topic, expositor, detail, link, platform, category,
                 dateClone, duration, capacity, open, notifSent, state);
     }
+
+   
 }
