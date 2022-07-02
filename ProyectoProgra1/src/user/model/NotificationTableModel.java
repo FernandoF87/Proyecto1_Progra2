@@ -52,4 +52,10 @@ public class NotificationTableModel extends DefaultTableModel {
         this.notifications = notifications;
     }
 
+    @Override
+    public boolean isCellEditable(int row, int column) {
+        return false;
+    }
+
+    
 }

@@ -74,11 +74,11 @@ public class MainFrame extends javax.swing.JFrame {
         tbSessionHistory = new javax.swing.JTable();
         lbWelcome = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Menu");
         setAlwaysOnTop(true);
+        setName("mainFrame"); // NOI18N
         setResizable(false);
-        setType(java.awt.Window.Type.UTILITY);
 
         btLogout.setText("Cerrar sesión");
         btLogout.setFocusable(false);

@@ -53,6 +53,7 @@ public class NotificationDetails extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Detalles de la notificación");
+        setAlwaysOnTop(true);
         setResizable(false);
 
         lbTypeNotification.setText("Tipo de notificación: ");
