@@ -26,6 +26,11 @@ public class SessionListModel extends AbstractListModel {
         this.fireIntervalAdded(this, getSize(), getSize() + 1);
     }
 
+    public void addSession(int index, Session s) {
+        listArray.add(index, s);
+        this.fireIntervalAdded(this, getSize(), getSize() + 1);
+    }
+
     public void deleteSession(int index) {
         listArray.remove(index);
         this.fireIntervalRemoved(index, getSize(), getSize() + 1);

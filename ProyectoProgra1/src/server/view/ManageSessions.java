@@ -83,6 +83,9 @@ public class ManageSessions extends javax.swing.JDialog {
         spnDuratin = new javax.swing.JSpinner();
         spnAmount = new javax.swing.JSpinner();
         chooser = new com.toedter.calendar.JDateChooser();
+        jLabel15 = new javax.swing.JLabel();
+        lblEnrrolledUsers = new javax.swing.JLabel();
+        btnAceptUsers = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Crear Nueva Sesion");
@@ -167,6 +170,12 @@ public class ManageSessions extends javax.swing.JDialog {
             }
         });
 
+        jLabel15.setText("Cantidad de usuarios inscritos");
+
+        lblEnrrolledUsers.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        btnAceptUsers.setText("Aceptar usuarios");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -201,7 +210,7 @@ public class ManageSessions extends javax.swing.JDialog {
                                             .addComponent(rbtnClose)
                                             .addGroup(layout.createSequentialGroup()
                                                 .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                 .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -227,7 +236,14 @@ public class ManageSessions extends javax.swing.JDialog {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(spnDuratin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(spnAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(spnAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel15)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(lblEnrrolledUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnAceptUsers))
                                     .addComponent(chooser, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -285,9 +301,13 @@ public class ManageSessions extends javax.swing.JDialog {
                     .addComponent(jLabel11)
                     .addComponent(txtLink, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(spnAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel12)
+                        .addComponent(spnAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblEnrrolledUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAceptUsers, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
@@ -322,7 +342,13 @@ public class ManageSessions extends javax.swing.JDialog {
         txtLink.setText(session.getLink());
         txtTopic.setText(session.getTopic());
         txtExpositor.setText(session.getExpositor());
-        rbtnOpen.setSelected(!session.isOpen());
+        if (session.isOpen()) {
+            rbtnOpen.setSelected(true);
+            btnAceptUsers.setVisible(false);
+        } else {
+            rbtnClose.setSelected(false);
+            btnAceptUsers.setVisible(true);
+        }
 
         String platform = session.getPlatform().toLowerCase();
         int indexPlatfor = 0;
@@ -339,15 +365,34 @@ public class ManageSessions extends javax.swing.JDialog {
         cbxPlatform.setSelectedIndex(indexPlatfor);
         spnDuratin.setValue(session.getDuration());
         spnAmount.setValue(session.getCapacity());
+        String enrolledUsers = "" + session.getParticipantList().size();
+        enrolledUsers += "/"+spnAmount.getValue();
+        lblEnrrolledUsers.setText(enrolledUsers);
     }
 
     private void btnSaveSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveSessionActionPerformed
         GregorianCalendar date = new GregorianCalendar(chooser.getDate().getYear() + 1900, chooser.getDate().getMonth(),
                 chooser.getDate().getDate(), (int) spnHour.getModel().getValue(),
                 (int) spnMinutes.getModel().getValue());
+        switch (cbxPlatform.getSelectedIndex()) {
+            case 0:
+                data.searchSessionId(session.getSesionId()).setPlatform("Teams");
+                break;
+            case 1:
+                data.searchSessionId(session.getSesionId()).setPlatform("Zoom");
+                break;
+            case 2:
+                data.searchSessionId(session.getSesionId()).setPlatform("Google Meet");
+                break;
+            case 3:
+                data.searchSessionId(session.getSesionId()).setPlatform("Skype");
+                break;
+
+        }
         data.searchSessionId(session.getSesionId()).setCategory(txtCategory.getText());
         data.searchSessionId(session.getSesionId()).setTopic(txtTopic.getText());
         data.searchSessionId(session.getSesionId()).setExpositor(txtExpositor.getText());
+        data.searchSessionId(session.getSesionId()).setDetail(txtDetail.getText());
         data.searchSessionId(session.getSesionId()).setDate(date);
         data.searchSessionId(session.getSesionId()).setDuration((int) spnDuratin.getValue());
         data.searchSessionId(session.getSesionId()).setPlatform(cbxPlatform.toString());
@@ -386,6 +431,7 @@ public class ManageSessions extends javax.swing.JDialog {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAceptUsers;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnSaveSession;
@@ -398,6 +444,7 @@ public class ManageSessions extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -406,6 +453,7 @@ public class ManageSessions extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel lblEnrrolledUsers;
     private javax.swing.JRadioButton rbtnClose;
     private javax.swing.JRadioButton rbtnOpen;
     private javax.swing.JSpinner spnAmount;
