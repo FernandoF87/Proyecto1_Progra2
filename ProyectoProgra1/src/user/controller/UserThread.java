@@ -284,12 +284,13 @@ public class UserThread {
                     } else if (temp.getType() == Transmission.ENROLL_SESSION_REQUEST) {
                         Vector vector = temp.getObject();
                         if (vector != null && vector.size() > 0) {
+                            String string = (String) vector.get(1);
                             if ((boolean) vector.get(0)) {
-                                MessageDialog.showMessageDialog(main, true, (String) vector.get(1), "Correcto");
-                                main.setSessionAcepted(Boolean.TRUE);
+                                MessageDialog.showMessageDialog(main, false, string, "Correcto");
+                                main.setSessionAccepted(Boolean.TRUE);
                             } else {
-                                MessageDialog.showMessageDialog(main, true, (String) vector.get(1), "Incorrecto");
-                                main.setSessionAcepted(Boolean.TRUE);
+                                MessageDialog.showMessageDialog(main, false, string, "Incorrecto");
+                                main.setSessionAccepted(Boolean.FALSE);
                             }
                         }
                     } else {

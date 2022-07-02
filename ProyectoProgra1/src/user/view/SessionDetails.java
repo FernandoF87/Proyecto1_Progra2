@@ -283,8 +283,8 @@ public class SessionDetails extends javax.swing.JDialog {
             } catch (InterruptedException ex) {
                 
             }
-        } while (((MainFrame) getParent()).getSessionId() != null);
-        if (((MainFrame) getParent()).getSessionAcepted()) {
+        } while (((MainFrame) getParent()).getSessionAccepted() == null);  // Waits the answer of the server 
+        if (((MainFrame) getParent()).getSessionAccepted()) { //If answer is true, then:
             tfAvailableSpaces.setText(Integer.toString(Integer.parseInt(tfAvailableSpaces.getText()) - 1));
             //Removes the session from the table.
             if (btCancel == null) {
@@ -294,10 +294,11 @@ public class SessionDetails extends javax.swing.JDialog {
                 btCancel.setEnabled(true);
                 ((MainFrame) getParent()).setSelectedOption(MainFrame.ENROLLED_TAB);
             }
+            ((MainFrame) getParent()).setSessionAccepted(null);  //Restart variable sessionAccepted
         } else {
-            
+            btEnroll.setEnabled(true);
+            ((MainFrame) getParent()).setSessionAccepted(null);
         }
-        
         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         
     }//GEN-LAST:event_btEnrollActionPerformed

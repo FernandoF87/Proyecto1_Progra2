@@ -15,6 +15,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import server.model.Session;
+import user.model.EnrollSessionsRenderer;
 import user.model.SessionTableModel;
 
 
@@ -27,7 +28,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private byte selectedOption;
     private String sessionId;
-    private Boolean sessionAcepted;
+    private Boolean sessionAccepted;
     
     public final static byte AVAILABLE_TAB = 0;
     public final static byte ENROLLED_TAB = 1;
@@ -46,10 +47,13 @@ public class MainFrame extends javax.swing.JFrame {
     
     public MainFrame(String username) {
         initComponents();
+        lbExtraInfo.setForeground(pnAvailableSessions.getBackground());
+        tbEnrolleddSessions.setDefaultRenderer(Object.class, new EnrollSessionsRenderer());
         this.setLocationRelativeTo(null);
         lbWelcome.setText(lbWelcome.getText() + " " + username);
         selectedOption = AVAILABLE_TAB;
         disableComponents();
+        
     }
     
     /**
@@ -74,6 +78,7 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         tbSessionHistory = new javax.swing.JTable();
         lbWelcome = new javax.swing.JLabel();
+        lbExtraInfo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Menu");
@@ -189,14 +194,12 @@ public class MainFrame extends javax.swing.JFrame {
 
         lbWelcome.setText("Bienvenido,");
 
+        lbExtraInfo.setText("En cyan, las sesiones pendientes de aprobación.");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(tbControls)
-                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(lbWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -205,6 +208,14 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(btLogout)
                 .addGap(14, 14, 14))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(tbControls)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(lbExtraInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,7 +227,9 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(lbWelcome))
                 .addGap(18, 18, 18)
                 .addComponent(tbControls, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbExtraInfo)
+                .addContainerGap())
         );
 
         pack();
@@ -239,6 +252,11 @@ public class MainFrame extends javax.swing.JFrame {
     private void tbControlsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tbControlsStateChanged
         // TODO add your handling code here:
         selectedOption = (byte) tbControls.getSelectedIndex();
+        if (selectedOption == MainFrame.ENROLLED_TAB) {
+            lbExtraInfo.setForeground(Color.BLACK);
+        } else {
+            lbExtraInfo.setForeground(pnAvailableSessions.getBackground());
+        }
         disableComponents();
     }//GEN-LAST:event_tbControlsStateChanged
 
@@ -274,6 +292,7 @@ public class MainFrame extends javax.swing.JFrame {
         SessionTableModel model = getTableModel(table);
         model.fillData(data);
         resetComponents();
+        
     }
     
     /**
@@ -289,7 +308,7 @@ public class MainFrame extends javax.swing.JFrame {
             case ENROLLED_TAB:
                 return (SessionTableModel) tbEnrolleddSessions.getModel();
             case HISTORY_TAB:
-                return (SessionTableModel) tbEnrolleddSessions.getModel();
+                return (SessionTableModel) tbSessionHistory.getModel();
         }
         return null;
     }
@@ -321,17 +340,18 @@ public class MainFrame extends javax.swing.JFrame {
         
         Color buttonColor = btNotifications.getBackground();
         //Creates a thread to change the color of the notification button
-        Runnable task = () -> {  
+        Runnable task = () -> { 
+            final int INTERMITENT_TIME = 1000;
             while (!readedNotification) {
                 btNotifications.setBackground(Color.red);
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(INTERMITENT_TIME);
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 }
                 btNotifications.setBackground(buttonColor);                
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(INTERMITENT_TIME);
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 }
@@ -380,12 +400,12 @@ public class MainFrame extends javax.swing.JFrame {
         this.readedNotification = readedNotification;
     }
 
-    public Boolean getSessionAcepted() {
-        return sessionAcepted;
+    public Boolean getSessionAccepted() {
+        return sessionAccepted;
     }
 
-    public void setSessionAcepted(Boolean sessionAcepted) {
-        this.sessionAcepted = sessionAcepted;
+    public void setSessionAccepted(Boolean sessionAccepted) {
+        this.sessionAccepted = sessionAccepted;
     }
     
     
@@ -397,6 +417,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel lbExtraInfo;
     private javax.swing.JLabel lbWelcome;
     private javax.swing.JPanel pnAvailableSessions;
     private javax.swing.JPanel pnHistorySession;

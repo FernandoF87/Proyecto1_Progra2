@@ -67,6 +67,7 @@ public class SessionTableModel extends DefaultTableModel {
             super.setValueAt(temp.getDuration(), i, 6);
             super.setValueAt(temp.getPlatform(), i, 7);
             super.setValueAt((temp.isOpen()) ? "Abierta" : "Cerrada", i, 8);
+            System.out.println("Session: " + temp.getSesionId() + " Notify" + temp.isNotifSent());
         }
     }
     /**
