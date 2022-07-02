@@ -236,7 +236,7 @@ public class ConnectionThread extends Thread {
             case Transmission.CANCEL_ENROLL_REQUEST:
                 sessionId = (String) (request.getObject().get(0));
                 session = data.searchSessionId(sessionId);
-                session.removeUser(sessionId);
+                session.removeUser(connectionUser.getEmail());
                 break;
             case Transmission.LOGOUT_REQUEST:
                 connectionUser = null;

@@ -40,6 +40,11 @@ public class NotificationsDialog extends javax.swing.JDialog {
         btClose = new javax.swing.JButton();
 
         setTitle("Notificaciones");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         tbNotifications.setModel(new NotificationTableModel());
         tbNotifications.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -104,6 +109,11 @@ public class NotificationsDialog extends javax.swing.JDialog {
         details.setVisible(true);
     }//GEN-LAST:event_tbNotificationsMouseClicked
 
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        // TODO add your handling code here:
+        ((MainFrame) getParent()).setReadedNotification(true);
+    }//GEN-LAST:event_formWindowActivated
+
     /**
      * Method used to fill the table with the notifications.
      * @param notifications a LinkedList with all the notification to put.
@@ -122,7 +132,7 @@ public class NotificationsDialog extends javax.swing.JDialog {
             }
             //Fill the table with the notifications.
             for (int i = 0; i < notifications.size(); i++) {
-                model.setValueAt(notifications.get(i), i, 0);
+                model.setValueAt(notifications.get(i).getMessage(), i, 0);
             }
         } else {
             //In case of receipt and size 0 LinkedList, it puts a default notication.

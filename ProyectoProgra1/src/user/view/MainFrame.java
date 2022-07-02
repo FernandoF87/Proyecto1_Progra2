@@ -223,13 +223,15 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void btNotificationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNotificationsActionPerformed
         selectedOption = NOTIFICATION_OPTION;
+        readedNotification = true;
         disableComponents();
     }//GEN-LAST:event_btNotificationsActionPerformed
 
     private void tbAvailableSessionsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbAvailableSessionsMouseClicked
         disableComponents();
         SessionTableModel model = (SessionTableModel) tbAvailableSessions.getModel();
-        SessionDetails details = new SessionDetails(this, false, selectedOption, model.getSelectedSession(tbAvailableSessions.getSelectedRow()));
+        SessionDetails details = new SessionDetails(this, false, selectedOption, 
+                tbAvailableSessions.getSelectedRow(), model);
         details.setVisible(true);
     }//GEN-LAST:event_tbAvailableSessionsMouseClicked
 
@@ -249,7 +251,7 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         disableComponents();
         SessionTableModel model = (SessionTableModel) tbEnrolleddSessions.getModel();
-        SessionDetails details = new SessionDetails(this, false, selectedOption, model.getSelectedSession(tbEnrolleddSessions.getSelectedRow()));
+        SessionDetails details = new SessionDetails(this, false, selectedOption, tbEnrolleddSessions.getSelectedRow(), model);
         details.setVisible(true);
     }//GEN-LAST:event_tbEnrolleddSessionsMouseClicked
 
@@ -257,7 +259,7 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         disableComponents();
         SessionTableModel model = (SessionTableModel) tbSessionHistory.getModel();
-        SessionDetails details = new SessionDetails(this, false, selectedOption, model.getSelectedSession(tbSessionHistory.getSelectedRow()));
+        SessionDetails details = new SessionDetails(this, false, selectedOption, tbSessionHistory.getSelectedRow(), model);
         details.setVisible(true);
     }//GEN-LAST:event_tbSessionHistoryMouseClicked
 
@@ -373,6 +375,9 @@ public class MainFrame extends javax.swing.JFrame {
         this.sessionId = sessionId;
     }
     
+    public void setReadedNotification(boolean readedNotification) {
+        this.readedNotification = readedNotification;
+    }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

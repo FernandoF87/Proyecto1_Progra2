@@ -20,6 +20,7 @@ import java.util.GregorianCalendar;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import server.model.Session;
+import user.model.SessionTableModel;
 
 /**
  *
@@ -34,12 +35,17 @@ public class SessionDetails extends javax.swing.JDialog {
     private Session data;
     private JButton btCancel;
     private final int WAIT_TIME = 1000;
+    private SessionTableModel model;
+    private int selectedRow;
     
-    public SessionDetails(java.awt.Frame parent, boolean modal, byte type, Session data) {
+    public SessionDetails(java.awt.Frame parent, boolean modal, byte type, int selectedRow, SessionTableModel model) {
         super(parent, modal);
         initComponents();
-        this.data = data;
+        this.selectedRow = selectedRow;
+        this.data = model.getSelectedSession(selectedRow);
+        this.model = model;
         adaptForm(type);
+        
         fillData();
         this.setLocationRelativeTo(null);
     }
@@ -278,17 +284,24 @@ public class SessionDetails extends javax.swing.JDialog {
                 
             }
         } while (((MainFrame) getParent()).getSessionId() != null);
+        
         if (data.isOpen()) {
-            //Rest in one the available spaces.
+            //Rest one to the available spaces.
             tfAvailableSpaces.setText(Integer.toString(Integer.parseInt(tfAvailableSpaces.getText()) - 1));
             MessageDialog.showMessageDialog("Se ha inscrito en la sesión", "Hecho");
         } else {
             MessageDialog.showMessageDialog("Se le enviará una notificación en caso de ser aprobado en esta sesión", "Hecho");
         }
-        if (btCancel != null) {
+        //Removes the session from the table.
+        if (btCancel == null) {
+            model.removeRow(selectedRow);
+            ((MainFrame) getParent()).setSelectedOption(MainFrame.AVAILABLE_TAB);
+        } else {
             btCancel.setEnabled(true);
+            ((MainFrame) getParent()).setSelectedOption(MainFrame.ENROLLED_TAB);
         }
         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        
     }//GEN-LAST:event_btEnrollActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
@@ -361,6 +374,7 @@ public class SessionDetails extends javax.swing.JDialog {
                                 }
                             } while (((MainFrame) getParent()).getSessionId() != null);
                             MessageDialog.showMessageDialog("Se ha eliminado de la sesión", "Correcto");
+                            model.removeRow(selectedRow);
                             tfAvailableSpaces.setText(Integer.toString(Integer.parseInt(tfAvailableSpaces.getText()) + 1));
                             setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                             btEnroll.setEnabled(true);
