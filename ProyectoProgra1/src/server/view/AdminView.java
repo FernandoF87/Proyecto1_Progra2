@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package server.view;
 
 import java.util.ArrayList;
@@ -13,6 +10,7 @@ import server.model.Server;
 import server.model.Session;
 import server.model.SessionListModel;
 import server.model.User;
+import server.model.UserListModel;
 
 /**
  *

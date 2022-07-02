@@ -8,7 +8,7 @@ package server.view;
  * A simple dialog used to show small messages to the user.
  * @author Jostin Castro
  */
-public class AddminMessageDialog extends javax.swing.JDialog {
+public class AdminMessageDialog extends javax.swing.JDialog {
 
     /**
      * Creates new form MessageDialog.
@@ -19,7 +19,7 @@ public class AddminMessageDialog extends javax.swing.JDialog {
      * @param message the message to show.
      * @param title the title of the dialog.
      */
-    public AddminMessageDialog(java.awt.Frame parent, boolean modal, String message, String title) {
+    public AdminMessageDialog(java.awt.Frame parent, boolean modal, String message, String title) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
@@ -34,7 +34,7 @@ public class AddminMessageDialog extends javax.swing.JDialog {
      * @param title the title of the dialog.
      */
     
-    public AddminMessageDialog(String message, String title) {
+    public AdminMessageDialog(String message, String title) {
         this(null, true, message, title);
     }
     
@@ -44,7 +44,7 @@ public class AddminMessageDialog extends javax.swing.JDialog {
      * @param title the title of the dialog.
      */
     public static void showMessageDialog(String message, String title) {
-        new AddminMessageDialog(message, title);
+        new AdminMessageDialog(message, title);
     }
     
     /**
@@ -54,7 +54,7 @@ public class AddminMessageDialog extends javax.swing.JDialog {
      * @param title the title of the dialog.
      */
     public static void showMessageDialog(boolean modal, String message, String title) {
-        new AddminMessageDialog(null, modal, message, title);
+        new AdminMessageDialog(null, modal, message, title);
     }
 
     
@@ -67,7 +67,7 @@ public class AddminMessageDialog extends javax.swing.JDialog {
      */
     
     public static void showMessageDialog(java.awt.Frame parent, boolean modal, String message, String title) {
-        new AddminMessageDialog(parent, modal, message, title);
+        new AdminMessageDialog(parent, modal, message, title);
     }
     
     /**

@@ -1,4 +1,4 @@
-package server.view;
+package server.model;
 
 import java.util.ArrayList;
 import javax.swing.AbstractListModel;

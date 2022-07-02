@@ -3,7 +3,6 @@ package server.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 
 /**
  * @version 16/6/22
@@ -20,7 +19,7 @@ public class Session implements Serializable, Cloneable {
     private boolean open, notifSent;
     private byte state;
     private ArrayList<String> participantList;
-    private HashMap<String, String> waitingParticipantsList;
+    private ArrayList< String> waitingParticipantsList;
 
     public static final byte INACTIVE_STATE = 0;
     public static final byte ACTIVE_STATE = 1;
@@ -49,7 +48,7 @@ public class Session implements Serializable, Cloneable {
         this.state = state;
         participantList = new ArrayList();
         if (!open) {
-            waitingParticipantsList = new HashMap<>();
+            waitingParticipantsList = new ArrayList<>();
         }
     }
 
@@ -62,11 +61,12 @@ public class Session implements Serializable, Cloneable {
             return false;
         } else {
             if (accepted) {
-                participantList.add(waitingParticipantsList.get(userId));
+                int index = waitingParticipantsList.indexOf(userId);
+                participantList.add(waitingParticipantsList.get(index));
                 waitingParticipantsList.remove(userId);
                 return true;
             } else {
-                waitingParticipantsList.put(userId, userId);
+                waitingParticipantsList.add(userId);
                 System.out.println("Esperando a aceptar a " + userId);
                 System.out.println("Lista de espera: " + waitingParticipantsList);
                 return true;
@@ -198,14 +198,20 @@ public class Session implements Serializable, Cloneable {
         }
         return false;
     }
-    
+
     public boolean isWaiting(String userId) {
-        return waitingParticipantsList.containsKey(userId);
+
+        return waitingParticipantsList.contains(userId);
     }
 
     public ArrayList<String> getParticipantList() {
         return participantList;
     }
+
+    public ArrayList<String> getWaitingParticipantsList() {
+        return waitingParticipantsList;
+    }
+    
 
     public Session clone() {
         GregorianCalendar dateClone = (GregorianCalendar) (date.clone());
@@ -213,5 +219,4 @@ public class Session implements Serializable, Cloneable {
                 dateClone, duration, capacity, open, notifSent, state);
     }
 
-   
 }
