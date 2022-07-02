@@ -64,7 +64,7 @@
                                           <Component id="rbtnClose" min="-2" max="-2" attributes="0"/>
                                           <Group type="102" alignment="0" attributes="0">
                                               <Component id="btnDelete" min="-2" pref="103" max="-2" attributes="0"/>
-                                              <EmptySpace pref="73" max="32767" attributes="0"/>
+                                              <EmptySpace max="32767" attributes="0"/>
                                               <Component id="btnExit" min="-2" pref="125" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
@@ -101,7 +101,15 @@
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="spnDuratin" min="-2" max="-2" attributes="0"/>
-                                  <Component id="spnAmount" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Component id="spnAmount" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="lblEnrrolledUsers" min="-2" pref="70" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="btnAceptUsers" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                                   <Component id="chooser" alignment="0" min="-2" pref="160" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
@@ -179,9 +187,14 @@
                   <Component id="txtLink" min="-2" pref="30" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="24" max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="spnAmount" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" alignment="1" groupAlignment="3" attributes="0">
+                      <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="spnAmount" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel15" alignment="3" min="-2" pref="18" max="-2" attributes="0"/>
+                      <Component id="lblEnrrolledUsers" alignment="1" min="-2" pref="22" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="btnAceptUsers" alignment="1" min="-2" pref="30" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="22" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -384,6 +397,25 @@
       <Events>
         <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="chooserPropertyChange"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel15">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Cantidad de usuarios inscritos"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblEnrrolledUsers">
+      <Properties>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
+            <BevelBorder/>
+          </Border>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnAceptUsers">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Aceptar usuarios"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

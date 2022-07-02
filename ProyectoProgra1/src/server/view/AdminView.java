@@ -202,7 +202,18 @@ public class AdminView extends javax.swing.JFrame {
         jListArea.setVisible(true);
         for (HashMap.Entry<String, Session> session : data.getSessions().entrySet()) {
 
-            sessionModel.addSession(session.getValue());
+            for (int i = 0; i < sessionModel.getSize(); i++) {
+                if (sessionModel.getSession(i) != null) {
+                    if (sessionModel.getSession(i).getDate().getTimeInMillis() > session.getValue().getDate().getTimeInMillis()) {
+                        System.out.println("ADMINVIEW");
+                        sessionModel.addSession(i + 1, session.getValue());
+                        break;
+                    }
+                } else {
+                    sessionModel.addSession(session.getValue());
+                    break;
+                }
+            }
         }
         btnDeleteSession.setVisible(true);
         btnModify.setVisible(true);
@@ -216,8 +227,19 @@ public class AdminView extends javax.swing.JFrame {
         jListArea.setModel(sessionModel);
         jListArea.setVisible(true);
         for (HashMap.Entry<String, Session> session : data.getSessions().entrySet()) {
+            for (int i = 0; i < sessionModel.getSize(); i++) {
+                if (sessionModel.getSession(i) != null) {
+                    if (sessionModel.getSession(i).getDate().getTimeInMillis() > session.getValue().getDate().getTimeInMillis()) {
 
-            sessionModel.addSession(session.getValue());
+                        sessionModel.addSession(i + 1, session.getValue());
+                        break;
+                    }
+                } else {
+                    sessionModel.addSession(session.getValue());
+                    break;
+                }
+            }
+
         }
         btnDeleteSession.setVisible(false);
         btnModify.setVisible(false);
