@@ -4,8 +4,8 @@
  */
 package server.view;
 
+import javax.swing.DefaultListModel;
 import server.model.Session;
-import server.model.UserListModel;
 
 /**
  *
@@ -17,13 +17,15 @@ public class AceptUsers extends javax.swing.JDialog {
      * Creates new form AceptUsers
      */
     private Session session;
-    UserListModel  userModel;
 
     public AceptUsers(java.awt.Frame parent, boolean modal, Session session) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
         this.session = session;
+        jtxtReazon.setEnabled(false);
         setValues();
+
     }
 
     /**
@@ -43,34 +45,58 @@ public class AceptUsers extends javax.swing.JDialog {
         btnConfirm = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setAlwaysOnTop(true);
 
         jScrollPane1.setViewportView(jListParticipants);
 
         btnAcept.setText("Aceptar");
+        btnAcept.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptActionPerformed(evt);
+            }
+        });
 
         btnDenied.setText("Denegar");
+        btnDenied.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeniedActionPerformed(evt);
+            }
+        });
 
         jtxtReazon.setToolTipText("Ingrese la razon para denegar al usuario");
+        jtxtReazon.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtxtReazonKeyTyped(evt);
+            }
+        });
 
         btnConfirm.setText("Confirmar");
+        btnConfirm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfirmActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(0, 39, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jtxtReazon)
+                        .addGap(41, 41, 41)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jtxtReazon, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnAcept, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnDenied, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(41, 41, 41)
+                                .addComponent(btnDenied, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap(49, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -92,13 +118,43 @@ public class AceptUsers extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public void setValues() {
-        userModel = new UserListModel();
-        jListParticipants.setModel(userModel);
-        for (int i = 0; i < session.getWaitingParticipantsList().size(); i++) {
-            
+    private void btnDeniedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeniedActionPerformed
+        jtxtReazon.setEnabled(true);
+    }//GEN-LAST:event_btnDeniedActionPerformed
+
+    private void btnAceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptActionPerformed
+        String userId = String.valueOf(jListParticipants.getSelectedValue());
+        session.addUser(userId, true);
+        System.out.println(userId);
+    }//GEN-LAST:event_btnAceptActionPerformed
+
+    private void jtxtReazonKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtReazonKeyTyped
+        if (jtxtReazon.getText().isEmpty()) {
+            btnConfirm.setVisible(false);
+        } else {
+
+            btnConfirm.setVisible(true);
         }
-        
+    }//GEN-LAST:event_jtxtReazonKeyTyped
+
+    private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
+        String userId = String.valueOf(jListParticipants.getSelectedValue());
+        session.deleteWaitingUser(userId);
+    }//GEN-LAST:event_btnConfirmActionPerformed
+
+    public void setValues() {
+
+        DefaultListModel model = new DefaultListModel();
+        jListParticipants.setModel(model);
+
+        btnConfirm.setVisible(false);
+        model.addElement("Prueba");
+
+        if (session.getWaitingParticipantsList() != null) {
+            for (int i = 0; i < session.getWaitingParticipantsList().size(); i++) {
+                model.addElement(session.getWaitingParticipantsList().get(i));
+            }
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

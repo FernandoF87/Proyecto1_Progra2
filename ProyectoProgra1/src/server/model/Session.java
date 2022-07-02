@@ -211,12 +211,17 @@ public class Session implements Serializable, Cloneable {
     public ArrayList<String> getWaitingParticipantsList() {
         return waitingParticipantsList;
     }
-    
 
     public Session clone() {
         GregorianCalendar dateClone = (GregorianCalendar) (date.clone());
         return new Session(sesionId, topic, expositor, detail, link, platform, category,
                 dateClone, duration, capacity, open, notifSent, state);
+    }
+
+    public void deleteWaitingUser(String userId) {
+
+        waitingParticipantsList.remove(userId);
+
     }
 
 }

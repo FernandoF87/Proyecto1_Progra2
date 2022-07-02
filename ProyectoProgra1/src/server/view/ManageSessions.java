@@ -9,7 +9,10 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import javax.swing.JFrame;
 import server.model.Data;
+import server.model.Data;
 import server.model.Session;
+import server.model.Session;
+import server.view.AceptUsers;
 
 /**
  *
@@ -373,7 +376,7 @@ public class ManageSessions extends javax.swing.JDialog {
         spnDuratin.setValue(session.getDuration());
         spnAmount.setValue(session.getCapacity());
         String enrolledUsers = "" + session.getParticipantList().size();
-        enrolledUsers += "/"+spnAmount.getValue();
+        enrolledUsers += "/" + spnAmount.getValue();
         lblEnrrolledUsers.setText(enrolledUsers);
     }
 
@@ -433,7 +436,10 @@ public class ManageSessions extends javax.swing.JDialog {
     }//GEN-LAST:event_chooserPropertyChange
 
     private void btnAceptUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptUsersActionPerformed
-      AceptUsers aceptUsers= new AceptUsers((JFrame) this.getParent(), true, session);
+        AceptUsers aceptUsers = new AceptUsers((JFrame) this.getParent().getParent(), true, session);
+        
+        aceptUsers.setVisible(true);
+
     }//GEN-LAST:event_btnAceptUsersActionPerformed
 
     public String getMessage() {
