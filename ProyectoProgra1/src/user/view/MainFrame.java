@@ -19,7 +19,7 @@ import user.model.SessionTableModel;
 
 
 /**
- * Main user GUI, shows all the information needed of the sessions, manage new notifications.
+ * Main user GUI, shows all the information needed of the sessions and manage new notifications.
  * @version 30/06/2022
  * @author Jostin Castro
  */

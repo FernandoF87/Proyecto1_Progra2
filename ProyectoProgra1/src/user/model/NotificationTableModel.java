@@ -52,6 +52,14 @@ public class NotificationTableModel extends DefaultTableModel {
         this.notifications = notifications;
     }
 
+    
+    /**
+     * Set the table to non-editable.
+     * @param row the row to consult.
+     * @param column the column to consult
+     * @return <b>false</b> always.
+     */
+    
     @Override
     public boolean isCellEditable(int row, int column) {
         return false;

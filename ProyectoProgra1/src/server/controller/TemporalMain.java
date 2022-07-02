@@ -54,8 +54,8 @@ public class TemporalMain {
 //        temp.set(Calendar.MINUTE, 0);
 //        temp.set(Calendar.AM_PM, Calendar.PM);
 //        Session session = new Session("ZM0", "Sesión n: " + 0, "Jostin Castro", "Sesiones de prueba", "http://google.com", "Zoom",
-//                    "Prueba", temp, 30, 25, true, false, Session.ACTIVE_STATE);
-//        
+//                    "Prueba", temp, 30, 25, true, false, Session.FINALIZED_STATE);
+//        session.addUser(user.getEmail(), true);
 //
 //        HashMap<String, Session> testSessionH = new HashMap();
 //        testSessionH.put(session.getSesionId(), session);
