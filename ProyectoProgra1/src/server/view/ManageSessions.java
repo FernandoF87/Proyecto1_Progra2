@@ -9,10 +9,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import javax.swing.JFrame;
 import server.model.Data;
-import server.model.Data;
 import server.model.Session;
-import server.model.Session;
-import server.view.AceptUsers;
 
 /**
  *
@@ -413,8 +410,10 @@ public class ManageSessions extends javax.swing.JDialog {
         } else {
             data.searchSessionId(session.getSesionId()).setOpen(false);
         }
-
+        AdminMessageDialog.showMessageDialog("Datos Guardados", "Datos guardados");
         message = "Modificada";
+
+        AdminView.getServer().sendNotification(message, session);
 
     }//GEN-LAST:event_btnSaveSessionActionPerformed
 
@@ -437,14 +436,12 @@ public class ManageSessions extends javax.swing.JDialog {
 
     private void btnAceptUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptUsersActionPerformed
         AceptUsers aceptUsers = new AceptUsers((JFrame) this.getParent().getParent(), true, session);
-        
+
         aceptUsers.setVisible(true);
+        message = aceptUsers.getMsg();
+        AdminView.getServer().sendNotification(message, session);
 
     }//GEN-LAST:event_btnAceptUsersActionPerformed
-
-    public String getMessage() {
-        return message;
-    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

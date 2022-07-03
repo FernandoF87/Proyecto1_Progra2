@@ -269,10 +269,9 @@ public class AdminView extends javax.swing.JFrame {
         Session session = sessionModel.getSession(index);
 
         ManageSessions manageSessions = new ManageSessions(this, true, data, session);
-
         manageSessions.setVisible(true);
 
-        server.sendNotification(manageSessions.getMessage(), session);
+       
 
     }//GEN-LAST:event_btnModifyActionPerformed
 
@@ -337,6 +336,11 @@ public class AdminView extends javax.swing.JFrame {
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }
+
+    public static Server getServer() {
+        return server;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCreateSession;
     private javax.swing.JButton btnDeleteSession;

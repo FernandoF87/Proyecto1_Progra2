@@ -17,13 +17,15 @@ public class AceptUsers extends javax.swing.JDialog {
      * Creates new form AceptUsers
      */
     private Session session;
+    private String msg;
+    DefaultListModel model = new DefaultListModel();
 
     public AceptUsers(java.awt.Frame parent, boolean modal, Session session) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(parent);
         this.session = session;
-        jtxtReazon.setEnabled(false);
+
         setValues();
 
     }
@@ -41,8 +43,6 @@ public class AceptUsers extends javax.swing.JDialog {
         jListParticipants = new javax.swing.JList();
         btnAcept = new javax.swing.JButton();
         btnDenied = new javax.swing.JButton();
-        jtxtReazon = new javax.swing.JTextField();
-        btnConfirm = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
@@ -63,92 +63,54 @@ public class AceptUsers extends javax.swing.JDialog {
             }
         });
 
-        jtxtReazon.setToolTipText("Ingrese la razon para denegar al usuario");
-        jtxtReazon.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jtxtReazonKeyTyped(evt);
-            }
-        });
-
-        btnConfirm.setText("Confirmar");
-        btnConfirm.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnConfirmActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(0, 39, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jtxtReazon, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnAcept, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(41, 41, 41)
-                                .addComponent(btnDenied, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(49, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnAcept, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
+                .addComponent(btnDenied, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(138, 138, 138))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(38, 38, 38)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtxtReazon, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAcept, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDenied, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(54, 54, 54))
+                    .addComponent(btnDenied, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAcept, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(118, 118, 118))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDeniedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeniedActionPerformed
-        jtxtReazon.setEnabled(true);
+        String userId = String.valueOf(jListParticipants.getSelectedValue());
+        session.deleteWaitingUser(userId);
+       
+        model.remove(jListParticipants.getSelectedIndex());
     }//GEN-LAST:event_btnDeniedActionPerformed
 
     private void btnAceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptActionPerformed
         String userId = String.valueOf(jListParticipants.getSelectedValue());
         session.addUser(userId, true);
-        System.out.println(userId);
+        msg = "Aceptado";
+        model.remove(jListParticipants.getSelectedIndex());
+
     }//GEN-LAST:event_btnAceptActionPerformed
-
-    private void jtxtReazonKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtReazonKeyTyped
-        if (jtxtReazon.getText().isEmpty()) {
-            btnConfirm.setVisible(false);
-        } else {
-
-            btnConfirm.setVisible(true);
-        }
-    }//GEN-LAST:event_jtxtReazonKeyTyped
-
-    private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
-        String userId = String.valueOf(jListParticipants.getSelectedValue());
-        session.deleteWaitingUser(userId);
-    }//GEN-LAST:event_btnConfirmActionPerformed
 
     public void setValues() {
 
-        DefaultListModel model = new DefaultListModel();
         jListParticipants.setModel(model);
-
-        btnConfirm.setVisible(false);
-        model.addElement("Prueba");
 
         if (session.getWaitingParticipantsList() != null) {
             for (int i = 0; i < session.getWaitingParticipantsList().size(); i++) {
@@ -157,12 +119,15 @@ public class AceptUsers extends javax.swing.JDialog {
         }
     }
 
+    public String getMsg() {
+        return msg;
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAcept;
-    private javax.swing.JButton btnConfirm;
     private javax.swing.JButton btnDenied;
     private javax.swing.JList jListParticipants;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jtxtReazon;
     // End of variables declaration//GEN-END:variables
 }
