@@ -23,7 +23,8 @@ import server.model.Session;
 import user.model.SessionTableModel;
 
 /**
- *
+ * Dialog to see all the details of a selected session in the main frame
+ * @version 02/07/2022
  * @author Jostin Castro
  */
 public class SessionDetails extends javax.swing.JDialog {
@@ -49,7 +50,7 @@ public class SessionDetails extends javax.swing.JDialog {
         fillData();
         this.setLocationRelativeTo(null);
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -350,14 +351,14 @@ public class SessionDetails extends javax.swing.JDialog {
                 GregorianCalendar tempDate = data.getDate();
                 GregorianCalendar now = (GregorianCalendar) GregorianCalendar.getInstance();
                 long diff = (tempDate.getTimeInMillis() - now.getTimeInMillis()) / 1000; //Calculate left time in seconds. 
-                //If the session starts in more of 5 minutes, then permit enroll or cancel the enroll.
-                if (diff > 300) {
-                    Point point = btEnroll.getLocation();
+                
+                Point point = btEnroll.getLocation();
+                if (diff > 0) {
                     Dimension dim = btEnroll.getSize();
-                    btEnroll.setLocation(300, (int) point.getY());
+                    btEnroll.setLocation(300, (int) point.getY() + 30);
                     pnData.add(btEnroll);
                     btCancel = new JButton("Cancelar inscripción");
-                    btCancel.setBounds(100, (int) point.getY(), 150, (int) dim.getHeight());
+                    btCancel.setBounds(100, (int) point.getY() + 30, 150, (int) dim.getHeight());
                     btCancel.addActionListener(new ActionListener() { //Adds a listener to the button
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -381,14 +382,20 @@ public class SessionDetails extends javax.swing.JDialog {
                     });
                     btCancel.setVisible(true);
                     pnData.add(btCancel);
-                } else {
-                    //Code to show the session link
+                }
+                //If the session starts in more of 5 minutes, show the link.
+                if (diff  < 300) {
                     final String START_LINK = "<html><p><a href=\"";
                     final String END_LINK = "</a></p></html>";
                     final String MID_LINK = "\">";
                     String text = START_LINK + data.getLink() + MID_LINK + data.getLink() + END_LINK;
                     JLabel lbLink = new JLabel(text);
-                    lbLink.setBounds(btEnroll.getLocation().x, btEnroll.getLocation().y, 100, 20);
+                    if (diff <= 0) {  //If the session alredy starts, only show the link.
+                        lbLink.setBounds(btEnroll.getLocation().x, btEnroll.getLocation().y, 100, 20);
+                        pnData.remove(btEnroll);
+                    } else { //If the session is not started, show the button to enroll, make space to the button cancel enroll and also the link.
+                        lbLink.setBounds(btEnroll.getLocation().x - 100, btEnroll.getLocation().y - 30, 100, 20);
+                    }
                     lbLink.addMouseListener(new MouseListener() { //Adds the mouse listener to the label.
                         @Override
                         public void mouseClicked(MouseEvent e) {
@@ -427,7 +434,7 @@ public class SessionDetails extends javax.swing.JDialog {
                             lbLink.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                         }
                     });
-                    btEnroll.setVisible(false);
+                    //btEnroll.setVisible(false);
                     lbLink.setVisible(true);
                     pnData.add(lbLink);
                 }
