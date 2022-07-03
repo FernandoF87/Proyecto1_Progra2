@@ -98,6 +98,7 @@ public class AceptUsers extends javax.swing.JDialog {
         session.deleteWaitingUser(userId);
         msg = "Denegado";
         model.remove(jListParticipants.getSelectedIndex());
+        AdminView.getServer().sendNotification(msg, session);
     }//GEN-LAST:event_btnDeniedActionPerformed
 
     private void btnAceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptActionPerformed
@@ -105,6 +106,7 @@ public class AceptUsers extends javax.swing.JDialog {
         session.addUser(userId, true);
         msg = "Aceptado";
         model.remove(jListParticipants.getSelectedIndex());
+        AdminView.getServer().sendNotification(msg, session);
 
     }//GEN-LAST:event_btnAceptActionPerformed
 

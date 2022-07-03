@@ -439,7 +439,7 @@ public class ManageSessions extends javax.swing.JDialog {
 
         aceptUsers.setVisible(true);
         message = aceptUsers.getMsg();
-        AdminView.getServer().sendNotification(message, session);
+       
 
     }//GEN-LAST:event_btnAceptUsersActionPerformed
 
