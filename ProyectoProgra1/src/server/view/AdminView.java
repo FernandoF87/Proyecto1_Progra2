@@ -60,6 +60,11 @@ public class AdminView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Administrador");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/ModoAdmin.jpeg"))); // NOI18N
 
@@ -271,7 +276,6 @@ public class AdminView extends javax.swing.JFrame {
         ManageSessions manageSessions = new ManageSessions(this, true, data, session);
         manageSessions.setVisible(true);
 
-       
 
     }//GEN-LAST:event_btnModifyActionPerformed
 
@@ -310,6 +314,19 @@ public class AdminView extends javax.swing.JFrame {
         sessionDetail.setVisible(true);
     }//GEN-LAST:event_btnSessionDetailsActionPerformed
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        ExitMessage exitMessage = new ExitMessage(this, true);
+        exitMessage.setVisible(true);
+        if (exitMessage.isExit() == true) {
+            server.turnOff();
+           this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        } else {
+            this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+            exitMessage.dispose();
+        }
+
+    }//GEN-LAST:event_formWindowClosing
+
     private void views() {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -340,7 +357,7 @@ public class AdminView extends javax.swing.JFrame {
     public static Server getServer() {
         return server;
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCreateSession;
     private javax.swing.JButton btnDeleteSession;

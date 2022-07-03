@@ -97,6 +97,7 @@ public class LoginAdmin extends javax.swing.JFrame {
         String user = FilesLoader.getAdminUser();
         String password = FilesLoader.getAdminPassword();
         if (user.equals(txtUser.getText()) && password.equals(txtPassword.getText())) {
+            this.setVisible(false);
             AdminView adminView = new AdminView(this, true, Server.getData(), server);
             adminView.setVisible(true);
         } else {
