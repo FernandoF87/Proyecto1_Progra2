@@ -46,6 +46,11 @@ public class SessionTableModel extends DefaultTableModel {
      */
     
     public void fillData(Vector<Session> sessions) {
+        if (sessions.size() == 0) {
+            super.setRowCount(0);
+            sessions = null;
+            return;
+        }
         this.sessions = sessions;
         sessions.sort(new SessionComparator());
         if (super.getRowCount() < sessions.size()) {
