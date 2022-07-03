@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -83,6 +84,7 @@ public class ConnectionThread extends Thread {
 
     public void notifyUser(Notification notification) {
         try {
+            connectionUser.addNotification(notification);
             Transmission answer = new Transmission(Transmission.NOTIFICATION_REQUEST);
             answer.addComponent(notification);
             System.out.println("Enviando " + answer);
@@ -120,6 +122,7 @@ public class ConnectionThread extends Thread {
                 }
                 try {
                     System.out.println("Respuesta: " + answer.toString());
+                    System.out.println(connectionUser);
                     output.writeObject(answer);
                     output.flush();
                 } catch (IOException ex) {
@@ -224,6 +227,12 @@ public class ConnectionThread extends Thread {
                 }
                 break;
             case Transmission.NOTIFICATION_REQUEST:
+                ArrayList<Notification> pending = data.getNotifications();
+                for (int i = 0; i < pending.size(); i++) {
+                    if (pending.get(i).getUserId().equals(connectionUser.getEmail())) {
+                        connectionUser.addNotification(pending.remove(i));
+                    }
+                }
                 answer = new Transmission(Transmission.NOTIFICATION_REQUEST);
                 LinkedList<Notification> notifications = connectionUser.getNotifications();
                 for (int i = 0; i < notifications.size(); i++) {

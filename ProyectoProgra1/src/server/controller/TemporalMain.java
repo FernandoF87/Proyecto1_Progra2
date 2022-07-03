@@ -30,7 +30,7 @@ public class TemporalMain {
         System.out.println("prueba"+FilesLoader.loadSessions());
         
         //ESTO POR SI SE HACE ALGÚN CAMBIO A LAS CLASES, RECOMPILAR PARA EVITAR ERROR NO CLASS FOUND:
-            
+//            
 //        ArrayList<Notification> testArray = new ArrayList();
 //        try {
 //            testArray.add(new Notification("207850253", Notification.ACCEPTED_REQUEST, false));
@@ -86,7 +86,7 @@ public class TemporalMain {
         
 
         //ESTO MUESTRA TODO LO QUE TENGAN LOS ARCHIVOS PARA VERIFICAR SI ESTÁ ALMACENANDO BIEN
-        
+//        
 //        ArrayList<Notification> testArray = FilesLoader.loadNotifications();
 //        for (Notification temp: testArray) {
 //            System.out.println(temp.getUserId() + " " + temp.getMessage());
@@ -102,7 +102,7 @@ public class TemporalMain {
 //        for (String string : session.keySet()) {
 //            System.out.println(string);
 //        }
-       
+//       
     }
 
 }

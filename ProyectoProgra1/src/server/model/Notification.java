@@ -163,4 +163,7 @@ public class Notification implements Serializable {
         this.type = type;
     }
 
+    public String toString() {
+        return "Usuario: " + userId + " Mensaje: " + message;
+    }
 }

@@ -113,12 +113,12 @@ public class Server {
             if (!usersNotified.contains(participants.get(i))) {
                 try {
                     data.addNotification(new Notification(participants.get(i), type, false));
+                    System.out.println("Añadida notificación a data");
                 } catch (NotificationException ex) {
                     ex.printStackTrace();
                 }
             }
         }
-
     }
 
     public void turnOff() {
