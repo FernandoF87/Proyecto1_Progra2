@@ -280,7 +280,10 @@ public class UserThread {
                     lastSelected = main.getSelectedOption();
                     temp = (Transmission) input.readObject();
                     if (temp.getType() == Transmission.NOTIFICATION_REQUEST) {
-                        break;
+                        Notification notification = (Notification) ((Vector) temp.getObject()).get(0);
+                        newNotification(notification);
+                        main.manageNewNotification();
+                        continue;
                     } else if (temp.getType() == Transmission.ENROLL_SESSION_REQUEST) {
                         Vector vector = temp.getObject();
                         if (vector != null && vector.size() > 0) {
