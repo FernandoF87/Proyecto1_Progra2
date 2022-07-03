@@ -52,7 +52,7 @@ public class UserThread {
      */
     
     public UserThread() {
-        listNotifications = new LinkedList();
+        
     }
     
     /**
@@ -209,10 +209,10 @@ public class UserThread {
         Transmission temp = null;
         byte lastSelected = -1;
         try {
+            listNotifications = new LinkedList();
             output.writeObject(new Transmission(Transmission.NOTIFICATION_REQUEST, null));
             output.flush();
             temp = (Transmission) input.readObject();
-            System.out.println("Llegada objeto " + temp.getType() + "  " + temp.getObject().toString());
             main = new MainFrame(loggedUsername);
             main.setVisible(true);
             if (temp.getType() == Transmission.NOTIFICATION_REQUEST) {
@@ -316,6 +316,8 @@ public class UserThread {
             System.out.println("Actual seleccionado: " + main.getSelectedOption() + "\nAnterior: " + lastSelected);
         } while ((main.getSelectedOption() != MainFrame.LOGIN_OUT));
         main.dispose();
+        main = null;
+        notifications = null;
     }
         
         
