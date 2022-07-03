@@ -11,8 +11,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import server.exceptions.NotificationException;
 
-import server.model.User;
-
 /**
  *
  * @author Fernando Flores Moya
@@ -42,6 +40,7 @@ public class ConnectionThread extends Thread {
         getStreams();
         listen();
         close();
+        System.out.println("");
     }
 
     public void listen() {
@@ -165,8 +164,15 @@ public class ConnectionThread extends Thread {
                 answer = new Transmission(Transmission.AVAILABLE_SESSIONS_REQUEST);
                 HashMap<String, Session> sessions = data.getSessions();
                 for (String sessionId : sessions.keySet()) {
-                    if (!sessions.get(sessionId).isParticipant(connectionUser.getEmail()) && sessions.get(sessionId).getState() == Session.INACTIVE_STATE) {
-                        answer.addComponent(sessions.get(sessionId).clone());
+                    Session session = sessions.get(sessionId);
+                    if (session.isOpen()) {
+                        if (!session.isParticipant(connectionUser.getEmail()) && session.getState() == Session.INACTIVE_STATE) {
+                            answer.addComponent(sessions.get(sessionId).clone());
+                        }
+                    } else {
+                        if (!session.isWaiting(connectionUser.getEmail()) && session.getState() == Session.INACTIVE_STATE) {
+                            answer.addComponent(sessions.get(sessionId).clone());
+                        }
                     }
                 }
                 try {
@@ -182,11 +188,11 @@ public class ConnectionThread extends Thread {
                 answer = new Transmission(Transmission.ENROLLED_SESSIONS_REQUEST);
                 sessions = data.getSessions();
                 for (String sessionId : sessions.keySet()) {
-                    if (sessions.get(sessionId).isParticipant(connectionUser.getEmail())) {
+                    if (sessions.get(sessionId).isParticipant(connectionUser.getEmail()) && sessions.get(sessionId).getState() != Session.FINALIZED_STATE) {
                         Session temp = sessions.get(sessionId).clone();
                         temp.setNotifSent(true);
                         answer.addComponent(temp);
-                    } else if (sessions.get(sessionId).isWaiting(connectionUser.getEmail())) {
+                    } else if (!sessions.get(sessionId).isOpen() && sessions.get(sessionId).isWaiting(connectionUser.getEmail())) {
                         Session temp = sessions.get(sessionId).clone();
                         temp.setNotifSent(false);
                         answer.addComponent(temp);
@@ -252,10 +258,14 @@ public class ConnectionThread extends Thread {
                 }
                 if (session.isOpen()) {
                     session.addUser(connectionUser.getEmail(), true);
+                    answer.addComponent(true);
+                    answer.addComponent("Se inscribió correctamente");
                 } else {
                     session.addUser(connectionUser.getEmail(), false);
+                    answer.addComponent(true);
+                    answer.addComponent("Ahora está en la lista de espera a ser aprobado");
                 }
-                answer.addComponent(true);
+
                 try {
                     output.writeObject(answer);
                     System.out.println("Respuesta: " + answer.toString());
