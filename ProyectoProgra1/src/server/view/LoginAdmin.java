@@ -19,6 +19,7 @@ public class LoginAdmin extends javax.swing.JFrame {
     private Server server;
     
     public LoginAdmin(java.awt.Frame parent, boolean modal, Server server) {
+        System.out.println("");
         
         initComponents();
         setLocationRelativeTo(null);
