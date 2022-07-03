@@ -106,7 +106,7 @@ public class NotificationsDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
         NotificationTableModel model = (NotificationTableModel) tbNotifications.getModel();
         Notification temp = model.getSelectedNotification(tbNotifications.getSelectedRow());
-        NotificationDetails details = new NotificationDetails(null, false, temp);
+        NotificationDetails details = new NotificationDetails((MainFrame) getParent(), false, temp);
         details.setVisible(true);
     }//GEN-LAST:event_tbNotificationsMouseClicked
 

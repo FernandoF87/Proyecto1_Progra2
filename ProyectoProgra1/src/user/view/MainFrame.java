@@ -356,6 +356,7 @@ public class MainFrame extends javax.swing.JFrame {
                     ex.printStackTrace();
                 }
             }
+            btNotifications.setBackground(buttonColor);
         };
         new Thread(task).start(); //Starts the thread
     }
