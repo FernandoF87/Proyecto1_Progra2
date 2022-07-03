@@ -96,7 +96,7 @@ public class AceptUsers extends javax.swing.JDialog {
     private void btnDeniedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeniedActionPerformed
         String userId = String.valueOf(jListParticipants.getSelectedValue());
         session.deleteWaitingUser(userId);
-       
+        msg = "Denegado";
         model.remove(jListParticipants.getSelectedIndex());
     }//GEN-LAST:event_btnDeniedActionPerformed
 
