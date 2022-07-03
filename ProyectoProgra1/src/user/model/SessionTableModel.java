@@ -53,7 +53,7 @@ public class SessionTableModel extends DefaultTableModel {
         }
         this.sessions = sessions;
         sessions.sort(new SessionComparator());
-        if (super.getRowCount() < sessions.size()) {
+        if (super.getRowCount() != sessions.size()) {
             super.setRowCount(sessions.size());
         }
         for (int i = 0; i < sessions.size(); i++) {
