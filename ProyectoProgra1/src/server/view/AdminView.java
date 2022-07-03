@@ -1,4 +1,3 @@
-
 package server.view;
 
 import java.util.ArrayList;
@@ -36,7 +35,6 @@ public class AdminView extends javax.swing.JFrame {
         btnSessionDetails.setVisible(false);
         this.data = data;
         this.server = server;
-        
 
     }
 
@@ -200,7 +198,7 @@ public class AdminView extends javax.swing.JFrame {
         jListArea.setModel(sessionModel);
         jListArea.setModel(sessionModel);
         jListArea.setVisible(true);
-       
+
         int cont = 0;
         ArrayList<Session> arraySessions = new ArrayList<>();
         for (HashMap.Entry<String, Session> session : data.getSessions().entrySet()) {
@@ -289,9 +287,11 @@ public class AdminView extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No se ha seleccionado ninguna sesion", "Error", NORMAL);
             return;
         }
+
+        Session session = sessionModel.getSession(index);
         data.deleteSession(sessionModel.getSession(index).getSesionId());
         sessionModel.deleteSession(index);
-
+        server.sendNotification("Borrada", session);
     }//GEN-LAST:event_btnDeleteSessionActionPerformed
 
     private void btnSessionDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSessionDetailsActionPerformed
