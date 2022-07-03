@@ -94,6 +94,7 @@ public class NotificationsDialog extends javax.swing.JDialog {
     private void btCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCloseActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
+        ((MainFrame) getParent()).setSelectedOption((byte) ( (MainFrame) getParent()).getCurrentTab());
         ((MainFrame) getParent()).resetComponents();
     }//GEN-LAST:event_btCloseActionPerformed
 
@@ -128,6 +129,9 @@ public class NotificationsDialog extends javax.swing.JDialog {
             //If the notification in the first position is a default notification, it erases it.
             if (notifications.get(0).getType() == DEFAULT_NOTIFICATION) {
                 notifications.poll();
+                model.setRowCount(notifications.size());
+            }
+            if (notifications.size() != model.getRowCount()) {
                 model.setRowCount(notifications.size());
             }
             //Fill the table with the notifications.

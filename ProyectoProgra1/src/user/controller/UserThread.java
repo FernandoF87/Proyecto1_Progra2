@@ -242,7 +242,7 @@ public class UserThread {
                 }
             } catch (SocketTimeoutException ex) {
                 try {
-                    if (lastSelected != main.getSelectedOption()) {
+                    //if (lastSelected != main.getSelectedOption()) {
                         switch (main.getSelectedOption()) {
                             case MainFrame.AVAILABLE_TAB:
                                 output.writeObject(new Transmission(Transmission.AVAILABLE_SESSIONS_REQUEST, null));
@@ -276,7 +276,7 @@ public class UserThread {
                             output.flush();
                             System.out.println("Envio peticion" + main.getSelectedOption());
                         }
-                    }
+                    //}
                     lastSelected = main.getSelectedOption();
                     temp = (Transmission) input.readObject();
                     if (temp.getType() == Transmission.NOTIFICATION_REQUEST) {

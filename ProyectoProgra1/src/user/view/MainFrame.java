@@ -408,7 +408,9 @@ public class MainFrame extends javax.swing.JFrame {
         this.sessionAccepted = sessionAccepted;
     }
     
-    
+    public int getCurrentTab() {
+        return (byte) tbControls.getSelectedIndex();
+    }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
