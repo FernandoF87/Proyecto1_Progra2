@@ -1,6 +1,6 @@
 package server.model;
 
-import server.view.AdminView;
+import server.view.LoginAdmin;
 
 /**
  *
@@ -10,8 +10,8 @@ public class SessionSystem {
 
     public static void main(String[] args) {
         Server server = new Server();
-        AdminView adminView = new AdminView(new javax.swing.JFrame(),true, Server.getData(), server);
-        adminView.setVisible(true);
+        LoginAdmin loginAdmin = new LoginAdmin(new javax.swing.JFrame(), true, server);
+        loginAdmin.setVisible(true);
         server.runServer();
     }
 }
