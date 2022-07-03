@@ -1,8 +1,7 @@
-package server.view;
+package server.model;
 
 import java.util.ArrayList;
 import javax.swing.AbstractListModel;
-import server.model.User;
 
 /**
  * @version @author Joshua Mora Garita
@@ -10,6 +9,7 @@ import server.model.User;
 public class UserListModel extends AbstractListModel {
 
     private final ArrayList<User> listArray = new ArrayList<>();
+    private final ArrayList<String> listArrayString = new ArrayList<>();
 
     @Override
     public int getSize() {
@@ -24,6 +24,11 @@ public class UserListModel extends AbstractListModel {
 
     public void addUser(User s) {
         listArray.add(s);
+        this.fireIntervalAdded(this, getSize(), getSize() + 1);
+    }
+
+    public void addUser(String userId) {
+        listArrayString.add(userId);
         this.fireIntervalAdded(this, getSize(), getSize() + 1);
     }
 

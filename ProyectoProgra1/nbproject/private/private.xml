@@ -3,16 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/joshm/Documents/Nueva%20carpeta/ProyectoProgra1/src/server/view/NotificationAdmin.java</file>
             <file>file:/E:/joshm/Documents/Nueva%20carpeta/ProyectoProgra1/src/server/model/Session.java</file>
-            <file>file:/E:/joshm/Documents/Nueva%20carpeta/ProyectoProgra1/src/user/model/SessionComparator.java</file>
-            <file>file:/E:/joshm/Documents/Nueva%20carpeta/ProyectoProgra1/src/server/model/Notification.java</file>
-            <file>file:/E:/joshm/Documents/Nueva%20carpeta/ProyectoProgra1/src/server/model/Server.java</file>
+            <file>file:/E:/joshm/Documents/Nueva%20carpeta/ProyectoProgra1/src/server/files/sessionId.txt</file>
+            <file>file:/E:/joshm/Documents/Nueva%20carpeta/ProyectoProgra1/src/server/view/ManageSessions.java</file>
             <file>file:/E:/joshm/Documents/Nueva%20carpeta/ProyectoProgra1/src/server/view/AdminView.java</file>
             <file>file:/E:/joshm/Documents/Nueva%20carpeta/ProyectoProgra1/src/server/model/SessionListModel.java</file>
-            <file>file:/E:/joshm/Documents/Nueva%20carpeta/ProyectoProgra1/src/server/model/AdminSessionComparator.java</file>
-            <file>file:/E:/joshm/Documents/Nueva%20carpeta/ProyectoProgra1/src/server/model/UserConcretBuilder.java</file>
-            <file>file:/E:/joshm/Documents/Nueva%20carpeta/ProyectoProgra1/src/server/model/SessionConcreteBuilder.java</file>
+            <file>file:/E:/joshm/Documents/Nueva%20carpeta/ProyectoProgra1/src/server/model/SessionDirector.java</file>
+            <file>file:/E:/joshm/Documents/Nueva%20carpeta/ProyectoProgra1/src/server/view/CreateSessions.java</file>
+            <file>file:/E:/joshm/Documents/Nueva%20carpeta/ProyectoProgra1/src/server/model/SessionSystem.java</file>
         </group>
     </open-files>
 </project-private>

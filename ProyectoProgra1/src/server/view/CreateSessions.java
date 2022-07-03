@@ -340,11 +340,11 @@ public class CreateSessions extends javax.swing.JDialog {
                     txtDetail.getText(), txtLink.getText(), txtCategory.getText(),
                     cbxPlatform.getSelectedItem().toString(), date, (int) spnDuratin.getValue(), (int) spnAmount.getValue(), open);
             data.addSession(session);
-            AddminMessageDialog.showMessageDialog("Sesion agregada", "Sesion agregada");
+            AdminMessageDialog.showMessageDialog("Sesion agregada", "Sesion agregada");
             btnDeleteActionPerformed(evt);
         } catch (NotificationException ex) {
             System.out.println(ex.getMessage());
-            AddminMessageDialog.showMessageDialog(ex.getMessage(), "Admin Exception");
+            AdminMessageDialog.showMessageDialog(ex.getMessage(), "Admin Exception");
         }
 
 
