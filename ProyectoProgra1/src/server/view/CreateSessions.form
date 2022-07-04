@@ -70,29 +70,33 @@
                                           </Group>
                                       </Group>
                                   </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="txtDetail" min="-2" pref="161" max="-2" attributes="0"/>
+                                          <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+                                          <Component id="txtExpositor" alignment="0" min="-2" pref="161" max="-2" attributes="0"/>
+                                          <Component id="txtTopic" alignment="0" min="-2" pref="161" max="-2" attributes="0"/>
+                                          <Component id="txtCategory" alignment="0" min="-2" pref="161" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="97" pref="201" max="32767" attributes="0"/>
+                                  </Group>
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                              <Component id="txtDetail" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="txtExpositor" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="txtTopic" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="txtCategory" alignment="0" min="-2" pref="161" max="-2" attributes="0"/>
-                                          </Group>
                                           <Group type="102" alignment="0" attributes="0">
                                               <Component id="spnHour" min="-2" pref="64" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
+                                              <EmptySpace type="separate" max="-2" attributes="0"/>
                                               <Component id="jLabel1" min="-2" pref="22" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="spnMinutes" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
+                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                               <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                               <Component id="txtLink" alignment="0" max="32767" attributes="0"/>
                                               <Component id="cbxPlatform" alignment="0" pref="161" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
-                                      <EmptySpace min="0" pref="139" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
@@ -101,7 +105,6 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="spnDuratin" min="-2" max="-2" attributes="0"/>
                                   <Component id="spnAmount" min="-2" max="-2" attributes="0"/>
-                                  <Component id="chooser" alignment="0" min="-2" pref="161" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
@@ -109,7 +112,7 @@
                   </Group>
               </Group>
           </Group>
-          <Group type="102" alignment="1" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
               <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
@@ -126,57 +129,65 @@
                   <Component id="txtCategory" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                   <Component id="jLabel2" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="30" max="32767" attributes="0"/>
+              <EmptySpace pref="31" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel3" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                   <Component id="txtTopic" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="30" max="32767" attributes="0"/>
+              <EmptySpace pref="28" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel4" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                   <Component id="txtExpositor" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="30" max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jLabel6" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
-                  <Component id="txtDetail" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
+              <EmptySpace pref="28" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel6" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="txtDetail" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="30" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jLabel7" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
-                  <Component id="chooser" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="jLabel7" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="30" max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                  <Component id="jLabel8" alignment="1" min="-2" pref="30" max="-2" attributes="0"/>
-                  <Group type="103" alignment="1" groupAlignment="3" attributes="0">
-                      <Component id="spnMinutes" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                      <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace pref="14" max="32767" attributes="0"/>
+                      <Component id="jLabel8" min="-2" pref="30" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="spnHour" alignment="1" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                              <Component id="spnMinutes" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="spnHour" min="-2" pref="30" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel9" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                   <Component id="spnDuratin" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="30" max="32767" attributes="0"/>
+              <EmptySpace pref="28" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel10" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                   <Component id="cbxPlatform" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="30" max="32767" attributes="0"/>
+              <EmptySpace pref="28" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jLabel11" min="-2" pref="30" max="-2" attributes="0"/>
                   <Component id="txtLink" min="-2" pref="30" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="30" max="32767" attributes="0"/>
+              <EmptySpace pref="28" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel12" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                   <Component id="spnAmount" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="30" max="32767" attributes="0"/>
+              <EmptySpace pref="28" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel13" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                   <Component id="rbtnOpen" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -188,7 +199,7 @@
                   <Component id="btnDelete" alignment="3" min="-2" pref="83" max="-2" attributes="0"/>
                   <Component id="btnExit" alignment="3" min="-2" pref="84" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="42" max="32767" attributes="0"/>
+              <EmptySpace pref="40" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -268,15 +279,27 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtCategory">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="No debe contener contener caracteres especiales(-*,/.%#...)"/>
+      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtCategoryActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtTopic">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="No debe contener contener caracteres especiales(-*,/.%#...)"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtExpositor">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="No debe contener contener caracteres especiales(-*,/.%#...)"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtDetail">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="No debe exeder de 300 caracteres"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JComboBox" name="cbxPlatform">
       <Properties>
@@ -291,6 +314,7 @@
             <StringItem index="3" value="Skype"/>
           </StringArray>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Seleccione la plataforma"/>
         <Property name="autoscrolls" type="boolean" value="true"/>
       </Properties>
       <AuxValues>
@@ -298,6 +322,9 @@
       </AuxValues>
     </Component>
     <Component class="javax.swing.JTextField" name="txtLink">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="Ingrese el enlace de la sesion"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JRadioButton" name="rbtnOpen">
       <Properties>
@@ -306,6 +333,7 @@
         </Property>
         <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" value="Abierta"/>
+        <Property name="toolTipText" type="java.lang.String" value="Seleccione si la sesion sera abierta o cerrada"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JRadioButton" name="rbtnClose">
@@ -314,6 +342,7 @@
           <ComponentRef name="buttonGroup1"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Cerrada"/>
+        <Property name="toolTipText" type="java.lang.String" value="Seleccione si la sesion sera abierta o cerrada"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnSaveSession">
@@ -342,12 +371,16 @@
     </Component>
     <Component class="javax.swing.JSpinner" name="spnHour">
       <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="Seleccione una hora usando las flechas"/>
         <Property name="value" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection code="00" type="code"/>
         </Property>
       </Properties>
     </Component>
     <Component class="javax.swing.JSpinner" name="spnMinutes">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="Seleccione los minutos usando las flechas"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
@@ -364,6 +397,7 @@
         <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
           <SpinnerModel initial="30" minimum="30" numberType="java.lang.Integer" stepSize="1" type="number"/>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Seleccione la duracion usando las flechas"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JSpinner" name="spnAmount">
@@ -371,12 +405,40 @@
         <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
           <SpinnerModel initial="5" maximum="30" minimum="5" numberType="java.lang.Integer" stepSize="1" type="number"/>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Seleccione el cupo usando las flechas"/>
       </Properties>
     </Component>
-    <Component class="com.toedter.calendar.JDateChooser" name="chooser">
-      <Events>
-        <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="chooserPropertyChange"/>
-      </Events>
-    </Component>
+    <Container class="javax.swing.JPanel" name="jPanel1">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <Component id="chooser" min="-2" pref="161" max="-2" attributes="0"/>
+                  <EmptySpace min="0" pref="12" max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="chooser" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="com.toedter.calendar.JDateChooser" name="chooser">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="Seleccione la fecha "/>
+          </Properties>
+          <Events>
+            <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="chooserPropertyChange"/>
+          </Events>
+        </Component>
+      </SubComponents>
+    </Container>
   </SubComponents>
 </Form>

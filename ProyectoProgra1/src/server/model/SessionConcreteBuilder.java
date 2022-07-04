@@ -128,7 +128,7 @@ public class SessionConcreteBuilder implements SessionAbstractBuilder {
     @Override
     public void buildPlatform(String platform) throws NotificationException {
         if (platform == null || platform.trim().equals("")) {
-            throw new NotificationException("El link no debe estar vacio");
+            throw new NotificationException("La plataforma no debe estar vacio");
         }
         session.setPlatform(platform);
     }
