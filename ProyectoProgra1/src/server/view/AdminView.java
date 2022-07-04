@@ -131,7 +131,6 @@ public class AdminView extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jListArea.setToolTipText("Seleccione una opcion de la lista");
         jScrollPane1.setViewportView(jListArea);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

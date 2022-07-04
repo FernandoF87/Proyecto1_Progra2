@@ -59,8 +59,6 @@ public class LoginAdmin extends javax.swing.JFrame {
             }
         });
 
-        txtPassword.setToolTipText("");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -80,21 +78,8 @@ public class LoginAdmin extends javax.swing.JFrame {
                             .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-<<<<<<< Updated upstream
                         .addComponent(btnAcces)
                         .addGap(10, 10, 10)))
-=======
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(28, 28, 28))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(32, 32, 32)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtUser, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
-                            .addComponent(txtPassword))))
->>>>>>> Stashed changes
                 .addContainerGap(123, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -103,21 +88,12 @@ public class LoginAdmin extends javax.swing.JFrame {
                 .addGap(75, 75, 75)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-<<<<<<< Updated upstream
                     .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
-=======
-                    .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(33, 33, 33)
->>>>>>> Stashed changes
                 .addComponent(btnAcces)
                 .addContainerGap(100, Short.MAX_VALUE))
         );
@@ -128,47 +104,21 @@ public class LoginAdmin extends javax.swing.JFrame {
     private void btnAccesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccesActionPerformed
         String user = FilesLoader.getAdminUser();
         String password = FilesLoader.getAdminPassword();
-        
-        if (txtUser.getText() == null) {
-            error("Usuario vacio");
-            return;
-        }
-        if (txtPassword.getPassword().length == 0) {
-            error("Contraseña vacia");
-            return;
-        }
-        
-        if (user.equals(txtUser.getText())) {
-            String pass = "";
-            char[] temp = txtPassword.getPassword();
-            for (int i = 0; i < temp.length; i++) {
-                pass += temp[i];
-            }
-            if (password.equals(pass)) {
-                this.setVisible(false);
-                AdminView adminView = new AdminView(this, true, Server.getData(), server);
-                adminView.setVisible(true);
-            } else {
-                error("Contraseña incorrecta");
-            }
-            
+        if (user.equals(txtUser.getText()) && password.equals(txtPassword.getText())) {
+            this.setVisible(false);
+            AdminView adminView = new AdminView(this, true, Server.getData(), server);
+            adminView.setVisible(true);
         } else {
-            error("Usuario incorrecto");
+            AdminMessageDialog.showMessageDialog("Usuario o contraseña incorrectos", "Admin Exception");
+            txtUser.setText(null);
+            txtPassword.setText(null);
         }
     }//GEN-LAST:event_btnAccesActionPerformed
-<<<<<<< Updated upstream
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         server.turnOff();
     }//GEN-LAST:event_formWindowClosing
 
-=======
-    private void error(String msg) {
-        AdminMessageDialog.showMessageDialog(msg, "Error");
-        txtUser.setText(null);
-        txtPassword.setText(null);
-    }
->>>>>>> Stashed changes
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAcces;

@@ -47,7 +47,6 @@ public class AceptUsers extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
 
-        jListParticipants.setToolTipText("Seleccione un usuario ");
         jScrollPane1.setViewportView(jListParticipants);
 
         btnAcept.setText("Aceptar");
