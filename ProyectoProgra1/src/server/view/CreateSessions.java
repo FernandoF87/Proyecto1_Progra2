@@ -81,7 +81,6 @@ public class CreateSessions extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Crear Nueva Sesion");
-        setAlwaysOnTop(true);
         setModal(true);
         setSize(new java.awt.Dimension(0, 0));
 
@@ -114,22 +113,34 @@ public class CreateSessions extends javax.swing.JDialog {
         jLabel14.setToolTipText("");
         jLabel14.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        txtCategory.setToolTipText("La cetegoria no debe tener caracteres especiales(*-/@#...)");
         txtCategory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCategoryActionPerformed(evt);
             }
         });
 
+        txtTopic.setToolTipText("El tema no debe tener caracteres especiales(*-/@#...)");
+
+        txtExpositor.setToolTipText("El nombre del expositor no debe tener caracteres especiales(*-/@#...)");
+
+        txtDetail.setToolTipText("El detalle no debe tener caracteres especiales(*-/@#...)");
+
         cbxPlatform.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cbxPlatform.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Teams", "Zoom", "Google Meet", "Skype" }));
+        cbxPlatform.setToolTipText("Seleccione una plataforma de la lista");
         cbxPlatform.setAutoscrolls(true);
+
+        txtLink.setToolTipText("Ingrese el enlace de la sesion");
 
         buttonGroup1.add(rbtnOpen);
         rbtnOpen.setSelected(true);
         rbtnOpen.setText("Abierta");
+        rbtnOpen.setToolTipText("Seleccione si es una sesion abierta o cerrada");
 
         buttonGroup1.add(rbtnClose);
         rbtnClose.setText("Cerrada");
+        rbtnClose.setToolTipText("Seleccione si es una sesion abierta o cerrada");
 
         btnSaveSession.setText("Guardar");
         btnSaveSession.addActionListener(new java.awt.event.ActionListener() {
@@ -152,16 +163,22 @@ public class CreateSessions extends javax.swing.JDialog {
             }
         });
 
+        spnHour.setToolTipText("Ingrese la hora usando las flechas");
         spnHour.setValue(00);
+
+        spnMinutes.setToolTipText("Ingrese los minutos usando las flechas");
 
         jLabel1.setText("HH:");
 
         jLabel5.setText("mm");
 
         spnDuratin.setModel(new javax.swing.SpinnerNumberModel(30, 30, null, 1));
+        spnDuratin.setToolTipText("Ingrese la duracion usando las flechas");
 
         spnAmount.setModel(new javax.swing.SpinnerNumberModel(5, 5, 30, 1));
+        spnAmount.setToolTipText("Ingrese el cupo usando las flechas");
 
+        chooser.setToolTipText("Pulse el boton para ingresar una fecha");
         chooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 chooserPropertyChange(evt);
@@ -325,6 +342,7 @@ public class CreateSessions extends javax.swing.JDialog {
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnSaveSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveSessionActionPerformed
+
         GregorianCalendar date = new GregorianCalendar(chooser.getDate().getYear() + 1900, chooser.getDate().getMonth(),
                 chooser.getDate().getDate(), (int) spnHour.getModel().getValue(),
                 (int) spnMinutes.getModel().getValue());
@@ -343,9 +361,12 @@ public class CreateSessions extends javax.swing.JDialog {
             AdminMessageDialog.showMessageDialog("Sesion agregada", "Sesion agregada");
             btnDeleteActionPerformed(evt);
         } catch (NotificationException ex) {
-            System.out.println(ex.getMessage());
-            AdminMessageDialog.showMessageDialog(ex.getMessage(), "Admin Exception");
+
+            AdminMessageDialog.showMessageDialog(true, ex.getMessage(), "Admin Exception");
+            
+
         }
+    
 
 
     }//GEN-LAST:event_btnSaveSessionActionPerformed

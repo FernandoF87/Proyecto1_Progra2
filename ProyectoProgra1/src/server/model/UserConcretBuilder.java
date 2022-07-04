@@ -44,6 +44,9 @@ public class UserConcretBuilder implements UserAbstractbuilder {
 
     @Override
     public void buildName(String name) throws NotificationException {
+        if (name == null || name.equals("")) {
+            throw new NotificationException("El nombre no debe estar vacio");
+        }
 
         if (name.length() > 100) {
             throw new NotificationException("El nombre no debe exceder los 100 caracteres");
@@ -61,6 +64,9 @@ public class UserConcretBuilder implements UserAbstractbuilder {
 
     @Override
     public void buildEmail(String email) throws NotificationException {
+        if (email == null || email.equals("")) {
+            throw new NotificationException("El correo no debe estar vacio");
+        }
 
         if (Character.isDigit(email.charAt(0))) {
             throw new NotificationException("El correo debe iniciar con una letra");
@@ -79,7 +85,10 @@ public class UserConcretBuilder implements UserAbstractbuilder {
 
     @Override
     public void buildPassword(String password) throws NotificationException {
-     
+        if (password == null || password.equals("")) {
+            throw new NotificationException("La contraseña no debe estar vacia");
+        }
+
         if (password.length() < 8) {
             throw new NotificationException("La contraseña debe tener minimo 8 caracteres");
         }

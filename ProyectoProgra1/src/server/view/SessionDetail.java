@@ -6,7 +6,6 @@ package server.view;
 
 import java.time.Instant;
 import java.util.Date;
-import server.model.Data;
 import server.model.Session;
 
 /**
@@ -19,13 +18,13 @@ public class SessionDetail extends javax.swing.JDialog {
      * Creates new form ManageSessions
      */
     private final Session session;
-    private final Data data;
+   
     
-    public SessionDetail(javax.swing.JFrame parent, boolean modal, Data data, Session session) {
+    public SessionDetail(javax.swing.JFrame parent, boolean modal,  Session session) {
         initComponents();
         setLocationRelativeTo(parent);
         
-        this.data = data;
+        
         this.session = session;
         setValues();
         setDate();

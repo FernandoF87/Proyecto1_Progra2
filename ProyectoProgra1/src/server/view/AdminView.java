@@ -2,7 +2,6 @@ package server.view;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import javax.swing.JOptionPane;
 import server.model.AdminSessionComparator;
 import server.model.Data;
 import server.model.Server;
@@ -24,7 +23,7 @@ public class AdminView extends javax.swing.JFrame {
     private UserListModel userModel;
     private static Data data;
     private static Server server;
-
+    
     public AdminView(javax.swing.JFrame parent, boolean modal, Data data, Server server) {
         views();
         initComponents();
@@ -33,9 +32,10 @@ public class AdminView extends javax.swing.JFrame {
         btnDeleteSession.setVisible(false);
         btnModify.setVisible(false);
         btnSessionDetails.setVisible(false);
+        btnUserDetails.setVisible(false);
         this.data = data;
         this.server = server;
-
+        
     }
 
     /**
@@ -57,6 +57,7 @@ public class AdminView extends javax.swing.JFrame {
         btnSessionDetails = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jListArea = new javax.swing.JList<>();
+        btnUserDetails = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Administrador");
@@ -131,7 +132,15 @@ public class AdminView extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+        jListArea.setToolTipText("Seleccione una opcion de la lista");
         jScrollPane1.setViewportView(jListArea);
+
+        btnUserDetails.setText("Ver Usuario");
+        btnUserDetails.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUserDetailsActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -153,10 +162,12 @@ public class AdminView extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(btnModify, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(26, 26, 26)
-                                .addComponent(btnSessionDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btnSessionDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnUserDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(138, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -170,20 +181,21 @@ public class AdminView extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                         .addComponent(btnCreateSession, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1))
-                .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 3, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                         .addComponent(btnShowSessions, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                         .addComponent(btnShowUsersList, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(53, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnDeleteSession, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnModify, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSessionDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(68, 68, 68)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnUserDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btnDeleteSession, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnModify, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnSessionDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
@@ -192,53 +204,53 @@ public class AdminView extends javax.swing.JFrame {
 //
     private void btnCreateSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateSessionActionPerformed
         CreateSessions sessions = new CreateSessions(this, true, data);
-
+        
         sessions.setVisible(true);
 
     }//GEN-LAST:event_btnCreateSessionActionPerformed
 
     private void btnManageSessionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageSessionsActionPerformed
-
+        
         sessionModel = new SessionListModel();
         jListArea.setModel(sessionModel);
         jListArea.setModel(sessionModel);
         jListArea.setVisible(true);
-
+        
         int cont = 0;
         ArrayList<Session> arraySessions = new ArrayList<>();
         for (HashMap.Entry<String, Session> session : data.getSessions().entrySet()) {
-
+            
             arraySessions.add(session.getValue());
-
+            
         }
         arraySessions.sort(new AdminSessionComparator());
-
+        
         for (int i = 0; i < arraySessions.size(); i++) {
             sessionModel.addSession(arraySessions.get(i));
         }
-
+        
         btnDeleteSession.setVisible(true);
         btnModify.setVisible(true);
         btnSessionDetails.setVisible(false);
-
+        
 
     }//GEN-LAST:event_btnManageSessionsActionPerformed
 
     private void btnShowSessionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowSessionsActionPerformed
-
+        
         sessionModel = new SessionListModel();
         jListArea.setModel(sessionModel);
         jListArea.setVisible(true);
         jListArea.setAutoscrolls(true);
-
+        
         ArrayList<Session> arraySessions = new ArrayList<>();
         for (HashMap.Entry<String, Session> session : data.getSessions().entrySet()) {
-
+            
             arraySessions.add(session.getValue());
-
+            
         }
         arraySessions.sort(new AdminSessionComparator());
-
+        
         for (int i = 0; i < arraySessions.size(); i++) {
             sessionModel.addSession(arraySessions.get(i));
         }
@@ -258,24 +270,26 @@ public class AdminView extends javax.swing.JFrame {
         btnDeleteSession.setVisible(false);
         btnModify.setVisible(false);
         btnSessionDetails.setVisible(false);
+        btnUserDetails.setVisible(true);
     }//GEN-LAST:event_btnShowUsersListActionPerformed
 
     private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
         int index = -2;
         index = jListArea.getSelectedIndex();
         if (index == -1) {
-            JOptionPane.showMessageDialog(this, "No ha seleccionado una sesion o no hay sesiones en la lista", "Error", NORMAL);
+            AdminMessageDialog.showMessageDialog("No ha seleccionado una sesion o no hay sesiones en la lista", "Error");
+            
             return;
         }
         if (index == -2) {
-            JOptionPane.showMessageDialog(this, "No se ha seleccionado ninguna sesion", "Error", NORMAL);
+            AdminMessageDialog.showMessageDialog("No ha seleccionado una sesion o no hay sesiones en la lista", "Error");
             return;
         }
         Session session = sessionModel.getSession(index);
-
+        
         ManageSessions manageSessions = new ManageSessions(this, true, data, session);
         manageSessions.setVisible(true);
-
+        
 
     }//GEN-LAST:event_btnModifyActionPerformed
 
@@ -283,14 +297,14 @@ public class AdminView extends javax.swing.JFrame {
         int index = -2;
         index = jListArea.getSelectedIndex();
         if (index == -1) {
-            JOptionPane.showMessageDialog(this, "No ha seleccionado una sesion o no hay sesiones en la lista", "Error", NORMAL);
+            AdminMessageDialog.showMessageDialog("No ha seleccionado una sesion o no hay sesiones en la lista", "Error");
             return;
         }
         if (index == -2) {
-            JOptionPane.showMessageDialog(this, "No se ha seleccionado ninguna sesion", "Error", NORMAL);
+            AdminMessageDialog.showMessageDialog("No ha seleccionado una sesion o no hay sesiones en la lista", "Error");
             return;
         }
-
+        
         Session session = sessionModel.getSession(index);
         data.deleteSession(sessionModel.getSession(index).getSesionId());
         sessionModel.deleteSession(index);
@@ -301,16 +315,16 @@ public class AdminView extends javax.swing.JFrame {
         int index = -2;
         index = jListArea.getSelectedIndex();
         if (index == -1) {
-            JOptionPane.showMessageDialog(this, "No ha seleccionado una sesion o no hay sesiones en la lista", "Error", NORMAL);
+            AdminMessageDialog.showMessageDialog("No ha seleccionado una sesion o no hay sesiones en la lista", "Error");
             return;
         }
         if (index == -2) {
-            JOptionPane.showMessageDialog(this, "No se ha seleccionado ninguna sesion", "Error", NORMAL);
+            AdminMessageDialog.showMessageDialog("No ha seleccionado una sesion o no hay sesiones en la lista", "Error");
             return;
         }
         Session session = sessionModel.getSession(index);
-
-        SessionDetail sessionDetail = new SessionDetail(this, true, data, session);
+        
+        SessionDetail sessionDetail = new SessionDetail(this, true, session);
         sessionDetail.setVisible(true);
     }//GEN-LAST:event_btnSessionDetailsActionPerformed
 
@@ -332,33 +346,49 @@ public class AdminView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
+    private void btnUserDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUserDetailsActionPerformed
+        int index = -2;
+        index = jListArea.getSelectedIndex();
+        if (index == -1) {
+            AdminMessageDialog.showMessageDialog("No ha seleccionado un usuario o no hay usuarios en la lista", "Error");
+            return;
+        }
+        if (index == -2) {
+            AdminMessageDialog.showMessageDialog("No ha seleccionado un usuario o no hay usuarios en la lista", "Error");
+            return;
+        }
+        User user =  userModel.getItem(index);
+        UserDetails userDetails = new UserDetails(this, true, user);
+        userDetails.setVisible(true);
+    }//GEN-LAST:event_btnUserDetailsActionPerformed
+    
     private void views() {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-
+                    
                 }
             }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(CreateSessions.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
+            
         } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(CreateSessions.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
+            
         } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(CreateSessions.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
+            
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(CreateSessions.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }
-
+    
     public static Server getServer() {
         return server;
     }
@@ -371,6 +401,7 @@ public class AdminView extends javax.swing.JFrame {
     private javax.swing.JButton btnSessionDetails;
     private javax.swing.JButton btnShowSessions;
     private javax.swing.JButton btnShowUsersList;
+    private javax.swing.JButton btnUserDetails;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JList<String> jListArea;
     private javax.swing.JScrollPane jScrollPane1;

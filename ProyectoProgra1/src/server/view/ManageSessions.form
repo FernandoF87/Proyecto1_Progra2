@@ -290,12 +290,24 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtCategory">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="La cetegoria no debe tener caracteres especiales(*-/@#...)"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtTopic">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="El tema no debe tener caracteres especiales(*-/@#...)"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtExpositor">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="El nombre del expositor no debe tener caracteres especiales(*-/@#...)"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtDetail">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="El detalle no debe tener caracteres especiales(*-/@#...)"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JComboBox" name="cbxPlatform">
       <Properties>
@@ -310,6 +322,7 @@
             <StringItem index="3" value="Skype"/>
           </StringArray>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Seleccione la plataforma de la lista"/>
         <Property name="autoscrolls" type="boolean" value="true"/>
       </Properties>
       <AuxValues>
@@ -317,6 +330,9 @@
       </AuxValues>
     </Component>
     <Component class="javax.swing.JTextField" name="txtLink">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="Ingrese el nuevo link de la sesion"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JRadioButton" name="rbtnOpen">
       <Properties>
@@ -325,6 +341,7 @@
         </Property>
         <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" value="Abierta"/>
+        <Property name="toolTipText" type="java.lang.String" value="Seleccione si es una sesion abierta o cerrada"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JRadioButton" name="rbtnClose">
@@ -333,6 +350,7 @@
           <ComponentRef name="buttonGroup1"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Cerrada"/>
+        <Property name="toolTipText" type="java.lang.String" value="Seleccione si es una sesion abierta o cerrada"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnSaveSession">
@@ -361,12 +379,16 @@
     </Component>
     <Component class="javax.swing.JSpinner" name="spnHour">
       <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="Ingrese la hora usando las flechas"/>
         <Property name="value" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection code="00" type="code"/>
         </Property>
       </Properties>
     </Component>
     <Component class="javax.swing.JSpinner" name="spnMinutes">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="Ingrese los minutos usando las flechas"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
@@ -383,6 +405,7 @@
         <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
           <SpinnerModel initial="30" minimum="30" numberType="java.lang.Integer" stepSize="1" type="number"/>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Ingrese la duracion usando las flechas"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JSpinner" name="spnAmount">
@@ -390,10 +413,12 @@
         <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
           <SpinnerModel initial="5" maximum="30" minimum="5" numberType="java.lang.Integer" stepSize="1" type="number"/>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Ingrese el nuevo cupo usando las flechas"/>
       </Properties>
     </Component>
     <Component class="com.toedter.calendar.JDateChooser" name="chooser">
       <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="Ingrese la fecha usando el boton"/>
         <Property name="dateFormatString" type="java.lang.String" value="d MMM yyyy"/>
       </Properties>
       <Events>

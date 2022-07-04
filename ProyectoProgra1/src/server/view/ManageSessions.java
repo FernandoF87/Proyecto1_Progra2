@@ -122,16 +122,29 @@ public class ManageSessions extends javax.swing.JDialog {
         jLabel14.setToolTipText("");
         jLabel14.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        txtCategory.setToolTipText("La cetegoria no debe tener caracteres especiales(*-/@#...)");
+
+        txtTopic.setToolTipText("El tema no debe tener caracteres especiales(*-/@#...)");
+
+        txtExpositor.setToolTipText("El nombre del expositor no debe tener caracteres especiales(*-/@#...)");
+
+        txtDetail.setToolTipText("El detalle no debe tener caracteres especiales(*-/@#...)");
+
         cbxPlatform.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cbxPlatform.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Teams", "Zoom", "Google Meet", "Skype" }));
+        cbxPlatform.setToolTipText("Seleccione la plataforma de la lista");
         cbxPlatform.setAutoscrolls(true);
+
+        txtLink.setToolTipText("Ingrese el nuevo link de la sesion");
 
         buttonGroup1.add(rbtnOpen);
         rbtnOpen.setSelected(true);
         rbtnOpen.setText("Abierta");
+        rbtnOpen.setToolTipText("Seleccione si es una sesion abierta o cerrada");
 
         buttonGroup1.add(rbtnClose);
         rbtnClose.setText("Cerrada");
+        rbtnClose.setToolTipText("Seleccione si es una sesion abierta o cerrada");
 
         btnSaveSession.setText("Guardar");
         btnSaveSession.addActionListener(new java.awt.event.ActionListener() {
@@ -154,16 +167,22 @@ public class ManageSessions extends javax.swing.JDialog {
             }
         });
 
+        spnHour.setToolTipText("Ingrese la hora usando las flechas");
         spnHour.setValue(00);
+
+        spnMinutes.setToolTipText("Ingrese los minutos usando las flechas");
 
         jLabel1.setText("HH:");
 
         jLabel5.setText("mm");
 
         spnDuratin.setModel(new javax.swing.SpinnerNumberModel(30, 30, null, 1));
+        spnDuratin.setToolTipText("Ingrese la duracion usando las flechas");
 
         spnAmount.setModel(new javax.swing.SpinnerNumberModel(5, 5, 30, 1));
+        spnAmount.setToolTipText("Ingrese el nuevo cupo usando las flechas");
 
+        chooser.setToolTipText("Ingrese la fecha usando el boton");
         chooser.setDateFormatString("d MMM yyyy");
         chooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {

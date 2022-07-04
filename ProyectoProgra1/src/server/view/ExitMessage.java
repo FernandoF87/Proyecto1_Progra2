@@ -53,7 +53,7 @@ public class ExitMessage extends javax.swing.JDialog {
         });
 
         exitMessage.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        exitMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        exitMessage.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         exitMessage.setText("¿Está seguro que desea salir?");
         exitMessage.setToolTipText("");
 

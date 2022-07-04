@@ -46,7 +46,9 @@ public class SessionConcreteBuilder implements SessionAbstractBuilder {
 
     @Override
     public void buildCategory(String category) throws NotificationException {
-
+        if (category == null || category.equals("")) {
+            throw new NotificationException("La categoria no debe estar vacia");
+        }
         if (category.length() > 25) {
             throw new NotificationException("La categoria no debe exceder los 25 caracteres");
         }
@@ -56,14 +58,16 @@ public class SessionConcreteBuilder implements SessionAbstractBuilder {
         if (mat.matches()) {
             session.setCategory(category);
         } else {
-            throw new NotificationException("La categoria no debe tener caracteres especiales");
+            throw new NotificationException("La categoria no debe estar vacia o tener caracteres especiales");
         }
 
     }
 
     @Override
     public void buildTopic(String topic) throws NotificationException {
-        int valAscii = 0;
+        if (topic == null || topic.equals("")) {
+            throw new NotificationException("El tema no debe estar vacio");
+        }
         if (topic.length() > 100) {
             throw new NotificationException("El tema no debe exceder los 100 caracteres");
         }
@@ -74,14 +78,16 @@ public class SessionConcreteBuilder implements SessionAbstractBuilder {
         if (mat.matches()) {
             session.setTopic(topic);
         } else {
-            throw new NotificationException("El tema no debe tener caracteres especiales");
+            throw new NotificationException("El tema no debe estar vacio o tener caracteres especiales");
         }
 
     }
 
     @Override
     public void buildExpositor(String expositor) throws NotificationException {
-
+        if (expositor == null || expositor.equals("")) {
+            throw new NotificationException("El nombre del expositor no debe estar vacio");
+        }
         if (expositor.length() > 100) {
             throw new NotificationException("El nombre del expositor  no debe"
                     + " exceder los 100 caracteres");
@@ -99,6 +105,9 @@ public class SessionConcreteBuilder implements SessionAbstractBuilder {
 
     @Override
     public void buildDetail(String detail) throws NotificationException {
+        if (detail == null || detail.equals("")) {
+            throw new NotificationException("El detalle no debe estar vacio");
+        }
         if (detail.length() > 300) {
             throw new NotificationException("El detalle no debe exceder los 300 caracteres");
         }

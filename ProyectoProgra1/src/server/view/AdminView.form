@@ -45,13 +45,15 @@
                               <Component id="btnModify" min="-2" pref="100" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                               <Component id="btnSessionDetails" min="-2" pref="100" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="btnUserDetails" min="-2" pref="100" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jScrollPane1" min="-2" pref="344" max="-2" attributes="0"/>
                           <Component id="jLabel1" alignment="0" min="-2" pref="268" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="138" max="32767" attributes="0"/>
+              <EmptySpace pref="45" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -69,21 +71,23 @@
                   </Group>
                   <Component id="jScrollPane1" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace pref="3" max="32767" attributes="0"/>
+                      <EmptySpace pref="43" max="32767" attributes="0"/>
                       <Component id="btnShowSessions" min="-2" pref="100" max="-2" attributes="0"/>
                       <EmptySpace pref="22" max="32767" attributes="0"/>
                       <Component id="btnShowUsersList" min="-2" pref="100" max="-2" attributes="0"/>
                       <EmptySpace pref="53" max="32767" attributes="0"/>
                   </Group>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="btnDeleteSession" alignment="3" min="-2" pref="60" max="-2" attributes="0"/>
-                          <Component id="btnModify" alignment="3" min="-2" pref="60" max="-2" attributes="0"/>
-                          <Component id="btnSessionDetails" alignment="3" min="-2" pref="60" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="btnUserDetails" min="-2" pref="60" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="btnDeleteSession" alignment="3" min="-2" pref="60" max="-2" attributes="0"/>
+                              <Component id="btnModify" alignment="3" min="-2" pref="60" max="-2" attributes="0"/>
+                              <Component id="btnSessionDetails" alignment="3" min="-2" pref="60" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -195,6 +199,7 @@
                 <StringItem index="0" value=" "/>
               </StringArray>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Seleccione una opcion de la lista"/>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -202,5 +207,13 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JButton" name="btnUserDetails">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Ver Usuario"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUserDetailsActionPerformed"/>
+      </Events>
+    </Component>
   </SubComponents>
 </Form>
