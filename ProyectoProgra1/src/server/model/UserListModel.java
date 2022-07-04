@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import javax.swing.AbstractListModel;
 
 /**
- * @version @author Joshua Mora Garita
+ * This class extends AbstractListModel and is in charge of managing the users
+ * in a JList
+ *
+ * @version 4/7/2022
+ * @author C11836 Jostin Castro Gutierrez, C12916 Fernando Flores Moya, C15079
+ * Joshua Mora Garita
  */
 public class UserListModel extends AbstractListModel {
 

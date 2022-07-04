@@ -7,6 +7,8 @@ import java.util.regex.Pattern;
 import server.exceptions.NotificationException;
 
 /**
+ * It is responsible for validating all the session data
+ *
  * @version 18/06/2022
  * @author C11836 Jostin Castro Gutierrez, C12916 Fernando Flores Moya, C15079
  * Joshua Mora Garita

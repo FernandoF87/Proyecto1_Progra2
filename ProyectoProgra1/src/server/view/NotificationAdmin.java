@@ -5,18 +5,22 @@
 package server.view;
 
 /**
+ * Popup showing the message received by parameter in its constructor
  *
- * @author Joshua Mora Garita
+ * @version 4/7/2022
+ * @author C11836 Jostin Castro Gutierrez, C12916 Fernando Flores Moya, C15079
+ * Joshua Mora Garita
  */
 public class NotificationAdmin extends javax.swing.JDialog {
 
     /**
      * Creates new form NotificationAdmin
+     *
      * @param parent
      * @param modal
      * @param notification
      */
-    public NotificationAdmin(java.awt.Frame parent, boolean modal,String notification) {
+    public NotificationAdmin(java.awt.Frame parent, boolean modal, String notification) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(parent);
@@ -87,7 +91,6 @@ public class NotificationAdmin extends javax.swing.JDialog {
     /**
      * @param args the command line arguments
      */
-  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExit;

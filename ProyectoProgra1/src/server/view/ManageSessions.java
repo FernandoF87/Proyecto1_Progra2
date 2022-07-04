@@ -12,8 +12,11 @@ import server.model.Data;
 import server.model.Session;
 
 /**
+ * It is responsible for modifying the data of the received session
  *
- * @author Joshua Mora Garita
+ * @version 4/7/2022
+ * @author C11836 Jostin Castro Gutierrez, C12916 Fernando Flores Moya, C15079
+ * Joshua Mora Garita
  */
 public class ManageSessions extends javax.swing.JDialog {
 
@@ -34,6 +37,9 @@ public class ManageSessions extends javax.swing.JDialog {
         setDate();
     }
 
+    /**
+     * Sets the values of the date and time, with those of the session date
+     */
     private void setDate() {
         Date actualDate = Date.from(Instant.now());
         chooser.setDate(session.getDate().getTime());
@@ -353,7 +359,11 @@ public class ManageSessions extends javax.swing.JDialog {
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnExitActionPerformed
-
+    /**
+     * Delete the session from the list of sessions and send the notification
+     *
+     * @param evt
+     */
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
 
         data.deleteSession(session.getSesionId());
@@ -361,7 +371,9 @@ public class ManageSessions extends javax.swing.JDialog {
         dispose();
 
     }//GEN-LAST:event_btnDeleteActionPerformed
-
+    /**
+     * Set the values of the fields, with the data of the session
+     */
     public void setValues() {
         txtCategory.setText(session.getCategory());
         txtDetail.setText(session.getDetail());
@@ -396,6 +408,12 @@ public class ManageSessions extends javax.swing.JDialog {
         lblEnrrolledUsers.setText(enrolledUsers);
     }
 
+    /**
+     *
+     * Save the modified data of the session
+     *
+     * @param evt
+     */
     private void btnSaveSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveSessionActionPerformed
         GregorianCalendar date = new GregorianCalendar(chooser.getDate().getYear() + 1900, chooser.getDate().getMonth(),
                 chooser.getDate().getDate(), (int) spnHour.getModel().getValue(),
@@ -435,7 +453,12 @@ public class ManageSessions extends javax.swing.JDialog {
         AdminView.getServer().sendNotification(message, session);
 
     }//GEN-LAST:event_btnSaveSessionActionPerformed
-
+    /**
+     * Verify that the selected date is greater than the current date, if so,
+     * set the current time as the minimum time
+     *
+     * @param evt
+     */
     private void chooserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_chooserPropertyChange
 
         if (chooser.getDate() != null) {
@@ -452,13 +475,17 @@ public class ManageSessions extends javax.swing.JDialog {
 
 
     }//GEN-LAST:event_chooserPropertyChange
-
+    /**
+     * Shows the window of users pending approval, in case of a closed session
+     *
+     * @param evt
+     */
     private void btnAceptUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptUsersActionPerformed
         AceptUsers aceptUsers = new AceptUsers((JFrame) this.getParent().getParent(), true, session);
 
         aceptUsers.setVisible(true);
         message = aceptUsers.getMsg();
-       
+
 
     }//GEN-LAST:event_btnAceptUsersActionPerformed
 

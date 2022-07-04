@@ -7,8 +7,10 @@ package server.view;
 import server.model.User;
 
 /**
+ * Shows the user's details received by parameters in its constructor
  *
- * @author Joshua Mora Garita
+ * @author C11836 Jostin Castro Gutierrez, C12916 Fernando Flores Moya, C15079
+ * Joshua Mora Garita
  */
 public class UserDetails extends javax.swing.JDialog {
 
@@ -25,6 +27,10 @@ public class UserDetails extends javax.swing.JDialog {
         setValues();
     }
 
+    /**
+     *
+     * Set the values of the fields, with the user's data
+     */
     private void setValues() {
         lblId.setText(user.getUserID());
         lblName.setText(user.getName());
@@ -140,9 +146,9 @@ public class UserDetails extends javax.swing.JDialog {
                     .addComponent(jLabel5)
                     .addComponent(lblBornDate, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(lblPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblPhone, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
                 .addContainerGap(136, Short.MAX_VALUE))
         );
 

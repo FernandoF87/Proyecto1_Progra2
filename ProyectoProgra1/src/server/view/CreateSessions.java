@@ -15,8 +15,11 @@ import server.model.SessionConcreteBuilder;
 import server.model.SessionDirector;
 
 /**
+ * It is responsible for requesting the data of the session to be created
  *
- * @author Joshua Mora Garita
+ * @version 4/7/2022
+ * @author C11836 Jostin Castro Gutierrez, C12916 Fernando Flores Moya, C15079
+ * Joshua Mora Garita
  */
 public class CreateSessions extends javax.swing.JDialog {
 
@@ -114,11 +117,6 @@ public class CreateSessions extends javax.swing.JDialog {
         jLabel14.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         txtCategory.setToolTipText("La cetegoria no debe tener caracteres especiales(*-/@#...)");
-        txtCategory.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCategoryActionPerformed(evt);
-            }
-        });
 
         txtTopic.setToolTipText("El tema no debe tener caracteres especiales(*-/@#...)");
 
@@ -320,11 +318,11 @@ public class CreateSessions extends javax.swing.JDialog {
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnExitActionPerformed
-
-    private void txtCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCategoryActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCategoryActionPerformed
-
+    /**
+     * Sets by default the values of the fields of the window
+     *
+     * @param evt
+     */
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
 
         setDate();
@@ -340,7 +338,12 @@ public class CreateSessions extends javax.swing.JDialog {
 
 
     }//GEN-LAST:event_btnDeleteActionPerformed
-
+    /**
+     * Get the data from the fields and create a new session with the
+     * corresponding data
+     *
+     * @param evt
+     */
     private void btnSaveSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveSessionActionPerformed
 
         GregorianCalendar date = new GregorianCalendar(chooser.getDate().getYear() + 1900, chooser.getDate().getMonth(),
@@ -363,14 +366,17 @@ public class CreateSessions extends javax.swing.JDialog {
         } catch (NotificationException ex) {
 
             AdminMessageDialog.showMessageDialog(true, ex.getMessage(), "Admin Exception");
-            
 
         }
-    
 
 
     }//GEN-LAST:event_btnSaveSessionActionPerformed
-
+    /**
+     * Verify that the selected date is greater than the current date, if so,
+     * set the current time as the minimum time
+     *
+     * @param evt
+     */
     private void chooserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_chooserPropertyChange
 
         if (chooser.getDate() != null) {
@@ -387,7 +393,9 @@ public class CreateSessions extends javax.swing.JDialog {
 
 
     }//GEN-LAST:event_chooserPropertyChange
-
+    /**
+     * Set the current date and time as the default date and time
+     */
     private void setDate() {
         Date actualDate = Date.from(Instant.now());
         chooser.setMinSelectableDate(new java.util.Date(actualDate.getTime()));
@@ -398,6 +406,9 @@ public class CreateSessions extends javax.swing.JDialog {
 
     }
 
+    /**
+     * Method in charge of the appearance of the objects of the window
+     */
     private void views() {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

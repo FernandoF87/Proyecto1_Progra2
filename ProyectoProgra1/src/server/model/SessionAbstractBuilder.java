@@ -1,9 +1,12 @@
 package server.model;
 
-import server.exceptions.NotificationException;
 import java.util.GregorianCalendar;
+import server.exceptions.NotificationException;
 
 /**
+ * An interface that defines the abstrac methods to use in
+ * SessionConcreteBuilder class
+ *
  * @version 16/6/22
  * @author C11836 Jostin Castro Gutierrez, C12916 Fernando Flores Moya, C15079
  * Joshua Mora Garita

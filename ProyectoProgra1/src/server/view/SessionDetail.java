@@ -9,8 +9,11 @@ import java.util.Date;
 import server.model.Session;
 
 /**
+ * Shows the session's details received by parameters in its constructor
  *
- * @author Joshua Mora Garita
+ * @version 4/7/2022
+ * @author C11836 Jostin Castro Gutierrez, C12916 Fernando Flores Moya, C15079
+ * Joshua Mora Garita
  */
 public class SessionDetail extends javax.swing.JDialog {
 
@@ -18,29 +21,30 @@ public class SessionDetail extends javax.swing.JDialog {
      * Creates new form ManageSessions
      */
     private final Session session;
-   
-    
-    public SessionDetail(javax.swing.JFrame parent, boolean modal,  Session session) {
+
+    public SessionDetail(javax.swing.JFrame parent, boolean modal, Session session) {
         initComponents();
         setLocationRelativeTo(parent);
-        
-        
+
         this.session = session;
         setValues();
         setDate();
     }
-    
+
+    /**
+     * Sets the values of the date and time, with those of the session date
+     */
     private void setDate() {
         Date actualDate = Date.from(Instant.now());
         chooser.setDate(session.getDate().getTime());
         chooser.setMinSelectableDate(new java.util.Date(actualDate.getTime()));
-        
+
         spnHour.setModel(new javax.swing.SpinnerNumberModel(session.getDate().getTime().getHours(), session.getDate().getTime().getHours(), 23, 1));
         spnMinutes.setModel(new javax.swing.SpinnerNumberModel(session.getDate().getTime().getMinutes(), session.getDate().getTime().getMinutes(), 59, 1));
         chooser.setEnabled(false);
         spnHour.setEnabled(false);
         spnMinutes.setEnabled(false);
-        
+
     }
 
     /**
@@ -145,11 +149,6 @@ public class SessionDetail extends javax.swing.JDialog {
         spnAmount.setModel(new javax.swing.SpinnerNumberModel(5, 5, 30, 1));
 
         chooser.setDateFormatString("d MMM yyyy");
-        chooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                chooserPropertyChange(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -275,7 +274,9 @@ public class SessionDetail extends javax.swing.JDialog {
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnExitActionPerformed
-    
+    /**
+     * Set the values of the fields, with the session's data
+     */
     public void setValues() {
         txtCategory.setText(session.getCategory());
         txtCategory.setEditable(false);
@@ -294,7 +295,7 @@ public class SessionDetail extends javax.swing.JDialog {
         }
         rbtnOpen.setEnabled(false);
         rbtnClose.setEnabled(false);
-        
+
         String platform = session.getPlatform().toLowerCase();
         int indexPlatfor = 0;
         switch (platform) {
@@ -313,25 +314,8 @@ public class SessionDetail extends javax.swing.JDialog {
         spnDuratin.setEnabled(false);
         spnAmount.setValue(session.getCapacity());
         spnAmount.setEnabled(false);
-        
+
     }
-
-    private void chooserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_chooserPropertyChange
-        
-        if (chooser.getDate() != null) {
-            if (chooser.getDate().getTime() > Date.from(Instant.now()).getTime()) {
-                spnHour.setModel(new javax.swing.SpinnerNumberModel(0, 0, 23, 1));
-                spnMinutes.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
-                
-            } else {
-                
-                spnHour.setModel(new javax.swing.SpinnerNumberModel(Date.from(Instant.now()).getHours(), Date.from(Instant.now()).getHours(), 23, 1));
-                spnMinutes.setModel(new javax.swing.SpinnerNumberModel(Date.from(Instant.now()).getMinutes(), Date.from(Instant.now()).getMinutes(), 59, 1));
-            }
-        }
-        
-
-    }//GEN-LAST:event_chooserPropertyChange
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -11,8 +11,11 @@ import server.model.User;
 import server.model.UserListModel;
 
 /**
+ * It is responsible for displaying and managing the administrator views
  *
- * @author Joshua Mora Garita
+ * @version 4/7/2022
+ * @author C11836 Jostin Castro Gutierrez, C12916 Fernando Flores Moya, C15079
+ * Joshua Mora Garita
  */
 public class AdminView extends javax.swing.JFrame {
 
@@ -23,7 +26,7 @@ public class AdminView extends javax.swing.JFrame {
     private UserListModel userModel;
     private static Data data;
     private static Server server;
-    
+
     public AdminView(javax.swing.JFrame parent, boolean modal, Data data, Server server) {
         views();
         initComponents();
@@ -35,7 +38,7 @@ public class AdminView extends javax.swing.JFrame {
         btnUserDetails.setVisible(false);
         this.data = data;
         this.server = server;
-        
+
     }
 
     /**
@@ -201,56 +204,62 @@ public class AdminView extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-//
+    /**
+     * Shows the window in charge of creating a new session
+     *
+     * @param evt
+     */
     private void btnCreateSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateSessionActionPerformed
         CreateSessions sessions = new CreateSessions(this, true, data);
-        
+
         sessions.setVisible(true);
 
     }//GEN-LAST:event_btnCreateSessionActionPerformed
-
+    /**
+     * Fill the JList with existing sessions, show the JList,Show and hide the
+     * corresponding buttons to modify the selected session
+     *
+     * @param evt
+     */
     private void btnManageSessionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageSessionsActionPerformed
-        
+
         sessionModel = new SessionListModel();
         jListArea.setModel(sessionModel);
         jListArea.setModel(sessionModel);
         jListArea.setVisible(true);
-        
-        int cont = 0;
         ArrayList<Session> arraySessions = new ArrayList<>();
         for (HashMap.Entry<String, Session> session : data.getSessions().entrySet()) {
-            
             arraySessions.add(session.getValue());
-            
         }
         arraySessions.sort(new AdminSessionComparator());
-        
         for (int i = 0; i < arraySessions.size(); i++) {
             sessionModel.addSession(arraySessions.get(i));
         }
-        
         btnDeleteSession.setVisible(true);
         btnModify.setVisible(true);
         btnSessionDetails.setVisible(false);
-        
-
     }//GEN-LAST:event_btnManageSessionsActionPerformed
-
+    /**
+     * Fill the JList with existing sessions, show the JList,show and hide the
+     * corresponding buttons to see the details of the selected session
+     *
+     * @param evt
+     */
     private void btnShowSessionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowSessionsActionPerformed
-        
+
         sessionModel = new SessionListModel();
         jListArea.setModel(sessionModel);
         jListArea.setVisible(true);
         jListArea.setAutoscrolls(true);
-        
+
         ArrayList<Session> arraySessions = new ArrayList<>();
         for (HashMap.Entry<String, Session> session : data.getSessions().entrySet()) {
-            
+
             arraySessions.add(session.getValue());
-            
+
         }
         arraySessions.sort(new AdminSessionComparator());
-        
+
         for (int i = 0; i < arraySessions.size(); i++) {
             sessionModel.addSession(arraySessions.get(i));
         }
@@ -259,7 +268,12 @@ public class AdminView extends javax.swing.JFrame {
         btnSessionDetails.setVisible(true);
 
     }//GEN-LAST:event_btnShowSessionsActionPerformed
-
+    /**
+     * Fill the JList with existing users, show the JList ,Show and hide the
+     * corresponding buttons to see the details of the selected session
+     *
+     * @param evt
+     */
     private void btnShowUsersListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowUsersListActionPerformed
         userModel = new UserListModel();
         jListArea.setModel(userModel);
@@ -272,13 +286,17 @@ public class AdminView extends javax.swing.JFrame {
         btnSessionDetails.setVisible(false);
         btnUserDetails.setVisible(true);
     }//GEN-LAST:event_btnShowUsersListActionPerformed
-
+    /**
+     * Shows the window to modify the selected session in the JList
+     *
+     * @param evt
+     */
     private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
         int index = -2;
         index = jListArea.getSelectedIndex();
         if (index == -1) {
             AdminMessageDialog.showMessageDialog("No ha seleccionado una sesion o no hay sesiones en la lista", "Error");
-            
+
             return;
         }
         if (index == -2) {
@@ -286,13 +304,17 @@ public class AdminView extends javax.swing.JFrame {
             return;
         }
         Session session = sessionModel.getSession(index);
-        
+
         ManageSessions manageSessions = new ManageSessions(this, true, data, session);
         manageSessions.setVisible(true);
-        
+
 
     }//GEN-LAST:event_btnModifyActionPerformed
-
+    /**
+     * Delete the selected session in the JList
+     *
+     * @param evt
+     */
     private void btnDeleteSessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteSessionActionPerformed
         int index = -2;
         index = jListArea.getSelectedIndex();
@@ -304,13 +326,17 @@ public class AdminView extends javax.swing.JFrame {
             AdminMessageDialog.showMessageDialog("No ha seleccionado una sesion o no hay sesiones en la lista", "Error");
             return;
         }
-        
+
         Session session = sessionModel.getSession(index);
         data.deleteSession(sessionModel.getSession(index).getSesionId());
         sessionModel.deleteSession(index);
         server.sendNotification("Borrada", session);
     }//GEN-LAST:event_btnDeleteSessionActionPerformed
-
+    /**
+     * Shows a window with the details of the session selected in the JList
+     *
+     * @param evt
+     */
     private void btnSessionDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSessionDetailsActionPerformed
         int index = -2;
         index = jListArea.getSelectedIndex();
@@ -323,11 +349,16 @@ public class AdminView extends javax.swing.JFrame {
             return;
         }
         Session session = sessionModel.getSession(index);
-        
+
         SessionDetail sessionDetail = new SessionDetail(this, true, session);
         sessionDetail.setVisible(true);
     }//GEN-LAST:event_btnSessionDetailsActionPerformed
-
+    /**
+     * Show a window as confirmation of closing, when confirming it calls the
+     * closing method of the server
+     *
+     * @param evt
+     */
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         ExitMessage exitMessage = new ExitMessage(this, true);
         exitMessage.setVisible(true);
@@ -345,7 +376,11 @@ public class AdminView extends javax.swing.JFrame {
             exitMessage.dispose();
         }
     }//GEN-LAST:event_formWindowClosing
-
+    /**
+     * Shows a window with the details of the user selected in the JList
+     *
+     * @param evt
+     */
     private void btnUserDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUserDetailsActionPerformed
         int index = -2;
         index = jListArea.getSelectedIndex();
@@ -357,38 +392,40 @@ public class AdminView extends javax.swing.JFrame {
             AdminMessageDialog.showMessageDialog("No ha seleccionado un usuario o no hay usuarios en la lista", "Error");
             return;
         }
-        User user =  userModel.getItem(index);
+        User user = userModel.getItem(index);
         UserDetails userDetails = new UserDetails(this, true, user);
         userDetails.setVisible(true);
     }//GEN-LAST:event_btnUserDetailsActionPerformed
-    
+    /**
+     * Method in charge of the appearance of the objects of the window
+     */
     private void views() {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                    
+
                 }
             }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(CreateSessions.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            
+
         } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(CreateSessions.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            
+
         } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(CreateSessions.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(CreateSessions.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }
-    
+
     public static Server getServer() {
         return server;
     }

@@ -1,9 +1,11 @@
 package server.model;
 
-import server.exceptions.NotificationException;
 import java.util.GregorianCalendar;
+import server.exceptions.NotificationException;
 
 /**
+ * Receive the data of the user and a builder, to validate the entered data
+ *
  * @version 18/06/2022
  * @author C11836 Jostin Castro Gutierrez, C12916 Fernando Flores Moya, C15079
  * Joshua Mora Garita

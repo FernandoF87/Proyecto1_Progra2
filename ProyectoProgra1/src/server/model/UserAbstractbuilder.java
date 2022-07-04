@@ -4,7 +4,7 @@ import java.util.GregorianCalendar;
 import server.exceptions.NotificationException;
 
 /**
- * Create the abstrac methods for the User Builder
+ * An interface that defines the abstrac methods for the UserConcreteBuilder
  *
  * @version 16/6/22
  * @author C11836 Jostin Castro Gutierrez, C12916 Fernando Flores Moya, C15079

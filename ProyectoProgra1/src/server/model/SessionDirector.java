@@ -12,6 +12,8 @@ import java.util.GregorianCalendar;
 import server.exceptions.NotificationException;
 
 /**
+ * Receive the data of the session and a builder, to validate the entered data
+ *
  * @version 18/06/2022
  * @author C11836 Jostin Castro Gutierrez, C12916 Fernando Flores Moya, C15079
  * Joshua Mora Garita
@@ -47,6 +49,10 @@ public class SessionDirector {
         return builder.getSession();
     }
 
+    /**
+     * Read the txt file and set the autoincrementing value of the session id
+     *
+     */
     private void readId() {
 
         try {
@@ -65,6 +71,10 @@ public class SessionDirector {
         }
     }
 
+    /**
+     * Delete the session id txt file and create a new one with the current
+     * value of the id
+     */
     private void writeId() {
         try {
             file.delete();

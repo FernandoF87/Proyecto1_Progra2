@@ -8,8 +8,12 @@ import javax.swing.DefaultListModel;
 import server.model.Session;
 
 /**
+ * Shows the users that are pending approval and notifies their approval or
+ * denial
  *
- * @author Joshua Mora Garita
+ * @version 4/7/2022
+ * @author C11836 Jostin Castro Gutierrez, C12916 Fernando Flores Moya, C15079
+ * Joshua Mora Garita
  */
 public class AceptUsers extends javax.swing.JDialog {
 
@@ -92,7 +96,12 @@ public class AceptUsers extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Get the selected user, remove it from the waiting user list, delete it
+     * from the JList and send the denied notification to the user
+     *
+     * @param evt
+     */
     private void btnDeniedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeniedActionPerformed
         String userId = String.valueOf(jListParticipants.getSelectedValue());
         session.deleteWaitingUser(userId);
@@ -101,6 +110,13 @@ public class AceptUsers extends javax.swing.JDialog {
         AdminView.getServer().sendNotification(msg, session);
     }//GEN-LAST:event_btnDeniedActionPerformed
 
+    /**
+     * Gets the selected user, removes it from the list of waiting users, moves
+     * it to the list of accepted participants in addition to removing it from
+     * the JList and sends the accepted notification to the user
+     *
+     * @param evt
+     */
     private void btnAceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptActionPerformed
         String userId = String.valueOf(jListParticipants.getSelectedValue());
         session.addUser(userId, true);
@@ -110,6 +126,9 @@ public class AceptUsers extends javax.swing.JDialog {
 
     }//GEN-LAST:event_btnAceptActionPerformed
 
+    /**
+     * Fill the JList with the users who are enrolled in the session
+     */
     public void setValues() {
 
         jListParticipants.setModel(model);

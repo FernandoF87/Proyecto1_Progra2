@@ -4,20 +4,23 @@
  */
 package server.view;
 
-import user.view.*;
-
 /**
- * A simple dialog used to show small messages to the user.
- * @author Jostin Castro
+ * A simple dialog used to show small messages
+ *
+ * @version 4/7/2022
+ * @author C11836 Jostin Castro Gutierrez, C12916 Fernando Flores Moya, C15079
+ * Joshua Mora Garita
  */
 public class AdminMessageDialog extends javax.swing.JDialog {
 
     /**
      * Creates new form MessageDialog.
+     *
      * @param parent the parent of the dialog.
-     * @param modal specifies whether dialog blocks user input to other top-level
-     * windows when shown. If {@code true}, the modality type property is set to
-     * {@code DEFAULT_MODALITY_TYPE}, otherwise the dialog is modeless. 
+     * @param modal specifies whether dialog blocks user input to other
+     * top-level windows when shown. If {@code true}, the modality type property
+     * is set to {@code DEFAULT_MODALITY_TYPE}, otherwise the dialog is
+     * modeless.
      * @param message the message to show.
      * @param title the title of the dialog.
      */
@@ -29,29 +32,33 @@ public class AdminMessageDialog extends javax.swing.JDialog {
         this.setTitle(title);
         this.setVisible(true);
     }
-    
+
     /**
      * Creates a new message dialog.
+     *
      * @param message the message to show.
      * @param title the title of the dialog.
      */
-    
     public AdminMessageDialog(String message, String title) {
         this(null, false, message, title);
     }
-    
+
     /**
      * Shows the message dialog with a message and a tittle.
+     *
      * @param message the message to show.
      * @param title the title of the dialog.
      */
     public static void showMessageDialog(String message, String title) {
         new AdminMessageDialog(message, title);
     }
-    
+
     /**
-     * Show the message dialog with a message, title, and a option to lock the background threads.
-     * @param modal <b>true</b> if you want to lock the background threads, <b>false</b> otherwise.
+     * Show the message dialog with a message, title, and a option to lock the
+     * background threads.
+     *
+     * @param modal <b>true</b> if you want to lock the background threads,
+     * <b>false</b> otherwise.
      * @param message the message to show.
      * @param title the title of the dialog.
      */
@@ -59,19 +66,20 @@ public class AdminMessageDialog extends javax.swing.JDialog {
         new AdminMessageDialog(null, modal, message, title);
     }
 
-    
     /**
-     * Show the message dialog with a message, title, and a option to lock the background threads and his parent.
+     * Show the message dialog with a message, title, and a option to lock the
+     * background threads and his parent.
+     *
      * @param parent the frame parent of this dialog.
-     * @param modal <b>true</b> if you want to lock the background threads, <b>false</b> otherwise.
+     * @param modal <b>true</b> if you want to lock the background threads,
+     * <b>false</b> otherwise.
      * @param message the message to show.
      * @param title the title of the dialog.
      */
-    
     public static void showMessageDialog(java.awt.Frame parent, boolean modal, String message, String title) {
         new AdminMessageDialog(parent, modal, message, title);
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

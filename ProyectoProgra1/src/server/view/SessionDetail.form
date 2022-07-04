@@ -340,9 +340,6 @@
       <Properties>
         <Property name="dateFormatString" type="java.lang.String" value="d MMM yyyy"/>
       </Properties>
-      <Events>
-        <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="chooserPropertyChange"/>
-      </Events>
     </Component>
   </SubComponents>
 </Form>

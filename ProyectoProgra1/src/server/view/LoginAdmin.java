@@ -8,8 +8,11 @@ import server.controller.FilesLoader;
 import server.model.Server;
 
 /**
+ * This class requests administrator credentials
  *
- * @author Joshua Mora Garita
+ * @version 3/7/2022
+ * @author C11836 Jostin Castro Gutierrez, C12916 Fernando Flores Moya, C15079
+ * Joshua Mora Garita
  */
 public class LoginAdmin extends javax.swing.JFrame {
 
@@ -100,7 +103,11 @@ public class LoginAdmin extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Check the credentials entered with the authentic ones
+     *
+     * @param evt
+     */
     private void btnAccesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccesActionPerformed
         String user = FilesLoader.getAdminUser();
         String password = FilesLoader.getAdminPassword();
