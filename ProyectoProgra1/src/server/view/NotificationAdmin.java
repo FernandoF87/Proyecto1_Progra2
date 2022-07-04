@@ -88,10 +88,6 @@ public class NotificationAdmin extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_btnExitActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExit;
     private javax.swing.JTextArea jTextArea1;

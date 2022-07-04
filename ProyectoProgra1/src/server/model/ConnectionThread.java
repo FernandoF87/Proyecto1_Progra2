@@ -220,7 +220,7 @@ public class ConnectionThread extends Thread {
                             answer.addComponent(sessions.get(sessionId).clone());
                         }
                     } else {
-                        if (!session.isWaiting(connectionUser.getEmail()) && session.getState() == Session.INACTIVE_STATE) {
+                        if (!session.isParticipant(connectionUser.getEmail()) && !session.isWaiting(connectionUser.getEmail()) && session.getState() == Session.INACTIVE_STATE) {
                             answer.addComponent(sessions.get(sessionId).clone());
                         }
                     }

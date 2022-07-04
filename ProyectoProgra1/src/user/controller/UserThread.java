@@ -6,7 +6,7 @@
 package user.controller;
 
 /**
- * Class that manages all de user input, and output from the differents forms
+ * Class that manages all de user input, and output from the different forms
  * and manages the communication with server. 
  * @version
  * @author Jostin Castro

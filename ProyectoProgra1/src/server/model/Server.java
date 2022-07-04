@@ -130,10 +130,14 @@ public class Server extends Thread {
     private void sendNotification(byte type, Session session) {
         ArrayList<String> usersNotified = new ArrayList<>();
         ArrayList<String> participants = session.getParticipantList();
+        ArrayList<String> waitingUsers = session.getWaitingParticipantsList();
         for (int i = 0; i < connections.size(); i++) {
             ConnectionThread connectionTemp = connections.get(i);
             try {
                 if (connectionTemp.getConnectionUser() != null && session.isParticipant(connectionTemp.getConnectionUser().getEmail())) {
+                    connectionTemp.notifyUser(new Notification(connectionTemp.getConnectionUser().getEmail(), type, true));
+                    usersNotified.add(connectionTemp.getConnectionUser().getEmail());
+                } else if (connectionTemp.getConnectionUser() != null && waitingUsers != null && session.isWaiting(connectionTemp.getConnectionUser().getEmail())) {
                     connectionTemp.notifyUser(new Notification(connectionTemp.getConnectionUser().getEmail(), type, true));
                     usersNotified.add(connectionTemp.getConnectionUser().getEmail());
                 }
@@ -148,6 +152,18 @@ public class Server extends Thread {
                     System.out.println(new Notification(participants.get(i), type, false));
                 } catch (NotificationException ex) {
                     ex.printStackTrace();
+                }
+            }
+        }
+        if (waitingUsers != null) {
+            for (int i = 0; i < waitingUsers.size(); i++) {
+                if (!usersNotified.contains(waitingUsers.get(i))) {
+                    try {
+                        data.addNotification(new Notification(waitingUsers.get(i), type, false));
+                        System.out.println(new Notification(waitingUsers.get(i), type, false));
+                    } catch (NotificationException ex) {
+                        ex.printStackTrace();
+                    }
                 }
             }
         }

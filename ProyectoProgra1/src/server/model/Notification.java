@@ -8,6 +8,7 @@ import java.io.Serializable;
 import server.exceptions.NotificationException;
 
 /**
+ * Class that represents a notification sent to a user
  *
  * @version @author Jostin Castro
  */

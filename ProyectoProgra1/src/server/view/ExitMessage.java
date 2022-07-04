@@ -99,10 +99,6 @@ public class ExitMessage extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_yesButtonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel exitMessage;
     private javax.swing.JButton noButton;
