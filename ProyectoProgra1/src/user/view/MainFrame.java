@@ -15,7 +15,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import server.model.Session;
-import user.model.EnrollSessionsRenderer;
+import user.model.EnrollTableRenderer;
 import user.model.SessionTableModel;
 
 
@@ -39,7 +39,7 @@ public class MainFrame extends javax.swing.JFrame {
     public final static byte LOGIN_OUT = 6;
     
     private boolean readedNotification;
-    private final String NOTIFICATION_AUDIO = "src/img/new_notification_sound.wav";
+    private final String NOTIFICATION_AUDIO = "src/assets/new_notification_sound.wav";
     
     /**
      * Creates new form MainFrame
@@ -48,7 +48,7 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame(String username) {
         initComponents();
         lbExtraInfo.setForeground(pnAvailableSessions.getBackground());
-        tbEnrolleddSessions.setDefaultRenderer(Object.class, new EnrollSessionsRenderer());
+        tbEnrolleddSessions.setDefaultRenderer(Object.class, new EnrollTableRenderer());
         this.setLocationRelativeTo(null);
         lbWelcome.setText(lbWelcome.getText() + " " + username);
         selectedOption = AVAILABLE_TAB;

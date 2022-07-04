@@ -354,11 +354,15 @@ public class SessionDetails extends javax.swing.JDialog {
                 
                 Point point = btEnroll.getLocation();
                 if (diff > 0) {
+                    final byte Y_ADD = 30;
+                    final int ENROLL_POSITION_X =  300;
+                    final byte CANCEL_POSITION_X = 100;
+                    final int CANCEL_WIDTH = 150;
                     Dimension dim = btEnroll.getSize();
-                    btEnroll.setLocation(300, (int) point.getY() + 30);
+                    btEnroll.setLocation(ENROLL_POSITION_X, (int) point.getY() + Y_ADD);
                     pnData.add(btEnroll);
                     btCancel = new JButton("Cancelar inscripción");
-                    btCancel.setBounds(100, (int) point.getY() + 30, 150, (int) dim.getHeight());
+                    btCancel.setBounds(CANCEL_POSITION_X, (int) point.getY() + Y_ADD, CANCEL_WIDTH, (int) dim.getHeight());
                     btCancel.addActionListener(new ActionListener() { //Adds a listener to the button
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -388,13 +392,15 @@ public class SessionDetails extends javax.swing.JDialog {
                     final String START_LINK = "<html><p><a href=\"";
                     final String END_LINK = "</a></p></html>";
                     final String MID_LINK = "\">";
+                    final byte LB_WIDTH = 100;
+                    final byte LB_HEIGTH = 20;
                     String text = START_LINK + data.getLink() + MID_LINK + data.getLink() + END_LINK;
                     JLabel lbLink = new JLabel(text);
                     if (diff <= 0) {  //If the session alredy starts, only show the link.
-                        lbLink.setBounds(btEnroll.getLocation().x, btEnroll.getLocation().y, 100, 20);
+                        lbLink.setBounds(btEnroll.getLocation().x, btEnroll.getLocation().y, LB_HEIGTH, LB_HEIGTH);
                         pnData.remove(btEnroll);
                     } else { //If the session is not started, show the button to enroll, make space to the button cancel enroll and also the link.
-                        lbLink.setBounds(btEnroll.getLocation().x - 100, btEnroll.getLocation().y - 30, 100, 20);
+                        lbLink.setBounds(btEnroll.getLocation().x - LB_WIDTH, btEnroll.getLocation().y - 30, LB_WIDTH, LB_HEIGTH);
                     }
                     lbLink.addMouseListener(new MouseListener() { //Adds the mouse listener to the label.
                         @Override
@@ -441,9 +447,10 @@ public class SessionDetails extends javax.swing.JDialog {
                 break;
             case MainFrame.HISTORY_TAB:
                 //Cut the dialog to hide the button.
+                final int CUT_VALUE = 200;
                 btEnroll.setEnabled(false);
                 Dimension dim = this.getSize();
-                this.setSize(dim.width, dim.height - 125);
+                this.setSize(dim.width, dim.height - CUT_VALUE);
                 break;
         }
     }

@@ -70,7 +70,7 @@ public class AdminView extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/ModoAdmin.jpeg"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/ModoAdmin.jpeg"))); // NOI18N
 
         btnCreateSession.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCreateSession.setText("Crear Nueva Sesion");

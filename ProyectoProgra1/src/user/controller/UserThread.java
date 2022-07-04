@@ -47,13 +47,6 @@ public class UserThread {
     private MainFrame main;
     private NotificationsDialog notifications;
     
-    /**
-     * Constructor of the class.
-     */
-    
-    public UserThread() {
-        
-    }
     
     /**
      * Creates and run the UserThread.
@@ -62,13 +55,6 @@ public class UserThread {
     
     public static void main(String[] args) {
         new UserThread().mainProcess();
-//        MainFrame test = new MainFrame("Prueba");
-//        test.setVisible(true);
-//        try {
-//            Thread.sleep(4000);
-//        } catch (InterruptedException ex) {
-//        }
-//        test.manageNewNotification();
     }
     
     /**
@@ -115,7 +101,6 @@ public class UserThread {
                 }
             } while (login.getOption() == login.WAIT && !login.isClosed());
             output.writeObject(new Transmission(Transmission.CLOSE_CONNECTION_REQUEST));
-            System.out.println("Petición de cerrar conexión hecha");
             output.flush();
         } catch(IOException ex) {
             MessageDialog.showMessageDialog("No se pudo establecer comunicación con el servidor", "Error");
@@ -149,7 +134,6 @@ public class UserThread {
             userData.add(register.getName());
             userData.add(register.getPhoneNumber());
             Transmission temp = new Transmission(Transmission.REGISTER_REQUEST, userData);
-            System.out.println(temp);
             try {
                 output.writeObject(temp);
                 output.flush();
@@ -158,11 +142,15 @@ public class UserThread {
                     MessageDialog.showMessageDialog((String) receivedData.get(1), "Hecho");
                     register.dispose();
                 } else {
-                    String text = "<html>";
+                    final String START_TEXT = "<html><p>";
+                    final String START_PARR = "<p>";
+                    final String END_PARR = "</p>";
+                    final String END_TEXT = "</html>";
+                    String text = "";
                     for (int i = 1; i < receivedData.size(); i++) {
-                        text += "<p>" + (String) receivedData.get(i) + "</p>";
+                        text += ((text.isEmpty()) ? START_TEXT : START_PARR) + (String) receivedData.get(i) + END_PARR;
                     }
-                    MessageDialog.showMessageDialog(text + "</html>", "Error");
+                    MessageDialog.showMessageDialog(text + END_TEXT, "Error");
                 }
             } catch (ClassNotFoundException ex) {
                 MessageDialog.showMessageDialog("Error inesperado", "Error");
@@ -185,7 +173,6 @@ public class UserThread {
             Vector<Serializable> userData = new Vector();
             userData.add(email);
             userData.add(password);
-            System.out.println(email + "\n" + password);
             Transmission temp = new Transmission(Transmission.LOGIN_REQUEST, userData);
             output.writeObject(temp);
             output.flush();
@@ -212,7 +199,6 @@ public class UserThread {
     
     private void loggedUserInterface() {
         Transmission temp = null;
-        byte lastSelected = -1;
         try {
             listNotifications = new LinkedList();
             output.writeObject(new Transmission(Transmission.NOTIFICATION_REQUEST, null));
@@ -243,46 +229,42 @@ public class UserThread {
                     Notification notification = (Notification) ((Vector) temp.getObject()).get(0);
                     newNotification(notification);
                     main.manageNewNotification();
-                    System.out.println("Llegada de notificación " + temp);
                 }
             } catch (SocketTimeoutException ex) {
                 try {
-                    //if (lastSelected != main.getSelectedOption()) {
-                        switch (main.getSelectedOption()) {
-                            case MainFrame.AVAILABLE_TAB:
-                                output.writeObject(new Transmission(Transmission.AVAILABLE_SESSIONS_REQUEST, null));
-                                break;
-                            case MainFrame.ENROLLED_TAB:
-                                output.writeObject(new Transmission(Transmission.ENROLLED_SESSIONS_REQUEST, null));
-                                break;
-                            case MainFrame.HISTORY_TAB:
-                                output.writeObject(new Transmission(Transmission.HISTORY_REQUEST, null));
-                                break;
-                            case MainFrame.NOTIFICATION_OPTION:
-                                notifications.setVisible(true);
-                                break;
-                            case MainFrame.ENROLL_SESSION:
-                                temp = new Transmission(Transmission.ENROLL_SESSION_REQUEST);
-                                temp.getObject().add(main.getSessionId());
-                                output.writeObject(temp);
-                                main.setSessionId(null);
-                                break;
-                            case MainFrame.CANCEL_ENROLL_SESSION:
-                                temp = new Transmission(Transmission.CANCEL_ENROLL_REQUEST);
-                                temp.getObject().add(main.getSessionId());
-                                output.writeObject(temp);
-                                main.setSessionId(null);
-                                break;
-                            case MainFrame.LOGIN_OUT:
-                                output.writeObject(new Transmission(Transmission.LOGOUT_REQUEST, null));
-                                break;
-                        }
-                        if (main.getSelectedOption() != MainFrame.NOTIFICATION_OPTION) {
-                            output.flush();
-                            System.out.println("Envio peticion" + main.getSelectedOption());
-                        }
-                    //}
-                    lastSelected = main.getSelectedOption();
+
+                    switch (main.getSelectedOption()) {
+                        case MainFrame.AVAILABLE_TAB:
+                            output.writeObject(new Transmission(Transmission.AVAILABLE_SESSIONS_REQUEST, null));
+                            break;
+                        case MainFrame.ENROLLED_TAB:
+                            output.writeObject(new Transmission(Transmission.ENROLLED_SESSIONS_REQUEST, null));
+                            break;
+                        case MainFrame.HISTORY_TAB:
+                            output.writeObject(new Transmission(Transmission.HISTORY_REQUEST, null));
+                            break;
+                        case MainFrame.NOTIFICATION_OPTION:
+                            notifications.setVisible(true);
+                            break;
+                        case MainFrame.ENROLL_SESSION:
+                            temp = new Transmission(Transmission.ENROLL_SESSION_REQUEST);
+                            temp.getObject().add(main.getSessionId());
+                            output.writeObject(temp);
+                            main.setSessionId(null);
+                            break;
+                        case MainFrame.CANCEL_ENROLL_SESSION:
+                            temp = new Transmission(Transmission.CANCEL_ENROLL_REQUEST);
+                            temp.getObject().add(main.getSessionId());
+                            output.writeObject(temp);
+                            main.setSessionId(null);
+                            break;
+                        case MainFrame.LOGIN_OUT:
+                            output.writeObject(new Transmission(Transmission.LOGOUT_REQUEST, null));
+                            break;
+                    }
+                    if (main.getSelectedOption() != MainFrame.NOTIFICATION_OPTION) {
+                        output.flush();
+                    }
                     temp = (Transmission) input.readObject();
                     if (temp.getType() == Transmission.NOTIFICATION_REQUEST) {
                         Notification notification = (Notification) ((Vector) temp.getObject()).get(0);
@@ -306,12 +288,10 @@ public class UserThread {
                         loggedUsername = "close";   //Use this variable like a flag
                         break;
                     }else {
-                        System.out.println("Respuesta " + temp);
                         main.writeData((byte) (temp.getType() - 2), temp.getObject());
                     }
-                    System.out.println("Llegada transmisión" + temp.getType() + "\n" + temp.getObject().toString());
                 } catch (SocketTimeoutException ex1) {
-                    System.out.println("tiempo agotado");
+                    continue;
                 } catch (IOException | ClassNotFoundException ex2) {
                     MessageDialog.showMessageDialog("Error inesperado", "Error");
                 }
@@ -322,7 +302,6 @@ public class UserThread {
             } catch (ClassNotFoundException ex) {
                 MessageDialog.showMessageDialog("Error inesperado", "Error");
             }
-            System.out.println("Actual seleccionado: " + main.getSelectedOption() + "\nAnterior: " + lastSelected);
         } while ((main.getSelectedOption() != MainFrame.LOGIN_OUT));
         main.dispose();
         main = null;
@@ -342,8 +321,7 @@ public class UserThread {
         } else {
             listNotifications.add(notification);
         }
-        notifications.loadNotifications(listNotifications);
-        
+        notifications.loadNotifications(listNotifications);  
     }
      
     /**

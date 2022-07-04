@@ -511,7 +511,6 @@ public class RegisterForm extends javax.swing.JDialog {
             Pattern pat = Pattern.compile(PASSWORD_PATTERN);
             Matcher mat = pat.matcher(temp);
             if (mat.matches()) {
-                System.out.println("cumple");
                 return temp;
             }
         }

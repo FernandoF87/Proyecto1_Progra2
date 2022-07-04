@@ -16,7 +16,7 @@ import server.model.Session;
  * @version
  * @author Jostin Castro
  */
-public class EnrollSessionsRenderer extends DefaultTableCellRenderer {
+public class EnrollTableRenderer extends DefaultTableCellRenderer {
     private final Color DEFAULT_COLOR = getBackground();
     
     @Override
