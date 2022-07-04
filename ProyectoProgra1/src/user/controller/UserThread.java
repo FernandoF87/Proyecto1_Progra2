@@ -99,7 +99,12 @@ public class UserThread {
                         //If login is correct:
                         login.setVisible(false);
                         loggedUserInterface();
-                        login.setOption(login.WAIT);
+                        if (loggedUsername.equals("close")) { //If the variable equals
+                            break;
+                        } else {
+                            login.setOption(login.WAIT);
+                        }
+                        
                         login.resetComponents();
                         login.setVisible(true);
                     } else {
@@ -296,7 +301,11 @@ public class UserThread {
                                 main.setSessionAccepted(Boolean.FALSE);
                             }
                         }
-                    } else {
+                    } else if (temp.getType() == Transmission.CLOSE_CONNECTION_REQUEST) {
+                        MessageDialog.showMessageDialog("Se cerrará la conexión con en servidor en unos segundos", "Cierre de sesión programado");
+                        loggedUsername = "close";   //Use this variable like a flag
+                        break;
+                    }else {
                         System.out.println("Respuesta " + temp);
                         main.writeData((byte) (temp.getType() - 2), temp.getObject());
                     }

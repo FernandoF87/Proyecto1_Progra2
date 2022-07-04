@@ -96,7 +96,6 @@ public class FilesLoader {
                 hashMap = sessionList;
                 break;
         }
-        hashMap = new HashMap();
         File file = new File(path);
         ObjectInputStream input = null;
         
@@ -236,7 +235,7 @@ public class FilesLoader {
      * @param type a byte that select wich file modify.
      */
     
-    public static void updateHashMap(byte type) {
+    private static void updateHashMap(byte type) {
         String path = "";
         HashMap hashMap = null;
         

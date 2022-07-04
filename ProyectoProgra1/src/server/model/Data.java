@@ -80,9 +80,9 @@ public class Data {
     }
 
     public void setAll() {
-        FilesLoader.updateHashMap((byte)0, users);
-        FilesLoader.updateHashMap((byte)1, sessions);
         FilesLoader.updateNotifications();
+        FilesLoader.updateSessions();
+        FilesLoader.updateUsers();
         System.out.println("listo todo mi rey");
     }
 
