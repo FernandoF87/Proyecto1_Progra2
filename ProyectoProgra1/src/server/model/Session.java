@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 /**
+ * Class that represents a session with several details and a list of participants
+ * 
  * @version 16/6/22
  * @author C11836 Jostin Castro Gutierrez, C12916 Fernando Flores Moya, C15079
  * Joshua Mora Garita
@@ -25,6 +27,10 @@ public class Session implements Serializable, Cloneable {
     public static final byte ACTIVE_STATE = 1;
     public static final byte FINALIZED_STATE = 2;
 
+    /**
+     * Constructor to be used by builder, initiates list of participants and
+     * list of pending users in the case of closed sessions
+     */
     public Session() {
         participantList = new ArrayList();
         state = INACTIVE_STATE;
@@ -34,6 +40,24 @@ public class Session implements Serializable, Cloneable {
         }
     }
 
+    /**
+     * Constructor to be used in clone method with all parameters
+     *
+     * @param sesionId the id of the session
+     * @param topic the topic of the session
+     * @param expositor the name of the expositor
+     * @param detail an additional detail of the session
+     * @param link the link to access the session
+     * @param platform the name of the platform
+     * @param category the description of the category
+     * @param date the time and date it will start
+     * @param duration the minutes it will last
+     * @param capacity the number of people that can enroll
+     * @param open a boolean determining if it's open or closed
+     * @param notifSent a boolean that determines if the 5 minute notification
+     * has been sent
+     * @param state the state of the session (inactive, active, finalized)
+     */
     public Session(String sesionId, String topic, String expositor, String detail, String link, String platform, String category,
             GregorianCalendar date, int duration, int capacity, boolean open, boolean notifSent, byte state) {
         this.sesionId = sesionId;
@@ -55,6 +79,15 @@ public class Session implements Serializable, Cloneable {
         }
     }
 
+    /**
+     * Adds the user to the participant list or puts them in the waiting list
+     * accordingly
+     *
+     * @param userId the email of the user
+     * @param accepted a boolean determining if they are in a waiting list or
+     * not
+     * @return if the user was able to be added or not
+     */
     public boolean addUser(String userId, boolean accepted) {
         if (open) {
             if (participantList.size() < capacity) {
@@ -77,9 +110,16 @@ public class Session implements Serializable, Cloneable {
         }
     }
 
+    /**
+     * Removes the user from both the participant list and waiting list
+     *
+     * @param userId the email of the user
+     * @return if the user was removed from the participant list
+     */
     public boolean removeUser(String userId) {
-        if (waitingParticipantsList != null)
+        if (waitingParticipantsList != null) {
             waitingParticipantsList.remove(userId);
+        }
         return participantList.remove(userId);
     }
 
@@ -217,6 +257,7 @@ public class Session implements Serializable, Cloneable {
         return waitingParticipantsList;
     }
 
+    @Override
     public Session clone() {
         GregorianCalendar dateClone = (GregorianCalendar) (date.clone());
         return new Session(sesionId, topic, expositor, detail, link, platform, category,

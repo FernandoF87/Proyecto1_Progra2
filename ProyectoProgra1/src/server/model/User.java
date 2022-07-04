@@ -5,15 +5,16 @@ import java.util.GregorianCalendar;
 import java.util.LinkedList;
 
 /**
+ * Class that represents a user in the session manager system
+ *
  * @version 16/6/22
  * @author C11836 Jostin Castro Gutierrez, C12916 Fernando Flores Moya, C15079
  * Joshua Mora Garita
- *
  */
 public class User implements Serializable {
 
     private final byte MAX_NOTIFICATIONS = 5;
-    
+
     private String userID, name, email, password;
     private int phoneNumber;
     private GregorianCalendar bornDate;
@@ -22,7 +23,12 @@ public class User implements Serializable {
     public User() {
         lastNotifications = new LinkedList();
     }
-    
+
+    /**
+     * Adds a notification to the list of user notifications
+     *
+     * @param notification a notification to be added
+     */
     public void addNotification(Notification notification) {
         if (lastNotifications.size() >= MAX_NOTIFICATIONS) {
             lastNotifications.removeFirst();
@@ -55,8 +61,7 @@ public class User implements Serializable {
     public String getUserID() {
         return userID;
     }
-    
-    // Cambiado tipo de retorno
+
     public LinkedList<Notification> getNotifications() {
         return lastNotifications;
     }
@@ -84,6 +89,5 @@ public class User implements Serializable {
     public void setBornDate(GregorianCalendar bornDate) {
         this.bornDate = bornDate;
     }
-    
-    
+
 }

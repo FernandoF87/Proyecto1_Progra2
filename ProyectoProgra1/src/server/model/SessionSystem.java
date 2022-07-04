@@ -3,6 +3,7 @@ package server.model;
 import server.view.LoginAdmin;
 
 /**
+ * Class that initiates the server and admin screen
  *
  * @author Fernando Flores Moya
  */

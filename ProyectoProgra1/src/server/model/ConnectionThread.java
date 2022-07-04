@@ -15,6 +15,8 @@ import server.exceptions.NotificationException;
 import server.model.User;
 
 /**
+ * Thread that allows for a user to connect to the server and handle requests
+ * such as login, register, enrollment, etc
  *
  * @author Fernando Flores Moya
  */
@@ -27,6 +29,12 @@ public class ConnectionThread extends Thread {
     private Data data;
     private boolean execute = true;
 
+    /**
+     *
+     * @param connection the socket to be connected to
+     * @param data the data that contains all the information stored by the
+     * server
+     */
     public ConnectionThread(Socket connection, Data data) {
         this.connection = connection;
         this.data = data;
@@ -45,6 +53,9 @@ public class ConnectionThread extends Thread {
         close();
     }
 
+    /**
+     * Constantly listens for requests by the user and processes the request
+     */
     private void listen() {
         while (execute) {
             try {
@@ -60,6 +71,9 @@ public class ConnectionThread extends Thread {
         }
     }
 
+    /**
+     * Initiates input and output streams
+     */
     private void getStreams() {
         try {
             output = new ObjectOutputStream(connection.getOutputStream());
@@ -71,6 +85,9 @@ public class ConnectionThread extends Thread {
         }
     }
 
+    /**
+     * Closes input and output streams as well as the connection with the client
+     */
     private void close() {
         try {
             output.close();
@@ -81,10 +98,13 @@ public class ConnectionThread extends Thread {
             ex.printStackTrace();
         }
     }
-    
+
+    /**
+     * Stops the thread from listening for new requests and sends a close
+     * connection response
+     */
     public void endExecution() {
         try {
-            System.out.println("Goodbye jojo");
             output.writeObject(new Transmission(Transmission.CLOSE_CONNECTION_REQUEST));
             output.flush();
             execute = false;
@@ -93,6 +113,11 @@ public class ConnectionThread extends Thread {
         }
     }
 
+    /**
+     * Sends a notification to the connected client
+     *
+     * @param notification the notification to be sent to the user
+     */
     public void notifyUser(Notification notification) {
         try {
             connectionUser.addNotification(notification);
@@ -106,10 +131,20 @@ public class ConnectionThread extends Thread {
         }
     }
 
+    /**
+     * Returns a user object corresponding to the authenticated user
+     *
+     * @return the connected user
+     */
     public User getConnectionUser() {
         return connectionUser;
     }
 
+    /**
+     * Processes a request sent by the user and sends an appropriate response
+     *
+     * @param request the request to be processed
+     */
     private void processRequest(Transmission request) {
         Transmission answer;
         switch (request.getType()) {
@@ -118,8 +153,8 @@ public class ConnectionThread extends Thread {
                 String email = (String) (request.getObject().get(0));
                 String password = (String) (request.getObject().get(1));
                 User user = data.searchUserEmail(email);
-                if (user != null) {
-                    if (user.getPassword().equals(password)) {
+                if (user != null) { // Verifies that the email is registered
+                    if (user.getPassword().equals(password)) { // Verifies the password
                         answer.addComponent(true);
                         answer.addComponent(user.getName());
                         connectionUser = user;
@@ -154,7 +189,7 @@ public class ConnectionThread extends Thread {
                 int phone = (int) (request.getObject().get(5));
 
                 User newUser;
-                try {
+                try { // Attempts to create a new user
                     newUser = director.buildUser(builder, id, name, email, password, phone, birthDate);
                     System.out.println(newUser.getPassword());
                     data.addUser(newUser);
@@ -178,7 +213,7 @@ public class ConnectionThread extends Thread {
             case Transmission.AVAILABLE_SESSIONS_REQUEST:
                 answer = new Transmission(Transmission.AVAILABLE_SESSIONS_REQUEST);
                 HashMap<String, Session> sessions = data.getSessions();
-                for (String sessionId : sessions.keySet()) {
+                for (String sessionId : sessions.keySet()) { // Sends all non enrolled and non pending sessions
                     Session session = sessions.get(sessionId);
                     if (session.isOpen()) {
                         if (!session.isParticipant(connectionUser.getEmail()) && session.getState() == Session.INACTIVE_STATE) {
@@ -202,7 +237,7 @@ public class ConnectionThread extends Thread {
             case Transmission.ENROLLED_SESSIONS_REQUEST:
                 answer = new Transmission(Transmission.ENROLLED_SESSIONS_REQUEST);
                 sessions = data.getSessions();
-                for (String sessionId : sessions.keySet()) {
+                for (String sessionId : sessions.keySet()) { // Sends all enrolled and pending sessions
                     if (sessions.get(sessionId).isParticipant(connectionUser.getEmail()) && sessions.get(sessionId).getState() != Session.FINALIZED_STATE) {
                         Session temp = sessions.get(sessionId).clone();
                         temp.setNotifSent(true);
@@ -221,10 +256,11 @@ public class ConnectionThread extends Thread {
                     ex.printStackTrace();
                 }
                 break;
+
             case Transmission.HISTORY_REQUEST:
                 answer = new Transmission(Transmission.HISTORY_REQUEST);
                 sessions = data.getSessions();
-                for (String sessionId : sessions.keySet()) {
+                for (String sessionId : sessions.keySet()) { // Sends all finalized sessions
                     if (sessions.get(sessionId).getState() == Session.FINALIZED_STATE) {
                         answer.addComponent(sessions.get(sessionId).clone());
                     }
@@ -237,16 +273,17 @@ public class ConnectionThread extends Thread {
                     ex.printStackTrace();
                 }
                 break;
+
             case Transmission.NOTIFICATION_REQUEST:
                 ArrayList<Notification> pending = data.getNotifications();
-                for (int i = 0; i < pending.size(); i++) {
+                for (int i = 0; i < pending.size(); i++) { // Adds all pending notifications to the user
                     if (pending.get(i).getUserId().equals(connectionUser.getEmail())) {
                         connectionUser.addNotification(pending.remove(i));
                     }
                 }
                 answer = new Transmission(Transmission.NOTIFICATION_REQUEST);
                 LinkedList<Notification> notifications = connectionUser.getNotifications();
-                for (int i = 0; i < notifications.size(); i++) {
+                for (int i = 0; i < notifications.size(); i++) { // Sends all notifications
                     answer.addComponent(notifications.get(i));
                 }
                 try {
@@ -257,12 +294,13 @@ public class ConnectionThread extends Thread {
                     ex.printStackTrace();
                 }
                 break;
+
             case Transmission.ENROLL_SESSION_REQUEST:
                 answer = new Transmission(Transmission.ENROLL_SESSION_REQUEST);
                 String sessionId = (String) (request.getObject().get(0));
                 Session session = data.searchSessionId(sessionId);
-                // Verifies to not enroll in a session at the same time
-                for (String key : data.getSessions().keySet()) {
+
+                for (String key : data.getSessions().keySet()) { // Verifies to not enroll in a session at the same time
                     Session temp = data.getSessions().get(key);
                     if (temp.isParticipant(connectionUser.getEmail()) && session.getDate().equals(temp.getDate())) {
                         answer.addComponent(false);
@@ -301,9 +339,11 @@ public class ConnectionThread extends Thread {
                 session = data.searchSessionId(sessionId);
                 session.removeUser(connectionUser.getEmail());
                 break;
+
             case Transmission.LOGOUT_REQUEST:
                 connectionUser = null;
                 break;
+
             case Transmission.CLOSE_CONNECTION_REQUEST:
                 execute = false;
                 break;

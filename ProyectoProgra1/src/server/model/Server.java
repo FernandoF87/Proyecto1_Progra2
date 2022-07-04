@@ -16,6 +16,8 @@ import java.util.TimerTask;
 import server.exceptions.NotificationException;
 
 /**
+ * Class that represents a session system and allows multiple users to connect
+ * who can enroll in sessions to be notified
  *
  * @author Fernando Flores Moya
  */
@@ -32,8 +34,8 @@ public class Server extends Thread {
     private HashMap<String, Session> sessions = data.getSessions();
     private boolean execute = true;
 
+    @Override
     public void run() {
-        // Aqui se leen los archivos primeros y se cargan los datos
         try {
             socket = new ServerSocket(PORT);
             socket.setSoTimeout(TIME_OUT);
@@ -46,7 +48,7 @@ public class Server extends Thread {
                     connections.add(conThread);
                     System.out.println("Conexión aceptada");
                     conThread.start();
-                } catch (SocketTimeoutException ex) {
+                } catch (SocketTimeoutException ex) { // Checks sessions every timeout
                     checkSessions();
                     System.out.println("Revisando sesiones");
                 }
@@ -56,6 +58,10 @@ public class Server extends Thread {
         }
     }
 
+    /**
+     * Checks if any session is about to start in 5 minutes and sends each
+     * corresponding notification
+     */
     private void checkSessions() {
         for (String key : sessions.keySet()) {
             Session session = sessions.get(key);
@@ -89,6 +95,12 @@ public class Server extends Thread {
         }
     }
 
+    /**
+     * Sends notifications to the participants of a session
+     *
+     * @param msg the message type to be sent
+     * @param session the session to obtain participants from
+     */
     public void sendNotification(String msg, Session session) {
         if (msg != null) {
             switch (msg) {
@@ -109,6 +121,12 @@ public class Server extends Thread {
         }
     }
 
+    /**
+     * Sends a specific type of notification to the participants of a session
+     *
+     * @param type the message type to be sent
+     * @param session the session to obtain participants from
+     */
     private void sendNotification(byte type, Session session) {
         ArrayList<String> usersNotified = new ArrayList<>();
         ArrayList<String> participants = session.getParticipantList();
@@ -135,6 +153,9 @@ public class Server extends Thread {
         }
     }
 
+    /**
+     * Turns off the session system and saves all the data
+     */
     public void turnOff() {
         for (ConnectionThread connection : connections) {
             if (connection.isAlive()) {
@@ -142,12 +163,13 @@ public class Server extends Thread {
             }
         }
         execute = false;
-        System.out.println(data.getNotifications());
-        System.out.println(data.getSessions());
-        System.out.println(data.getUsers());
         data.setAll();
     }
 
+    /**
+     *
+     * @return the object that contains all the data used by the server
+     */
     public static Data getData() {
         return data;
     }

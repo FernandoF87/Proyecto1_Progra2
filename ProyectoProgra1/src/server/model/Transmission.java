@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.util.Vector;
 
 /**
- *
+ * Class that allows for the communication between server and client, contains
+ * type of request/response and a vector of data sent
+ * 
  * @author Fernando Flores Moya
  */
 public class Transmission implements Serializable {
@@ -41,6 +43,10 @@ public class Transmission implements Serializable {
         return object;
     }
     
+    /**
+     * Adds a serializable component to the vector of componenets
+     * @param component a piece of data to be inserted
+     */
     public void addComponent(Serializable component) {
         object.add(component);
     }
