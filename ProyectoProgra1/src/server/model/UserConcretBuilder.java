@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.GregorianCalendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import server.exceptions.NotificationException;
 
 /**
@@ -29,107 +31,67 @@ public class UserConcretBuilder implements UserAbstractbuilder {
             throw new NotificationException("La cedula no contiene la cantidad "
                     + "de numeros correcto");
         }
-
-        for (int i = 0; i < id.length(); i++) {
-            if (!Character.isDigit(id.charAt(i))) {
-                throw new NotificationException("La cedula no puede contener"
-                        + " letras");
-            }
-            if (id.charAt(i) == '-' || id.charAt(i) == ' ') {
-                throw new NotificationException("La cedula no puede contener"
-                        + " guiones o espacios");
-            }
+        final String patter = "[0-9]{8}";
+        Pattern pat = Pattern.compile(patter);
+        Matcher mat = pat.matcher(id);
+        if (mat.matches()) {
+            user.setUserID(id);
+        } else {
+            throw new NotificationException("La cedula no es valida");
         }
-        user.setUserID(id);
 
     }
 
     @Override
     public void buildName(String name) throws NotificationException {
-        int valAscii = 0;
+
         if (name.length() > 100) {
             throw new NotificationException("El nombre no debe exceder los 100 caracteres");
         }
-        /*compara el valor ascii de cada caracter, en un rango de valores que 
-         *letras mayusculas y minusculas
-         */
-        for (int i = 0; i < name.length(); i++) {
-            valAscii = (int) name.charAt(i);
-
-            if (valAscii > 64 && valAscii < 91 || valAscii > 96 && valAscii < 123 || valAscii == 32) {
-
-            } else {
-                throw new NotificationException("El nombre no debe contener"
-                        + " caracteres especiales : " + name.charAt(i));
-            }
+        final String patter = "[a-zA-Z]{1,}";
+        Pattern pat = Pattern.compile(patter);
+        Matcher mat = pat.matcher(name);
+        if (mat.matches()) {
+            user.setName(name);
+        } else {
+            throw new NotificationException("El nombre no es valido");
         }
-        user.setName(name);
 
     }
 
     @Override
     public void buildEmail(String email) throws NotificationException {
-        for (int i = 0; i < email.length(); i++) {
-            if (Character.isDigit(email.charAt(0))) {
-                throw new NotificationException("El correo debe iniciar con una letra");
-            }
-            if (i == email.length() && email.charAt(i) != '@') {
-                throw new NotificationException("El correo debe tener el simbolo @");
-            }
-//            } else {
-//                if (email.charAt(i) != '@') {
-////                    if (email.charAt(email.length()) == '.') {
-////                        throw new NotificationException("El correo no debe terminar en '.'");
-////                    }
-//                    if (email.charAt(email.length() - 2) != '.' || email.charAt(email.length() - 4) != '.') {
-//                        throw new NotificationException("El correo no debe terminar en '.'");
-//
-//                    }
-//                }
-//            }
+
+        if (Character.isDigit(email.charAt(0))) {
+            throw new NotificationException("El correo debe iniciar con una letra");
         }
-        user.setEmail(email);
+
+        final String EMAIL_PATTERN = "[a-zA-Z0-9_.]{1,}[@]{1}[a-z1-9-.]+[.]{1}[a-z]{2,4}";
+        Pattern pat = Pattern.compile(EMAIL_PATTERN);
+        Matcher mat = pat.matcher(email);
+        if (mat.matches()) {
+            user.setEmail(email);
+        } else {
+            throw new NotificationException("El correo no es valido");
+        }
+
     }
 
     @Override
     public void buildPassword(String password) throws NotificationException {
-        int valAscii = 0;
-        int contNum = 0;
-        int contLetters = 0;
+     
         if (password.length() < 8) {
             throw new NotificationException("La contraseña debe tener minimo 8 caracteres");
         }
-
-        /*compara el valor ascii de cada caracter, en un rango de valores que 
-         *contemplan numeros, letras mayusculas y minusculas
-         */
-        for (int i = 0; i < password.length(); i++) {
-            valAscii = (int) password.charAt(i);
-
-            if (valAscii > 47 && valAscii < 58 || valAscii > 64
-                    && valAscii < 91 || valAscii > 96 && valAscii < 123) {
-                if (Character.isDigit(password.charAt(i))) {
-                    contNum++;
-                } else {
-
-                    contLetters++;
-                }
-
-            } else {
-                throw new NotificationException("La contraseña no debe contener"
-                        + " caracteres especiales : " + password.charAt(i));
-            }
-        }
-        if (contNum == 0) {
-            throw new NotificationException("La contraseña debe contener al "
-                    + "menos un numero");
-        }
-        if (contLetters == 0) {
-            throw new NotificationException("La contraseña debe contener al "
-                    + "menos una letra");
+        String pattern = "(?=.*[0-9])"
+                + "(?=.*[a-zA-Z]).{8,}";
+        Pattern pat = Pattern.compile(pattern);
+        Matcher mat = pat.matcher(password);
+        if (mat.matches()) {
+            user.setPassword(password);
         } else {
+            throw new NotificationException("La contraseña no es valida");
         }
-        user.setPassword(password);
 
     }
 
