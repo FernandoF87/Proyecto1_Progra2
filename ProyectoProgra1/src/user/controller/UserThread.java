@@ -245,6 +245,7 @@ public class UserThread {
                             break;
                         case MainFrame.NOTIFICATION_OPTION:
                             notifications.setVisible(true);
+                            main.setSelectedOption(main.getCurrentTab());
                             break;
                         case MainFrame.ENROLL_SESSION:
                             temp = new Transmission(Transmission.ENROLL_SESSION_REQUEST);
@@ -288,7 +289,8 @@ public class UserThread {
                         loggedUsername = "close";   //Use this variable like a flag
                         break;
                     }else {
-                        main.writeData((byte) (temp.getType() - 2), temp.getObject());
+                        final byte TAB_DIFFERENCE = 2;
+                        main.writeData((byte) (temp.getType() - TAB_DIFFERENCE), temp.getObject());
                     }
                 } catch (SocketTimeoutException ex1) {
                     continue;
@@ -316,7 +318,8 @@ public class UserThread {
      */
     
     private void newNotification(Notification notification) {
-        if (listNotifications.size() == 5) {
+        final byte MAX_NOTIFICATIONS = 5;
+        if (listNotifications.size() == MAX_NOTIFICATIONS) {
             listNotifications.pop();
         } else {
             listNotifications.add(notification);

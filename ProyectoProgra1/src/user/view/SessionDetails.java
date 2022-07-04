@@ -400,7 +400,7 @@ public class SessionDetails extends javax.swing.JDialog {
                         lbLink.setBounds(btEnroll.getLocation().x, btEnroll.getLocation().y, LB_HEIGTH, LB_HEIGTH);
                         pnData.remove(btEnroll);
                     } else { //If the session is not started, show the button to enroll, make space to the button cancel enroll and also the link.
-                        lbLink.setBounds(btEnroll.getLocation().x - LB_WIDTH, btEnroll.getLocation().y - 30, LB_WIDTH, LB_HEIGTH);
+                        lbLink.setBounds(btEnroll.getLocation().x - LB_WIDTH, btEnroll.getLocation().y - LB_HEIGTH, LB_WIDTH, LB_HEIGTH);
                     }
                     lbLink.addMouseListener(new MouseListener() { //Adds the mouse listener to the label.
                         @Override

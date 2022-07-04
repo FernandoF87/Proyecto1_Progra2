@@ -12,10 +12,7 @@ import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JLabel;
-import server.exceptions.NotificationException;
 import server.model.Notification;
 
 /**
@@ -130,17 +127,22 @@ public class NotificationDetails extends javax.swing.JDialog {
         final String DEFAULT_MESSAGE = "** No hay información adicional **";
         tfTypeNotification.setText(notification.getMessage());
         if (notification.getType() == Notification.FIVE_MINUTES) {
+            final int LABEL_WIDTH = 250;
+            final int LABEL_LOCATION_X = 150;
+            final byte LABEL_HEIGHT = 20;
+            final byte  LINK_ADD_Y = 25;
+            
             this.remove(taDetails); //Removed text area to put there a label with text, and a label with the link.
             this.remove(jScrollPane1);
-            this.setSize(this.getSize().width, 250);
+            this.setSize(this.getSize().width, LABEL_WIDTH);
             Point point = lbDescription.getLocation();
             taDetails.setVisible(false);
-            JLabel lb1 = new JLabel("Con este link podrás acceder a la sesión:");
-            lb1.setBounds(150, point.y, 220, 20);
-            lb1.setVisible(true);
+            JLabel lbIntro = new JLabel("Con este link podrás acceder a la sesión:");
+            lbIntro.setBounds(LABEL_LOCATION_X, point.y, LABEL_WIDTH, LABEL_HEIGHT);
+            lbIntro.setVisible(true);
             
             JLabel lbLink = new JLabel(START_LINK + notification.getExtraInfo() + MID_LINK + notification.getExtraInfo() +  END_LINK);
-            lbLink.setBounds(150, point.y + 25, 220, 20);
+            lbLink.setBounds(LABEL_LOCATION_X, point.y + LINK_ADD_Y, LABEL_WIDTH, LABEL_HEIGHT);
             lbLink.addMouseListener(new MouseListener() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
@@ -178,7 +180,7 @@ public class NotificationDetails extends javax.swing.JDialog {
                         }
                     }); //Adds a listener to the label.
             lbLink.setVisible(true);
-            this.add(lb1);  //Add the two labels.
+            this.add(lbIntro);  //Add the two labels.
             this.add(lbLink);
             
         } else {

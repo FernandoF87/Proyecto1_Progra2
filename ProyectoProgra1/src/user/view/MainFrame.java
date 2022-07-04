@@ -409,7 +409,7 @@ public class MainFrame extends javax.swing.JFrame {
         this.sessionAccepted = sessionAccepted;
     }
     
-    public int getCurrentTab() {
+    public byte getCurrentTab() {
         return (byte) tbControls.getSelectedIndex();
     }
     

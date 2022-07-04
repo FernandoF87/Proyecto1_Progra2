@@ -56,22 +56,33 @@ public class SessionTableModel extends DefaultTableModel {
         if (super.getRowCount() != sessions.size()) {
             super.setRowCount(sessions.size());
         }
+        
+        final byte SESSION_ID_COLUMN = 0;
+        final byte SESSION_CATEGORY_COLUMN = 1;
+        final byte SESSION_TOPIC_COLUMN = 2;
+        final byte SESSION_EXPOSITOR_COLUMN = 3;
+        final byte SESSION_DATE_COLUMN = 4;
+        final byte SESSION_TIME_COLUMN = 5;
+        final byte SESSION_DURATION_COLUMN = 6;
+        final byte SESSION_PLATFORM_COLUMN = 7;
+        final byte SESSION_TYPE_COLUMN = 8;
+        
         for (int i = 0; i < sessions.size(); i++) {
             Session temp = sessions.get(i);
-            super.setValueAt(temp.getSesionId(), i, 0);
-            super.setValueAt(temp.getCategory(), i, 1);
-            super.setValueAt(temp.getTopic(), i, 2);
-            super.setValueAt(temp.getExpositor(), i, 3);
+            super.setValueAt(temp.getSesionId(), i, SESSION_ID_COLUMN);
+            super.setValueAt(temp.getCategory(), i, SESSION_CATEGORY_COLUMN);
+            super.setValueAt(temp.getTopic(), i, SESSION_TOPIC_COLUMN);
+            super.setValueAt(temp.getExpositor(), i, SESSION_EXPOSITOR_COLUMN);
             GregorianCalendar dateInfo = temp.getDate();
             String date = dateInfo.get(Calendar.DAY_OF_MONTH) + " - " + (dateInfo.get(Calendar.MONTH) + 1)  +
                     " - " + dateInfo.get(Calendar.YEAR);
             String time = dateInfo.get(Calendar.HOUR) + ":" + ((dateInfo.get(Calendar.MINUTE) < 10)? "0" + dateInfo.get(Calendar.MINUTE) :dateInfo.get(Calendar.MINUTE)) + 
-                    ((dateInfo.get(Calendar.AM_PM) == 0) ? "AM": "PM");
-            super.setValueAt(date, i, 4);
-            super.setValueAt(time, i, 5);
-            super.setValueAt(temp.getDuration(), i, 6);
-            super.setValueAt(temp.getPlatform(), i, 7);
-            super.setValueAt((temp.isOpen()) ? "Abierta" : "Cerrada", i, 8);
+                    ((dateInfo.get(Calendar.AM_PM) == Calendar.AM) ? "AM": "PM");
+            super.setValueAt(date, i, SESSION_DATE_COLUMN);
+            super.setValueAt(time, i, SESSION_TIME_COLUMN);
+            super.setValueAt(temp.getDuration(), i, SESSION_DURATION_COLUMN);
+            super.setValueAt(temp.getPlatform(), i, SESSION_PLATFORM_COLUMN);
+            super.setValueAt((temp.isOpen()) ? "Abierta" : "Cerrada", i, SESSION_TYPE_COLUMN);
         }
     }
     /**
