@@ -33,7 +33,7 @@ public class UserConcretBuilder implements UserAbstractbuilder {
             throw new NotificationException("La cedula no contiene la cantidad "
                     + "de numeros correcto");
         }
-        final String patter = "[0-9]{8}";
+        final String patter = "[0-9]{10}";
         Pattern pat = Pattern.compile(patter);
         Matcher mat = pat.matcher(id);
         if (mat.matches()) {

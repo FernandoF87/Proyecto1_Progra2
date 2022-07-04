@@ -238,6 +238,7 @@ public class AdminView extends javax.swing.JFrame {
         btnDeleteSession.setVisible(true);
         btnModify.setVisible(true);
         btnSessionDetails.setVisible(false);
+        btnUserDetails.setVisible(false);
     }//GEN-LAST:event_btnManageSessionsActionPerformed
     /**
      * Fill the JList with existing sessions, show the JList,show and hide the
@@ -266,7 +267,7 @@ public class AdminView extends javax.swing.JFrame {
         btnDeleteSession.setVisible(false);
         btnModify.setVisible(false);
         btnSessionDetails.setVisible(true);
-
+        btnUserDetails.setVisible(false);
     }//GEN-LAST:event_btnShowSessionsActionPerformed
     /**
      * Fill the JList with existing users, show the JList ,Show and hide the

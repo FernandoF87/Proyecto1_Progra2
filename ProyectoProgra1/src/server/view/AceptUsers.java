@@ -108,6 +108,7 @@ public class AceptUsers extends javax.swing.JDialog {
         msg = "Denegado";
         model.remove(jListParticipants.getSelectedIndex());
         AdminView.getServer().sendNotification(msg, session);
+        System.out.println(msg);
     }//GEN-LAST:event_btnDeniedActionPerformed
 
     /**
