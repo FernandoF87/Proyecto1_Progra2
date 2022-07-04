@@ -33,7 +33,7 @@ public class TemporalMain {
 //            
 //        ArrayList<Notification> testArray = new ArrayList();
 //        try {
-//            testArray.add(new Notification("207850253", Notification.ACCEPTED_REQUEST, false));
+//            testArray.add(new Notification("hola@gmail.com", Notification.ACCEPTED_REQUEST, false));
 //        } catch (NotificationException ex) {
 //            ex.printStackTrace();
 //        }
@@ -45,7 +45,7 @@ public class TemporalMain {
 //        user.setName("Jostin Castro");
 //        user.setPassword("bolita123");
 //        user.setPhoneNumber(2522);
-//        user.setUserID("207890325");
+//        user.setUserID("0207890325");
 //        testUserH.put(user.getEmail(), user);
 //        
 //
@@ -102,7 +102,7 @@ public class TemporalMain {
 //        for (String string : session.keySet()) {
 //            System.out.println(string);
 //        }
-//       
+       
     }
 
 }

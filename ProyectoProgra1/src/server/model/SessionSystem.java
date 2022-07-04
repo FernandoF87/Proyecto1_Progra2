@@ -12,6 +12,6 @@ public class SessionSystem {
         Server server = new Server();
         LoginAdmin loginAdmin = new LoginAdmin(new javax.swing.JFrame(), true, server);
         loginAdmin.setVisible(true);
-        server.runServer();
+        server.start();
     }
 }

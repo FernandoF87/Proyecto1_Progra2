@@ -45,7 +45,7 @@ public class ConnectionThread extends Thread {
         close();
     }
 
-    public void listen() {
+    private void listen() {
         while (execute) {
             try {
                 Transmission request = (Transmission) (input.readObject());
@@ -60,7 +60,7 @@ public class ConnectionThread extends Thread {
         }
     }
 
-    public void getStreams() {
+    private void getStreams() {
         try {
             output = new ObjectOutputStream(connection.getOutputStream());
             output.flush();
@@ -71,13 +71,24 @@ public class ConnectionThread extends Thread {
         }
     }
 
-    public void close() {
+    private void close() {
         try {
             output.close();
             input.close();
             connection.close();
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+    
+    public void endExecution() {
+        try {
+            System.out.println("Goodbye jojo");
+            output.writeObject(new Transmission(Transmission.CLOSE_CONNECTION_REQUEST));
+            output.flush();
+            execute = false;
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
     }

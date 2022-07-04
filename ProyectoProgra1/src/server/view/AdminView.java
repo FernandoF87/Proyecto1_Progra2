@@ -319,12 +319,17 @@ public class AdminView extends javax.swing.JFrame {
         exitMessage.setVisible(true);
         if (exitMessage.isExit() == true) {
             server.turnOff();
-           this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+            this.setVisible(false);
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+            this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         } else {
             this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
             exitMessage.dispose();
         }
-
     }//GEN-LAST:event_formWindowClosing
 
     private void views() {

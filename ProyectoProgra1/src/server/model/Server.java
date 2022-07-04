@@ -15,7 +15,7 @@ import server.exceptions.NotificationException;
  *
  * @author Fernando Flores Moya
  */
-public class Server {
+public class Server extends Thread {
 
     private final int PORT = 8000;
     private final int TIME_OUT = 5000;
@@ -28,13 +28,7 @@ public class Server {
     private HashMap<String, Session> sessions = data.getSessions();
     private boolean execute = true;
 
-    // Quitar main cuando se implemente SessionSystem
-    //public static void main(String[] args) {
-    //new Server().runServer();
-//        AdminView adminView = new AdminView(new javax.swing.JFrame(),true,data,);
-//        adminView.setVisible(true);
-    //}
-    public void runServer() {
+    public void run() {
         // Aqui se leen los archivos primeros y se cargan los datos
         try {
             socket = new ServerSocket(PORT);
@@ -52,10 +46,6 @@ public class Server {
                     checkSessions();
                 }
             }
-            for (ConnectionThread connection : connections) {
-
-            }
-            socket.close();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -122,7 +112,16 @@ public class Server {
     }
 
     public void turnOff() {
+        for (ConnectionThread connection : connections) {
+            if (connection.isAlive()) {
+                connection.endExecution();
+            }
+        }
         execute = false;
+        System.out.println(data.getNotifications());
+        System.out.println(data.getSessions());
+        System.out.println(data.getUsers());
+        data.setAll();
     }
 
     public static Data getData() {

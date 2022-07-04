@@ -29,6 +29,9 @@ public class Session implements Serializable, Cloneable {
         participantList = new ArrayList();
         state = INACTIVE_STATE;
         notifSent = false;
+        if (!open) {
+            waitingParticipantsList = new ArrayList<>();
+        }
     }
 
     public Session(String sesionId, String topic, String expositor, String detail, String link, String platform, String category,

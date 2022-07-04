@@ -80,9 +80,10 @@ public class Data {
     }
 
     public void setAll() {
-        FilesLoader.updateSessions();
-        FilesLoader.updateUsers();
+        FilesLoader.updateHashMap((byte)0, users);
+        FilesLoader.updateHashMap((byte)1, sessions);
         FilesLoader.updateNotifications();
+        System.out.println("listo todo mi rey");
     }
 
     //Eliminar sesion, se usa en el Adminview
