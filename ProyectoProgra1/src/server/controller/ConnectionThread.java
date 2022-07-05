@@ -1,5 +1,6 @@
-package server.model;
+package server.controller;
 
+import server.controller.Data;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -11,8 +12,15 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedList;
 import server.exceptions.NotificationException;
+import server.model.Notification;
+import server.model.Session;
+import server.model.Transmission;
 
 import server.model.User;
+import server.model.User;
+import server.model.UserAbstractbuilder;
+import server.model.UserConcretBuilder;
+import server.model.UserDirector;
 
 /**
  * Thread that allows for a user to connect to the server and handle requests

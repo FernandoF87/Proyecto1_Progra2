@@ -1,10 +1,10 @@
 package server.view;
 
+import server.controller.Server;
 import java.util.ArrayList;
 import java.util.HashMap;
 import server.model.AdminSessionComparator;
-import server.model.Data;
-import server.model.Server;
+import server.controller.Data;
 import server.model.Session;
 import server.model.SessionListModel;
 import server.model.User;

@@ -1,4 +1,4 @@
-package server.model;
+package server.controller;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import server.controller.FilesLoader;
+import server.model.Notification;
+import server.model.Session;
+import server.model.User;
 
 /**
  * Controller class that contains all the system data obtained from the files

@@ -4,8 +4,8 @@
  */
 package server.view;
 
+import server.controller.Server;
 import server.controller.FilesLoader;
-import server.model.Server;
 
 /**
  * This class requests administrator credentials

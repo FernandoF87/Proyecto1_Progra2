@@ -1,4 +1,6 @@
-package server.model;
+package server.controller;
+
+
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -14,6 +16,9 @@ import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 import server.exceptions.NotificationException;
+
+import server.model.Session;
+import server.model.Notification;
 
 /**
  * Class that represents a session system and allows multiple users to connect
@@ -43,14 +48,11 @@ public class Server extends Thread {
             while (execute) {
                 try {
                     connection = socket.accept();
-                    System.out.println(connection);
                     ConnectionThread conThread = new ConnectionThread(connection, data);
                     connections.add(conThread);
-                    System.out.println("Conexión aceptada");
                     conThread.start();
                 } catch (SocketTimeoutException ex) { // Checks sessions every timeout
                     checkSessions();
-                    System.out.println("Revisando sesiones");
                 }
             }
         } catch (IOException ex) {
@@ -72,12 +74,10 @@ public class Server extends Thread {
             if (duration.getSeconds() <= NOTIFICATION_SECONDS && session.getState() != Session.FINALIZED_STATE && !session.isNotifSent()) { // Determines if notifcation has been sent and time is <= 5 minutes
                 session.setNotifSent(true);
                 sendNotification(Notification.FIVE_MINUTES, session);
-                System.out.println(session + " empieza en 5 minutos");
                 TimerTask task = new TimerTask() {
                     @Override
                     public void run() {
                         session.setState(Session.ACTIVE_STATE);
-                        System.out.println("Se inicio la sesión");
                     }
                 };
                 new Timer().schedule(task, session.getDate().getTime());
@@ -85,7 +85,6 @@ public class Server extends Thread {
                     @Override
                     public void run() {
                         session.setState(Session.FINALIZED_STATE);
-                        System.out.println("Se finalizó la sesión");
                     }
                 };
                 LocalDateTime finalizedTime = sessionTime.plusMinutes(session.getDuration());
@@ -149,7 +148,6 @@ public class Server extends Thread {
             if (!usersNotified.contains(participants.get(i))) {
                 try {
                     data.addNotification(new Notification(participants.get(i), type, false));
-                    System.out.println(new Notification(participants.get(i), type, false));
                 } catch (NotificationException ex) {
                     ex.printStackTrace();
                 }
@@ -160,7 +158,6 @@ public class Server extends Thread {
                 if (!usersNotified.contains(waitingUsers.get(i))) {
                     try {
                         data.addNotification(new Notification(waitingUsers.get(i), type, false));
-                        System.out.println(new Notification(waitingUsers.get(i), type, false));
                     } catch (NotificationException ex) {
                         ex.printStackTrace();
                     }

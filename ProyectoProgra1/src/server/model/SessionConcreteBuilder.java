@@ -54,7 +54,7 @@ public class SessionConcreteBuilder implements SessionAbstractBuilder {
         if (category.length() > 25) {
             throw new NotificationException("La categoria no debe exceder los 25 caracteres");
         }
-        final String pattern = "[a-zA-Z0-9]{1,}";
+        final String pattern = "[a-zA-Z0-9\\s]{1,}";
         Pattern pat = Pattern.compile(pattern);
         Matcher mat = pat.matcher(category);
         if (mat.matches()) {
@@ -74,7 +74,7 @@ public class SessionConcreteBuilder implements SessionAbstractBuilder {
             throw new NotificationException("El tema no debe exceder los 100 caracteres");
         }
 
-        final String pattern = "[a-zA-Z0-9]{1,}";
+        final String pattern = "[a-zA-Z0-9\\s]{1,}";
         Pattern pat = Pattern.compile(pattern);
         Matcher mat = pat.matcher(topic);
         if (mat.matches()) {
@@ -94,7 +94,7 @@ public class SessionConcreteBuilder implements SessionAbstractBuilder {
             throw new NotificationException("El nombre del expositor  no debe"
                     + " exceder los 100 caracteres");
         }
-        final String pattern = "[a-zA-Z]{1,}";
+        final String pattern = "[a-zA-Z\\s]{1,}";
         Pattern pat = Pattern.compile(pattern);
         Matcher mat = pat.matcher(expositor);
         if (mat.matches()) {
@@ -107,7 +107,7 @@ public class SessionConcreteBuilder implements SessionAbstractBuilder {
 
     @Override
     public void buildDetail(String detail) throws NotificationException {
-        if (detail == null || detail.equals("")) {
+        if (detail == null && detail.isEmpty()) {
             throw new NotificationException("El detalle no debe estar vacio");
         }
         if (detail.length() > 300) {
@@ -126,7 +126,7 @@ public class SessionConcreteBuilder implements SessionAbstractBuilder {
 
     @Override
     public void buildPlatform(String platform) throws NotificationException {
-        if (platform == null || platform.trim().equals("")) {
+        if (platform == null || platform.trim().isEmpty()) {
             throw new NotificationException("La plataforma no debe estar vacia");
         }
         session.setPlatform(platform);
@@ -151,7 +151,9 @@ public class SessionConcreteBuilder implements SessionAbstractBuilder {
 
     @Override
     public void buildCapacity(int capacity) throws NotificationException {
-        if (capacity >= 5 && capacity <= 30) {
+        final byte MIN_CAPACITY = 5;
+        final byte MAX_CAPACITY = 30;
+        if (capacity >= MIN_CAPACITY && capacity <= MAX_CAPACITY) {
             session.setCapacity(capacity);
         } else {
             throw new NotificationException("El cupo debe estar en 5 y 30");

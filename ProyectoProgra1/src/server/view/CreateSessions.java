@@ -8,7 +8,7 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import server.exceptions.NotificationException;
-import server.model.Data;
+import server.controller.Data;
 import server.model.Session;
 import server.model.SessionAbstractBuilder;
 import server.model.SessionConcreteBuilder;

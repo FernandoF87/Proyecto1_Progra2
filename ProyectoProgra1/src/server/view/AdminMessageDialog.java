@@ -40,7 +40,7 @@ public class AdminMessageDialog extends javax.swing.JDialog {
      * @param title the title of the dialog.
      */
     public AdminMessageDialog(String message, String title) {
-        this(null, false, message, title);
+        this(null, true, message, title);
     }
 
     /**

@@ -1,4 +1,4 @@
-package server.model;
+package server.controller;
 
 import server.view.LoginAdmin;
 
